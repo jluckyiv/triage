@@ -1,5 +1,33 @@
-<h2 id='title'>Welcome to Triage</h2>
+<nav class="navbar navbar-inverse" role="navigation">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#triage-navbar-collapse-1">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      {{#link-to "index" class="navbar-brand"}}
+      Triage Tracker
+      {{/link-to}}
+    </div>
 
-{{link-to "About" 'about'}}
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="triage-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        {{#link-to "about" tagName="li" href=false}}
+        {{#link-to "about"}}About{{/link-to}}
+        {{/link-to}}
+      </ul>
+      <form class="navbar-form navbar-right" role="search">
+        <div class="form-group">
+          {{input type="text" class="form-control" placeholder="Date, e.g., 'tomorrow'" value=newCalendarDate}}
+        </div>
+        <button {{action 'chooseDate'}} class="btn btn-default">Submit</button>
+      </form>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
 
 {{outlet}}
