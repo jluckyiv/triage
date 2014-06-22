@@ -16,7 +16,7 @@ module('Integration - Calendars Page', {
       this.get('/api/v1/calendars/:id', function(request) {
 
         var calendar = calendars.find(function(calendar) {
-          if (calendar.id === parseInt(request.params.id, 10)) {
+          if (calendar.date === Date.parse(request.params.id).toString("yyyyMMdd")) {
             return calendar;
           }
         });
@@ -73,9 +73,9 @@ function pretend200(data) {
 
 function pretendCalendars() {
   return [
-    { id: 20140623, matter_ids: [1,2] },
-    { id: 20140624, matter_ids: [3] },
-    { id: 20140630, matter_ids: [4,5,6] }
+    { id: 1, date: '20140623', matter_ids: [1,2] },
+    { id: 2, date: '20140624', matter_ids: [3] },
+    { id: 3, date: '20140630', matter_ids: [4,5,6] }
   ];
 }
 

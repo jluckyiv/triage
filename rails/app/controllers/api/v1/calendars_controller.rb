@@ -11,7 +11,12 @@ module Api
       end
 
       rescue_from ActiveRecord::RecordNotFound do
-        render json: {}
+        render json: {
+          calendar: {
+            id: 0,
+            date: "None"
+          }
+        }
       end
 
     end
