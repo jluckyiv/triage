@@ -10,3 +10,7 @@ wile.presentations.create(title: "Getting the most from the Acme categlog.")
 sam.presentations.create(title: "Shaaaad up!")
 sam.presentations.create(title: "Ah hates rabbits.")
 sam.presentations.create(title: "The Great horni-todes")
+
+first =  Calendar.create(date: '20140623')
+second = Calendar.create(date: '20140624')
+third =  Calendar.create(date: '20140630')
