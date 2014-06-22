@@ -37,11 +37,11 @@ test('Should allow navigation to the speakers page from the landing page', funct
   });
 });
 
-test('Should list all speakers', function() {
+test('Should list all speakers and number of presentations', function() {
   visit('/speakers').then(function() {
-    equal(find('a:contains("Bugs Bunny")').length, 1);
-    equal(find('a:contains("Wile E. Coyote")').length, 1);
-    equal(find('a:contains("Yosemite Sam")').length, 1);
+    equal(find('a:contains("Bugs Bunny (2)")').length, 1);
+    equal(find('a:contains("Wile E. Coyote (1)")').length, 1);
+    equal(find('a:contains("Yosemite Sam (3)")').length, 1);
   });
 });
 
