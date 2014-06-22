@@ -11,17 +11,17 @@ module('Integration - Landing Page', {
   }
 });
 
-test('Should link to the About page from Landing page', function() {
-  visit('/').then(function() {
-    click("a:contains('About')").then(function() {
-      equal(find('h2').text(), 'About');
-    });
-  });
-});
-
 test('Should navigate to the About page', function() {
   visit('/about').then(function() {
     equal(find('h2').text(), 'About');
+  });
+});
+
+test('Should link to the Home page', function() {
+  visit('/about').then(function() {
+    click('a:contains("Triage")').then(function() {
+      notEqual(find('h2').text(), 'About');
+    });
   });
 });
 

@@ -25,10 +25,11 @@ test('Should link to the About page', function() {
   });
 });
 
-test('Should link to index from another page', function() {
-  visit('/about').then(function() {
-    click('a:contains("Triage")').then(function() {
-      notEqual(find('h2').text(), 'About');
+test('Should link to the Speakers page', function() {
+  visit('/').then(function() {
+    click('a:contains("Speakers")').then(function() {
+      equal(find('h3').text(), 'Speakers');
     });
   });
 });
+
