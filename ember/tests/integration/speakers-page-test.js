@@ -1,4 +1,4 @@
-import StartApp from 'triage/tests/helpers/start-app';
+import startApp from 'triage/tests/helpers/start-app';
 
 var App, server;
 
