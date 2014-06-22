@@ -9,6 +9,7 @@ Router.map(function() {
   this.resource('speakers', function() {
     this.route('show', {path: ':speaker_id'});
   });
+  this.resource('calendars', {path: '/calendars/:date'});
 });
 
 export default Router;

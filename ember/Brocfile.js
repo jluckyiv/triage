@@ -6,6 +6,8 @@ var app = new EmberApp();
 
 app.import('vendor/bootstrap/dist/js/bootstrap.js');
 app.import('vendor/bootstrap/dist/css/bootstrap.css');
+app.import('vendor/moment/moment.js');
+app.import('vendor/datejs/build/date-en-US.js');
 
 app.import({development:'vendor/route-recognizer/dist/route-recognizer.js'});
 app.import({development:'vendor/FakeXMLHttpRequest/fake_xml_http_request.js'});
