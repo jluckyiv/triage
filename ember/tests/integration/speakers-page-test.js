@@ -14,12 +14,20 @@ module('Integration - Speaker Page', {
       });
 
       this.get('/api/v1/speakers/:id', function(request) {
+
         var speaker = speakers.find(function(speaker) {
           if (speaker.id === parseInt(request.params.id, 10)) {
             return speaker;
           }
         });
-        return pretend200({speaker: speaker, presentation: presentations});
+
+        var speakerPresentations = presentations.filter(function(presentation) {
+          if (presentation.speaker_id === speaker.id) {
+            return presentation;
+          }
+        });
+
+        return pretend200({speaker: speaker, presentation: speakerPresentations});
       });
     });
 
@@ -30,7 +38,7 @@ module('Integration - Speaker Page', {
   }
 });
 
-test('Should be able to navigate to the Speakers page', function() {
+test('Should navigate to the Speakers page', function() {
   visit('/speakers').then(function() {
     click('a:contains("Bugs Bunny")').then(function() {
       equal(find('h4').text(), 'Bugs Bunny');
@@ -49,6 +57,13 @@ test('Should list all speakers and number of presentations', function() {
 test('Should be able visit a speaker page', function() {
   visit('/speakers/1').then(function() {
     equal(find('h4').text(), 'Bugs Bunny');
+  });
+});
+
+test('Should list all presentations for a speaker', function() {
+  visit('/speakers/1').then(function() {
+    equal(find('li:contains("What\'s up with Docs?")').length, 1);
+    equal(find('li:contains("Of course, you know, this means war.")').length, 1);
   });
 });
 
