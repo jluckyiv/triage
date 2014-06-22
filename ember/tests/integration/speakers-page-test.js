@@ -5,24 +5,11 @@ var App, server;
 module('Integration - Speaker Page', {
   setup: function() {
     App = startApp();
-    var speakers = [
-      {
-        id: 1,
-        name: 'Bugs Bunny'
-      },
-      {
-        id: 2,
-        name: 'Wile E. Coyote'
-      },
-      {
-        id: 3,
-        name: 'Yosemite Sam'
-      }
-    ];
+    var speakers = pretendSpeakers();
 
     server = new Pretender(function() {
       this.get('/api/v1/speakers', function(request) {
-        return [200, {"Content-Type": "application/json"}, JSON.stringify({speakers: speakers})];
+        return pretend200({speakers: speakers});
       });
 
       this.get('/api/v1/speakers/:id', function(request) {
@@ -31,8 +18,7 @@ module('Integration - Speaker Page', {
             return speaker;
           }
         });
-
-        return [200, {"Content-Type": "application/json"}, JSON.stringify({speaker: speaker})];
+        return pretend200({speaker: speaker});
       });
     });
 
@@ -72,3 +58,24 @@ test('Should be able visit a speaker page', function() {
     equal(find('h4').text(), 'Bugs Bunny');
   });
 });
+
+function pretend200(data) {
+  return [200, {"Content-Type": "application/json"}, JSON.stringify(data)];
+}
+
+function pretendSpeakers() {
+  return [
+    {
+    id: 1,
+    name: 'Bugs Bunny'
+  },
+  {
+    id: 2,
+    name: 'Wile E. Coyote'
+  },
+  {
+    id: 3,
+    name: 'Yosemite Sam'
+  }
+  ];
+}
