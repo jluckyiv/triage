@@ -21,11 +21,11 @@ module('Integration - Speaker Page', {
     ];
 
     server = new Pretender(function() {
-      this.get('/api/speakers', function(request) {
+      this.get('/api/v1/speakers', function(request) {
         return [200, {"Content-Type": "application/json"}, JSON.stringify({speakers: speakers})];
       });
 
-      this.get('/api/speakers/:id', function(request) {
+      this.get('/api/v1/speakers/:id', function(request) {
         var speaker = speakers.find(function(speaker) {
           if (speaker.id === parseInt(request.params.id, 10)) {
             return speaker;
