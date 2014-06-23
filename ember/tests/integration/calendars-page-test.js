@@ -93,7 +93,7 @@ function pretendMatters() {
   { id: 2, department: "F102", case_number: "RID2100002", calendar_id: 1 },
   { id: 3, department: "F103", case_number: "RID2100003", calendar_id: 2 },
   { id: 4, department: "F104", case_number: "RID2100004", calendar_id: 3 },
-  { id: 5, department: "F105", case_number: "RID2100005", calendar_id: 3 },
+  { id: 5, department: "F106", case_number: "RID2100005", calendar_id: 3 },
   { id: 6, department: "F106", case_number: "RID2100006", calendar_id: 3 }
   ];
 }
