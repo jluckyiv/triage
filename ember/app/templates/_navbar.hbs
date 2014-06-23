@@ -1,0 +1,41 @@
+<nav class="navbar navbar-inverse" role="navigation">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#triage-navbar-collapse-1">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      {{#link-to "index" class="navbar-brand"}}
+      Triage Tracker
+      {{/link-to}}
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="triage-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        {{#link-to "about" tagName="li" href=false}}
+        {{#link-to "about"}}About{{/link-to}}
+        {{/link-to}}
+        {{#link-to "speakers" tagName="li" href=false}}
+        {{#link-to "speakers"}}Speakers{{/link-to}}
+        {{/link-to}}
+        {{#link-to "calendars" "today" tagName="li" href=false}}
+        {{#link-to "calendars" "today"}}Today{{/link-to}}
+        {{/link-to}}
+        {{#link-to "calendars" "tomorrow" tagName="li" href=false}}
+        {{#link-to "calendars" "tomorrow"}}Tomorrow{{/link-to}}
+        {{/link-to}}
+      </ul>
+      <form class="navbar-form navbar-right" role="search">
+        <div class="form-group">
+          {{input id="date-input" type="text" class="form-control" placeholder="Date, e.g., 'tomorrow'" value=newCalendarDate}}
+        </div>
+        <button id="date-submit" {{action 'chooseDate'}} class="btn btn-default">Submit</button>
+      </form>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+
