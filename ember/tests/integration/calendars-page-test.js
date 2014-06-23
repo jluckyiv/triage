@@ -40,12 +40,21 @@ module('Integration - Calendars Page', {
 });
 
 test('Should navigate to the Calendars page', function() {
+  var text = "Triage calendar for June 23, 2014";
   visit('/calendars/20140623').then(function() {
-    var text = "Calendar for June 23, 2014";
     equal(find('#date').text(), text);
   });
 });
 
+test('Should navigate to the date in the form', function() {
+  var text = "Triage calendar for June 24, 2014";
+  visit('/').then(function() {
+    fillIn('#date-input', '6/24/14');
+    click('#date-submit').then(function() {
+      equal(find('#date').text(), text);
+    });
+  });
+});
 // test('Should list all calendars and number of matters', function() {
 //   visit('/calendars').then(function() {
 //     equal(find('a:contains("Bugs Bunny (2)")').length, 1);
