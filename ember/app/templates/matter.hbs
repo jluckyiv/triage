@@ -1,0 +1,31 @@
+<hr />
+<div class="row">
+  <div class="row">
+    <div class="col-sm-2">
+      <button class="btn btn-default disabled">{{ department }}</button>
+      {{!--
+      {{render "eventButton" interpreter}}
+      --}}
+    </div>
+    <div class="col-sm-2">
+      <button class="btn btn-default disabled">{{ caseNumber }}</button>
+    </div>
+    <div class="col-sm-3">
+      {{!event-button options=petitioner}}
+    </div>
+    <div class="col-sm-3">
+      {{!event-button options=respondent}}
+    </div>
+    <div class="col-sm-2">
+      {{!event-button options=station}}
+    </div>
+  </div>
+  <div class="form-group">
+    {{!render "hearings" hearings}}
+    {{!--
+    {{ textarea value=notes class="form-control" placeholder="Notes" rows="2" }}
+    --}}
+  </div>
+</div>
+
+
