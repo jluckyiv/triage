@@ -1,4 +1,13 @@
 <div class="col-sm-2">
-  {{!event-button options=station}}
+  <div class="btn-group">
+    <button {{bind-attr class=":btn :dropdown-toggle :btn-warning"}} data-toggle="dropdown">
+      Triage <span class="caret"></span>
+    </button>
+    <!-- <ul class="dropdown-menu" role="menu"> -->
+    {{!#each action in station.actions }}
+    <!--   <li><a {{action action.name this }}>{{action.name}}</a></li> -->
+    {{!/each}}
+    <!-- </ul> -->
+  </div>
 </div>
 

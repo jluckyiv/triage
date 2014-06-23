@@ -1,7 +1,7 @@
 <div class="col-sm-3">
   <div class="btn-group">
-    <button {{bind-attr class=":btn :dropdown-toggle petitioner.status"}} data-toggle="dropdown">
-      {{petitioner.name}} <span class="caret"></span>
+    <button {{bind-attr class=":btn :dropdown-toggle :btn-warning"}} data-toggle="dropdown">
+      {{petitioner}} <span class="caret"></span>
     </button>
     <!-- <ul class="dropdown-menu" role="menu"> -->
     {{!#each action in petitioner.actions }}
@@ -10,4 +10,5 @@
     <!-- </ul> -->
   </div>
 </div>
+
 
