@@ -3,7 +3,7 @@ import Ember from 'ember';
 export default Ember.ObjectController.extend({
   dateString: function() {
     return formatDate(this.get('model.date'));
-  }.property()
+  }.property('date')
 });
 
 var formatDate = function(text) {
