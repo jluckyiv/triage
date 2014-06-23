@@ -1,6 +1,7 @@
 import DS from 'ember-data';
 
 export default DS.Model.extend({
+  calendar:   DS.belongsTo('calendar'),
   caseNumber: DS.attr('string'),
-  calendar:   DS.belongsTo('calendar')
+  department: DS.attr('string')
 });
