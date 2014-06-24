@@ -4,17 +4,17 @@
     <button class="btn dropdown-toggle btn-success" data-toggle="dropdown">
       {{respondent}} <span class="caret"></span>
     </button>
+    <ul class="dropdown-menu" role="menu">
+      <li><a {{action "Check out" this }}>Check out</a></li>
+    </ul>
     {{else}}
     <button class="btn dropdown-toggle btn-warning" data-toggle="dropdown">
       {{respondent}} <span class="caret"></span>
     </button>
+    <ul class="dropdown-menu" role="menu">
+      <li><a {{action "Check in" this }}>Check in</a></li>
+    </ul>
     {{/if}}
-    <!-- <ul class="dropdown-menu" role="menu"> -->
-    {{!#each action in respondent.actions }}
-    <!--   <li><a {{action action.name this }}>{{action.name}}</a></li> -->
-    {{!/each}}
-    <!-- </ul> -->
   </div>
 </div>
-
 
