@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140623033900) do
+ActiveRecord::Schema.define(version: 20140624050355) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -24,6 +24,25 @@ ActiveRecord::Schema.define(version: 20140623033900) do
   end
 
   add_index "calendars", ["slug"], name: "index_calendars_on_slug", unique: true, using: :btree
+
+  create_table "columns_in_matters", force: true do |t|
+  end
+
+  create_table "events", force: true do |t|
+    t.integer  "matter_id"
+    t.string   "type"
+    t.string   "subject"
+    t.string   "action"
+    t.integer  "timestamp"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "events", ["action"], name: "index_events_on_action", using: :btree
+  add_index "events", ["matter_id"], name: "index_events_on_matter_id", using: :btree
+  add_index "events", ["subject"], name: "index_events_on_subject", using: :btree
+  add_index "events", ["timestamp"], name: "index_events_on_timestamp", using: :btree
+  add_index "events", ["type"], name: "index_events_on_type", using: :btree
 
   create_table "friendly_id_slugs", force: true do |t|
     t.string   "slug",                      null: false
@@ -44,11 +63,17 @@ ActiveRecord::Schema.define(version: 20140623033900) do
     t.string   "department"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "petitioner"
+    t.string   "respondent"
+    t.boolean  "petitionerPresent"
+    t.boolean  "respondentPresent"
   end
 
   add_index "matters", ["calendar_id"], name: "index_matters_on_calendar_id", using: :btree
   add_index "matters", ["case_number"], name: "index_matters_on_case_number", using: :btree
   add_index "matters", ["department"], name: "index_matters_on_department", using: :btree
+  add_index "matters", ["petitioner"], name: "index_matters_on_petitioner", using: :btree
+  add_index "matters", ["respondent"], name: "index_matters_on_respondent", using: :btree
 
   create_table "presentations", force: true do |t|
     t.string   "title"
