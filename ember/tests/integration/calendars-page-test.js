@@ -7,12 +7,13 @@ module('Integration - Calendars Page', {
     App = startApp();
     var calendars = pretendCalendars();
     var matters = pretendMatters();
+    var events = pretendEvents();
 
     server = new Pretender(function() {
 
       this.get('/api/v1/calendars/:id', function(request) {
 
-        var calendar, calendarMatters, matterParties;
+        var calendar, calendarMatters;
 
         calendar = calendars.find(function(calendar) {
           if (calendar.date === Date.parse(request.params.id).toString("yyyyMMdd")) {
@@ -22,11 +23,15 @@ module('Integration - Calendars Page', {
 
         calendarMatters = matters.filter(function(matter) {
           if (matter.calendar_id === calendar.id) {
+            matter.events = events.filter(function(event) {
+              if (event.matter_id === matter.id) {
+                return event;
+              }
+            });
             return matter;
           }
         });
 
-        // return pretend200({calendar: calendar});
         return pretend200({calendar: calendar, matters: calendarMatters});
       });
     });
@@ -80,8 +85,11 @@ test('Should list all departments for a calendar', function() {
 test('Should list all petitioners for a calendar', function() {
   visit('/calendars/20140623').then(function() {
     equal(find('button:contains("KATHRYN HOLT")').length, 1, 'There should be petitioner "KATHRYN HOLT"');
+    equal(find('button:contains("KATHRYN HOLT")').attr('class').match(/btn-success/), "btn-success", 'KATHRYN HOLT button should be green');
     equal(find('button:contains("COURTNEY HOLLAND")').length, 1, 'There should be petitioner "COURTNEY HOLLAND"');
+    equal(find('button:contains("COURTNEY HOLLAND")').attr('class').match(/btn-success/), "btn-success", 'COURTNEY HOLLAND button should be green');
     equal(find('button:contains("PAM BLACK")').length, 1, 'There should be petitioner "PAM BLACK"');
+    equal(find('button:contains("PAM BLACK")').attr('class').match(/btn-warning/), "btn-warning", 'PAM BLACK button should be orange');
     equal(find('button:contains("BRETT HOWELL")').length, 0, 'There should not be petitioner "BRETT HOWELL"');
     equal(find('button:contains("DUANE WOLFE")').length, 0, 'There should not be petitioner "DUANE WOLFE"');
     equal(find('button:contains("EDNA WADE")').length, 0, 'There should not be petitioner "EDNA WADE"');
@@ -91,8 +99,11 @@ test('Should list all petitioners for a calendar', function() {
 test('Should list all respondents for a calendar', function() {
   visit('/calendars/20140623').then(function() {
     equal(find('button:contains("HARVEY STEVENS")').length, 1, 'There should be respondent "HARVEY STEVENS"');
+    equal(find('button:contains("HARVEY STEVENS")').attr('class').match(/btn-success/), "btn-success", 'HARVEY STEVENS button should be green');
     equal(find('button:contains("WENDELL PARKS")').length, 1, 'There should respondent "WENDELL PARKS"');
+    equal(find('button:contains("WENDELL PARKS")').attr('class').match(/btn-warning/), "btn-warning", 'WENDELL PARKS button should be orange');
     equal(find('button:contains("ANDREW FRANK")').length, 1, 'There should not be respondent "ANDREW FRANK"');
+    equal(find('button:contains("ANDREW FRANK")').attr('class').match(/btn-warning/), "btn-warning", 'ANDREW FRANK button should be orange');
     equal(find('button:contains("JOANNE PERKINS")').length, 0, 'There should not be respondent "JOANNE PERKINS"');
     equal(find('button:contains("MARIE HILL")').length, 0, 'There should not be respondent "MARIE HILL"');
     equal(find('button:contains("WAYNE ANDERSON")').length, 0, 'There should not be respondent "WAYNE ANDERSON"');
@@ -113,12 +124,18 @@ function pretendCalendars() {
 
 function pretendMatters() {
   return [
-    { id: 1, department: "F101", case_number: "RIK2100001", calendar_id: 1, petitioner: "KATHRYN HOLT", respondent: "HARVEY STEVENS" },
-    { id: 2, department: "F102", case_number: "RIK2100002", calendar_id: 1, petitioner: "COURTNEY HOLLAND", respondent: "WENDELL PARKS" },
-    { id: 3, department: "F103", case_number: "RID2100003", calendar_id: 1, petitioner: "PAM BLACK", respondent: "ANDREW FRANK" },
-    { id: 4, department: "F104", case_number: "RID2100004", calendar_id: 2, petitioner: "BRETT HOWELL", respondent: "JOANNE PERKINS" },
-    { id: 5, department: "F106", case_number: "RID2100005", calendar_id: 3, petitioner: "DUANE WOLFE", respondent: "MARIE HILL" },
-    { id: 6, department: "F106", case_number: "RID2100006", calendar_id: 3, petitioner: "EDNA WADE", respondent: "WAYNE ANDERSON" }
+    { id: 1, calendar_id: 1, department: "F101", case_number: "RIK2100001", petitioner: "KATHRYN HOLT", petitioner_present: true, respondent: "HARVEY STEVENS", respondent_present: true, event_ids: [1,2] },
+    { id: 2, calendar_id: 1, department: "F102", case_number: "RIK2100002", petitioner: "COURTNEY HOLLAND", petitioner_present: true, respondent: "WENDELL PARKS" },
+    { id: 3, calendar_id: 1, department: "F103", case_number: "RID2100003", petitioner: "PAM BLACK", respondent: "ANDREW FRANK" },
+    { id: 4, calendar_id: 2, department: "F104", case_number: "RID2100004", petitioner: "BRETT HOWELL", respondent: "JOANNE PERKINS" },
+    { id: 5, calendar_id: 3, department: "F106", case_number: "RID2100005", petitioner: "DUANE WOLFE", respondent: "MARIE HILL" },
+    { id: 6, calendar_id: 3, department: "F106", case_number: "RID2100006", petitioner: "EDNA WADE", respondent: "WAYNE ANDERSON" }
   ];
 }
 
+function pretendEvents() {
+  return [
+    { id: 1, matter_id: 1, type: "checkin", subject: "Petitioner" },
+    { id: 2, matter_id: 1, type: "checkin", subject: "Respondent" }
+  ];
+}
