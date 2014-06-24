@@ -1,20 +1,18 @@
 <div class="col-sm-3">
   <div class="btn-group">
-    {{#if respondentPresent}}
-    <button class="btn dropdown-toggle btn-success" data-toggle="dropdown">
+    <button {{bind-attr class="respondentPresent:btn-success:btn-warning :btn :dropdown-toggle"}} data-toggle="dropdown">
       {{respondent}} <span class="caret"></span>
     </button>
+    {{#if respondentPresent}}
     <ul class="dropdown-menu" role="menu">
-      <li><a {{action "Check out" this }}>Check out</a></li>
+      <li><a {{action "respondentCheckout" this }}>Check out {{respondent}}</a></li>
     </ul>
     {{else}}
-    <button class="btn dropdown-toggle btn-warning" data-toggle="dropdown">
-      {{respondent}} <span class="caret"></span>
-    </button>
     <ul class="dropdown-menu" role="menu">
-      <li><a {{action "Check in" this }}>Check in</a></li>
+      <li><a {{action "respondentCheckin" this }}>Check in {{respondent}}</a></li>
     </ul>
     {{/if}}
   </div>
 </div>
+
 

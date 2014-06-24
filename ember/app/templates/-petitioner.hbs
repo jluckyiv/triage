@@ -1,18 +1,15 @@
 <div class="col-sm-3">
   <div class="btn-group">
-    {{#if petitionerPresent}}
-    <button class="btn dropdown-toggle btn-success" data-toggle="dropdown">
+    <button {{bind-attr class="petitionerPresent:btn-success:btn-warning :btn :dropdown-toggle"}} data-toggle="dropdown">
       {{petitioner}} <span class="caret"></span>
     </button>
+    {{#if petitionerPresent}}
     <ul class="dropdown-menu" role="menu">
-      <li><a {{action "Check out" this }}>Check out</a></li>
+      <li><a {{action "petitionerCheckout" this }}>Check out {{petitioner}}</a></li>
     </ul>
     {{else}}
-    <button class="btn dropdown-toggle btn-warning" data-toggle="dropdown">
-      {{petitioner}} <span class="caret"></span>
-    </button>
     <ul class="dropdown-menu" role="menu">
-      <li><a {{action "Check in" this }}>Check in</a></li>
+      <li><a {{action "petitionerCheckin" this }}>Check in {{petitioner}}</a></li>
     </ul>
     {{/if}}
   </div>

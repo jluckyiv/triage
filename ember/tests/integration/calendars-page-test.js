@@ -50,7 +50,7 @@ test('Should navigate to the Calendars page', function() {
   });
 });
 
-test('Should navigate to the date in the form', function() {
+test('Should navigate to the date typed into the date form', function() {
   var text = "Triage calendar for June 24, 2014";
   visit('/').then(function() {
     fillIn('#date-input', '6/24/14');
@@ -60,53 +60,99 @@ test('Should navigate to the date in the form', function() {
   });
 });
 
-test('Should list all matters for a calendar', function() {
+test('Should list all matters on calendar', function() {
   visit('/calendars/20140623').then(function() {
     equal(find('button:contains("RIK2100001")').length, 1);
     equal(find('button:contains("RIK2100002")').length, 1);
     equal(find('button:contains("RID2100003")').length, 1);
+  });
+});
+
+test('Should omit matters not on calendar', function() {
+  visit('/calendars/20140623').then(function() {
     equal(find('button:contains("RID2100004")').length, 0);
     equal(find('button:contains("RID2100005")').length, 0);
     equal(find('button:contains("RID2100006")').length, 0);
   });
 });
 
-test('Should list all departments for a calendar', function() {
+test('Should list departments for matters on calendar', function() {
   visit('/calendars/20140623').then(function() {
     equal(find('button:contains("F101")').length, 1);
     equal(find('button:contains("F102")').length, 1);
     equal(find('button:contains("F103")').length, 1);
-    equal(find('button:contains("F104")').length, 0);
-    equal(find('button:contains("F105")').length, 0);
-    equal(find('button:contains("F106")').length, 0);
   });
 });
 
-test('Should list all petitioners for a calendar', function() {
+test('Should list petitioners on calendar', function() {
   visit('/calendars/20140623').then(function() {
-    equal(find('button:contains("KATHRYN HOLT")').length, 1, 'There should be petitioner "KATHRYN HOLT"');
     equal(find('button:contains("KATHRYN HOLT")').attr('class').match(/btn-success/), "btn-success", 'KATHRYN HOLT button should be green');
-    equal(find('button:contains("COURTNEY HOLLAND")').length, 1, 'There should be petitioner "COURTNEY HOLLAND"');
     equal(find('button:contains("COURTNEY HOLLAND")').attr('class').match(/btn-success/), "btn-success", 'COURTNEY HOLLAND button should be green');
-    equal(find('button:contains("PAM BLACK")').length, 1, 'There should be petitioner "PAM BLACK"');
     equal(find('button:contains("PAM BLACK")').attr('class').match(/btn-warning/), "btn-warning", 'PAM BLACK button should be orange');
+  });
+});
+
+test('Should omit petitioners not on calendar', function() {
+  visit('/calendars/20140623').then(function() {
     equal(find('button:contains("BRETT HOWELL")').length, 0, 'There should not be petitioner "BRETT HOWELL"');
     equal(find('button:contains("DUANE WOLFE")').length, 0, 'There should not be petitioner "DUANE WOLFE"');
     equal(find('button:contains("EDNA WADE")').length, 0, 'There should not be petitioner "EDNA WADE"');
   });
 });
 
-test('Should list all respondents for a calendar', function() {
+test('Should list respondents on calendar', function() {
   visit('/calendars/20140623').then(function() {
-    equal(find('button:contains("HARVEY STEVENS")').length, 1, 'There should be respondent "HARVEY STEVENS"');
     equal(find('button:contains("HARVEY STEVENS")').attr('class').match(/btn-success/), "btn-success", 'HARVEY STEVENS button should be green');
-    equal(find('button:contains("WENDELL PARKS")').length, 1, 'There should respondent "WENDELL PARKS"');
     equal(find('button:contains("WENDELL PARKS")').attr('class').match(/btn-warning/), "btn-warning", 'WENDELL PARKS button should be orange');
-    equal(find('button:contains("ANDREW FRANK")').length, 1, 'There should not be respondent "ANDREW FRANK"');
     equal(find('button:contains("ANDREW FRANK")').attr('class').match(/btn-warning/), "btn-warning", 'ANDREW FRANK button should be orange');
+  });
+});
+
+test('Should omit respondents not on calendar', function() {
+  visit('/calendars/20140623').then(function() {
     equal(find('button:contains("JOANNE PERKINS")').length, 0, 'There should not be respondent "JOANNE PERKINS"');
     equal(find('button:contains("MARIE HILL")').length, 0, 'There should not be respondent "MARIE HILL"');
     equal(find('button:contains("WAYNE ANDERSON")').length, 0, 'There should not be respondent "WAYNE ANDERSON"');
+  });
+});
+
+test('Should check in petitioner', function() {
+  visit('/calendars/20141623').then(function() {
+    click('button:contains("PAM BLACK")').then(function() {
+      click('a:contains("Check in PAM BLACK")').then(function() {
+        equal(find('button:contains("PAM BLACK")').attr('class').match(/btn-success/), "btn-success", 'PAM BLACK button should turn green');
+      });
+    });
+  });
+});
+
+test('Should check in respondent', function() {
+  visit('/calendars/20141623').then(function() {
+    click('button:contains("WENDELL PARKS")').then(function() {
+      click('a:contains("Check in WENDELL PARKS")').then(function() {
+        equal(find('button:contains("WENDELL PARKS")').attr('class').match(/btn-success/), "btn-success", 'WENDELL PARKS button should turn green');
+      });
+    });
+  });
+});
+
+test('Should check out petitioner', function() {
+  visit('/calendars/20141623').then(function() {
+    click('button:contains("COURTNEY HOLLAND")').then(function() {
+      click('a:contains("Check out COURTNEY HOLLAND")').then(function() {
+        equal(find('button:contains("COURTNEY HOLLAND")').attr('class').match(/btn-warning/), "btn-warning", 'COURTNEY HOLLAND button should turn orange');
+      });
+    });
+  });
+});
+
+test('Should check out respondent', function() {
+  visit('/calendars/20141623').then(function() {
+    click('button:contains("HARVEY STEVENS")').then(function() {
+      click('a:contains("Check out HARVEY STEVENS")').then(function() {
+        equal(find('button:contains("HARVEY STEVENS")').attr('class').match(/btn-warning/), "btn-warning", 'HARVEY STEVENS button should turn orange');
+      });
+    });
   });
 });
 
