@@ -65,8 +65,8 @@ ActiveRecord::Schema.define(version: 20140624050355) do
     t.datetime "updated_at"
     t.string   "petitioner"
     t.string   "respondent"
-    t.boolean  "petitionerPresent"
-    t.boolean  "respondentPresent"
+    t.boolean  "petitioner_present"
+    t.boolean  "respondent_present"
   end
 
   add_index "matters", ["calendar_id"], name: "index_matters_on_calendar_id", using: :btree
