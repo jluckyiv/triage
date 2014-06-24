@@ -5,6 +5,6 @@ export default DS.Model.extend({
   type:      DS.attr('string'),
   subject:   DS.attr('string'),
   action:    DS.attr('string'),
-  timestamp: DS.attr('date')
+  timestamp: DS.attr('number')
 });
 
