@@ -43,19 +43,23 @@ module('Integration - Calendars Page', {
   }
 });
 
-test('Should navigate to the Calendars page', function() {
-  var text = "Triage calendar for June 23, 2014";
+test('Should manage Station button', function() {
   visit('/calendars/20140623').then(function() {
-    equal(find('#date').text(), text);
-  });
-});
-
-test('Should navigate to the date typed into the date form', function() {
-  var text = "Triage calendar for June 24, 2014";
-  visit('/').then(function() {
-    fillIn('#date-input', '6/24/14');
-    click('#date-submit').then(function() {
-      equal(find('#date').text(), text);
+    var numberOfCCRCs = find('button:contains("CCRC")').length;
+    var numberOfTriages = find('button:contains("Triage")').length;
+    var thisButton = find('button:contains("CCRC")').first();
+    click(thisButton).then(function() {
+      click('a:contains("Check in CCRC")').then(function() {
+        equal(thisButton.attr('class').match(/btn-success/), "btn-success", 'CCRC button should turn green');
+      });
+    });
+    click(thisButton).then(function() {
+      click('a:contains("Partial stipulation (CCRC)")').then(function() {
+    //     equal(thisButton.text().trim(), "Triage", 'Button should now be labeled "Triage"');
+    //     equal(thisButton.attr('class').match(/btn-warning/), "btn-warning", 'Button should be orange');
+    //     equal(find('button:contains("CCRC")').length, numberOfCCRCs - 1, 'CCRC buttons should decrease by 1');
+    //     equal(find('button:contains("Triage")').length, numberOfTriages + 1, 'Triage buttons should increase by 1');
+      });
     });
   });
 });

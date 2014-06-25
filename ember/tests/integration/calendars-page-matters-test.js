@@ -43,20 +43,19 @@ module('Integration - Calendars Page', {
   }
 });
 
-test('Should navigate to the Calendars page', function() {
-  var text = "Triage calendar for June 23, 2014";
+test('Should list all matters on calendar', function() {
   visit('/calendars/20140623').then(function() {
-    equal(find('#date').text(), text);
+    equal(find('button:contains("RIK2100001")').length, 1);
+    equal(find('button:contains("RIK2100002")').length, 1);
+    equal(find('button:contains("RID2100003")').length, 1);
   });
 });
 
-test('Should navigate to the date typed into the date form', function() {
-  var text = "Triage calendar for June 24, 2014";
-  visit('/').then(function() {
-    fillIn('#date-input', '6/24/14');
-    click('#date-submit').then(function() {
-      equal(find('#date').text(), text);
-    });
+test('Should omit matters not on calendar', function() {
+  visit('/calendars/20140623').then(function() {
+    equal(find('button:contains("RID2100004")').length, 0);
+    equal(find('button:contains("RID2100005")').length, 0);
+    equal(find('button:contains("RID2100006")').length, 0);
   });
 });
 
