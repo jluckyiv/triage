@@ -4,6 +4,7 @@ export default DS.Model.extend({
   calendar            : DS.belongsTo('calendar'),
   events              : DS.hasMany('event', {async: true}),
   caseNumber          : DS.attr('string'),
+  currentStation      : DS.attr('string'),
   department          : DS.attr('string'),
   petitioner          : DS.attr('string'),
   respondent          : DS.attr('string'),

@@ -129,6 +129,27 @@ test('Should check in and check out parties', function() {
   });
 });
 
+test('Should manage Station button', function() {
+  visit('/calendars/20140623').then(function() {
+    var numberOfCCRCs = find('button:contains("CCRC")').length;
+    var numberOfTriages = find('button:contains("Triage")').length;
+    var thisButton = find('button:contains("CCRC")').first();
+    click(thisButton).then(function() {
+      click('a:contains("Check in CCRC")').then(function() {
+        equal(thisButton.attr('class').match(/btn-success/), "btn-success", 'CCRC button should turn green');
+      });
+    });
+    click(thisButton).then(function() {
+      click('a:contains("Partial stipulation (CCRC)")').then(function() {
+        equal(thisButton.text().trim(), "Triage", 'Button should now be labeled "Triage"');
+        equal(thisButton.attr('class').match(/btn-warning/), "btn-warning", 'Button should be orange');
+        equal(find('button:contains("CCRC")').length, numberOfCCRCs - 1, 'CCRC buttons should decrease by 1');
+        equal(find('button:contains("Triage")').length, numberOfTriages + 1, 'Triage buttons should increase by 1');
+      });
+    });
+  });
+});
+
 function pretend200(data) {
   return [200, {"Content-Type": "application/json"}, JSON.stringify(data)];
 }
@@ -143,12 +164,12 @@ function pretendCalendars() {
 
 function pretendMatters() {
   return [
-    { id: 1, calendar_id: 1, department: "F101", case_number: "RIK2100001", petitioner: "KATHRYN HOLT", petitioner_present: true, respondent: "HARVEY STEVENS", respondent_present: true, event_ids: [1,2] },
-    { id: 2, calendar_id: 1, department: "F102", case_number: "RIK2100002", petitioner: "COURTNEY HOLLAND", petitioner_present: true, respondent: "WENDELL PARKS" },
-    { id: 3, calendar_id: 1, department: "F103", case_number: "RID2100003", petitioner: "PAM BLACK", respondent: "ANDREW FRANK" },
-    { id: 4, calendar_id: 2, department: "F104", case_number: "RID2100004", petitioner: "BRETT HOWELL", respondent: "JOANNE PERKINS" },
-    { id: 5, calendar_id: 3, department: "F106", case_number: "RID2100005", petitioner: "DUANE WOLFE", respondent: "MARIE HILL" },
-    { id: 6, calendar_id: 3, department: "F106", case_number: "RID2100006", petitioner: "EDNA WADE", respondent: "WAYNE ANDERSON" }
+    { id: 1, calendar_id: 1, department: "F101", case_number: "RIK2100001", petitioner: "KATHRYN HOLT", petitioner_present: true, respondent: "HARVEY STEVENS", respondent_present: true, current_station: "CCRC", checked_in: true, event_ids: [1,2] },
+    { id: 2, calendar_id: 1, department: "F102", case_number: "RIK2100002", petitioner: "COURTNEY HOLLAND", petitioner_present: true, respondent: "WENDELL PARKS", current_station: "Triage" },
+    { id: 3, calendar_id: 1, department: "F103", case_number: "RID2100003", petitioner: "PAM BLACK", respondent: "ANDREW FRANK", current_station: "Triage" },
+    { id: 4, calendar_id: 2, department: "F104", case_number: "RID2100004", petitioner: "BRETT HOWELL", respondent: "JOANNE PERKINS", current_station: "Triage" },
+    { id: 5, calendar_id: 3, department: "F106", case_number: "RID2100005", petitioner: "DUANE WOLFE", respondent: "MARIE HILL", current_station: "Triage" },
+    { id: 6, calendar_id: 3, department: "F106", case_number: "RID2100006", petitioner: "EDNA WADE", respondent: "WAYNE ANDERSON", current_station: "Triage" }
   ];
 }
 
