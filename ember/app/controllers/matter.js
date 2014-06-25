@@ -42,7 +42,7 @@ export default Ember.ObjectController.extend({
   actions: {
     checkin: function(currentStation) {
       this.set('checkedIn', true);
-      this.saveStationEvent(currentStation, 'checkin');
+      this.saveStationEvent(currentStation, 'arrive');
     },
 
     fullStip: function(currentStation) {

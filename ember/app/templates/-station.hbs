@@ -7,10 +7,10 @@
     <ul class="dropdown-menu" role="menu">
       {{#if inTriage}}
       <li role="presentation" class="dropdown-header">Send to</li>
-      <li><a {{action "dispatchCCRC"}}>CCRC</a></li>
-      <li><a {{action "dispatchDCSS"}}>DCSS</a></li>
-      <li><a {{action "dispatchSelfHelp"}}>Self-help</a></li>
-      <li><a {{action "dispatchHearing"}}>Hearing department</a></li>
+      <li><a {{action "dispatch" "CCRC"}}>CCRC</a></li>
+      <li><a {{action "dispatch" "DCSS"}}>DCSS</a></li>
+      <li><a {{action "dispatch" "Self-help"}}>Self-help</a></li>
+      <li><a {{action "dispatch" "Hearing"}}>Hearing department</a></li>
       <li role="presentation" class="divider"></li>
       {{/if}}
       <li role="presentation" class="dropdown-header">Disposition</li>
