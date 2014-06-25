@@ -2,54 +2,33 @@ import Ember from 'ember';
 
 export default Ember.ObjectController.extend({
 
+  saveAppearanceEvent: function(subject, action) {
+    var event = this.store.createRecord('event', {
+      matter: this.get('model'),
+      category: "appearance",
+      subject: subject,
+      action: action,
+      timestamp: new Date().getTime()
+    });
+    event.save();
+  },
+
   actions: {
     petitionerCheckin: function() {
       this.set('petitionerPresent', true);
-      var matter = this.get('model');
-      var event = this.store.createRecord('event', {
-        matter: matter,
-        category: "appearance",
-        subject: "petitioner",
-        action: "checkin",
-        timestamp: new Date().getTime()
-      });
-      event.save();
+      this.saveAppearanceEvent('petitioner', 'checkin');
     },
     respondentCheckin: function() {
       this.set('respondentPresent', true);
-      var matter = this.get('model');
-      var event = this.store.createRecord('event', {
-        matter: matter,
-        category: "appearance",
-        subject: "respondent",
-        action: "checkin",
-        timestamp: new Date().getTime()
-      });
-      event.save();
+      this.saveAppearanceEvent('respondent', 'checkin');
     },
     petitionerCheckout: function() {
       this.set('petitionerPresent', false);
-      var matter = this.get('model');
-      var event = this.store.createRecord('event', {
-        matter: matter,
-        category: "appearance",
-        subject: "petitioner",
-        action: "checkout",
-        timestamp: new Date().getTime()
-      });
-      event.save();
+      this.saveAppearanceEvent('petitioner', 'checkout');
     },
     respondentCheckout: function() {
       this.set('respondentPresent', false);
-      var matter = this.get('model');
-      var event = this.store.createRecord('event', {
-        matter: matter,
-        category: "appearance",
-        subject: "respondent",
-        action: "checkout",
-        timestamp: new Date().getTime()
-      });
-      event.save();
+      this.saveAppearanceEvent('respondent', 'checkout');
     }
   }
 });
