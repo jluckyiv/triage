@@ -11,38 +11,32 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140624050355) do
+ActiveRecord::Schema.define(version: 20140624045335) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "calendars", force: true do |t|
     t.string   "date"
-    t.string   "slug"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  add_index "calendars", ["slug"], name: "index_calendars_on_slug", unique: true, using: :btree
-
-  create_table "columns_in_matters", force: true do |t|
-  end
-
   create_table "events", force: true do |t|
     t.integer  "matter_id"
-    t.string   "type"
+    t.string   "category"
     t.string   "subject"
     t.string   "action"
-    t.integer  "timestamp"
+    t.integer  "timestamp",  limit: 8
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   add_index "events", ["action"], name: "index_events_on_action", using: :btree
+  add_index "events", ["category"], name: "index_events_on_category", using: :btree
   add_index "events", ["matter_id"], name: "index_events_on_matter_id", using: :btree
   add_index "events", ["subject"], name: "index_events_on_subject", using: :btree
   add_index "events", ["timestamp"], name: "index_events_on_timestamp", using: :btree
-  add_index "events", ["type"], name: "index_events_on_type", using: :btree
 
   create_table "friendly_id_slugs", force: true do |t|
     t.string   "slug",                      null: false
@@ -61,12 +55,10 @@ ActiveRecord::Schema.define(version: 20140624050355) do
     t.integer  "calendar_id"
     t.string   "case_number"
     t.string   "department"
-    t.datetime "created_at"
-    t.datetime "updated_at"
     t.string   "petitioner"
     t.string   "respondent"
-    t.boolean  "petitioner_present"
-    t.boolean  "respondent_present"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "matters", ["calendar_id"], name: "index_matters_on_calendar_id", using: :btree
