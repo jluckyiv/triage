@@ -45,6 +45,12 @@ export default Ember.ObjectController.extend({
       this.saveStationEvent(currentStation, 'arrive');
     },
 
+    dispatch: function(station) {
+      this.set('checkedIn', false);
+      this.saveStationEvent(station, 'dispatch');
+      this.set('currentStation', station);
+    },
+
     fullStip: function(currentStation) {
       this.set('checkedIn', false);
       this.saveDispoEvent(currentStation, "fullstip");
