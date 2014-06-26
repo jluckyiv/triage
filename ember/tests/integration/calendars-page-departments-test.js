@@ -3,7 +3,7 @@ import pretendCalendarServer from 'triage/tests/helpers/pretend-calendar-server'
 
 var App, server;
 
-module('Integration - Calendars Page', {
+module('Integration - Calendars Page Departments List', {
   setup: function() {
     App = startApp();
     server = pretendCalendarServer();
