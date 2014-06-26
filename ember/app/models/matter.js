@@ -5,6 +5,7 @@ export default DS.Model.extend({
   events              : DS.hasMany('event', {async: true}),
   caseNumber          : DS.attr('string'),
   currentStation      : DS.attr('string'),
+  checkedIn           : DS.attr('boolean'),
   department          : DS.attr('string'),
   petitioner          : DS.attr('string'),
   respondent          : DS.attr('string'),

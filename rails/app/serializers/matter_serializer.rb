@@ -1,6 +1,6 @@
 class MatterSerializer < ActiveModel::Serializer
   attributes :id, :department, :case_number, :petitioner, :respondent,
-    :petitioner_present, :respondent_present, :current_station, :in_station
+    :petitioner_present, :respondent_present, :current_station, :checked_in
   has_many :events
 
   def current_station
@@ -9,7 +9,7 @@ class MatterSerializer < ActiveModel::Serializer
     station.attributes.fetch('subject') { "Triage" }
   end
 
-  def in_station
+  def checked_in
     station = object.events.where({ category: "station" }).last
     return false if station.nil?
     return true if station.action == "arrive"
