@@ -25,11 +25,3 @@ test('Should link to the About page', function() {
   });
 });
 
-test('Should link to the Speakers page', function() {
-  visit('/').then(function() {
-    click('a:contains("Speakers")').then(function() {
-      equal(find('h3').text(), 'Speakers');
-    });
-  });
-});
-
