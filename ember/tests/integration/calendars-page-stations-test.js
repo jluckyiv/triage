@@ -16,45 +16,57 @@ module('Integration - Calendars Page Station Button', {
 
 test('Should allow changing stations', function() {
   visit('/calendars/20140623').then(function() {
-    var thisButton = find('button:contains("CCRC")').first();
+    var button = find('button:contains("CCRC")').first();
 
-    equal(thisButton.attr('class').match(/btn-warning/), "btn-warning", '"CCRC" button should start out orange');
+    isOrange(button, '"CCRC" button should start out orange');
 
-    click(thisButton).then(function() {
+    click(button).then(function() {
       click('a:contains("Check in CCRC")').then(function() {
-        equal(thisButton.attr('class').match(/btn-success/), "btn-success", 'After check-in, button color should turn green');
-        equal(thisButton.text().trim(), "CCRC", 'After check-in, text should remain "CCRC"');
+        isGreen(button, 'After checkin, button should turn green');
+        hasText(button, "CCRC", 'After check-in, text should remain "CCRC"');
       });
     });
 
-    click(thisButton).then(function() {
+    click(button).then(function() {
       click('a:contains("Partial stipulation (CCRC)")').then(function() {
-        equal(thisButton.attr('class').match(/btn-warning/), "btn-warning", 'After partial stip, button should turn orange');
-        equal(thisButton.text().trim(), "Triage", 'After partial stip, text should change to "Triage"');
+        isOrange(button, 'After partial stip, button should turn orange');
+        hasText(button, "Triage", 'After checkin, text should change to "Triage"');
       });
     });
 
-    click(thisButton).then(function() {
+    click(button).then(function() {
       click('a:contains("Check in Triage")').then(function() {
-        equal(thisButton.attr('class').match(/btn-success/), "btn-success", 'After checkin, button should turn green');
-        equal(thisButton.text().trim(), "Triage", 'After checkin, text should remain "Triage"');
+        isGreen(button, 'After checkin, button should turn green');
+        hasText(button, "Triage", 'After checkin, text should remain "Triage"');
       });
     });
 
-    click(thisButton).then(function() {
+    click(button).then(function() {
       click('a:contains("DCSS")').then(function() {
-        equal(thisButton.attr('class').match(/btn-warning/), "btn-warning", 'After dispatch, button should turn orange');
-        equal(thisButton.text().trim(), "DCSS", 'After dispatch, text should change to "DCSS"');
+        isOrange(button, 'After dispatch, button should turn orange');
+        hasText(button, "DCSS", 'After dispatch, text should change to "DCSS"');
       });
     });
 
-    click(thisButton).then(function() {
+    click(button).then(function() {
       click('a:contains("Check in DCSS")').then(function() {
-        equal(thisButton.attr('class').match(/btn-success/), "btn-success", 'After checkin, button should turn green');
-        equal(thisButton.text().trim(), "DCSS", 'After checkin, text should remain "DCSS"');
+        isGreen(button, 'After checkin, button should turn green');
+        hasText(button, "DCSS", 'After checkin, text should remain "DCSS"');
       });
     });
 
   });
 });
 
+
+function isOrange(element, message) {
+  equal(element.attr('class').match(/btn-warning/), "btn-warning", message);
+}
+
+function isGreen(element, message) {
+  equal(element.attr('class').match(/btn-success/), "btn-success", message);
+}
+
+function hasText(element, text, message) {
+  equal(element.text().trim(), text, message);
+}
