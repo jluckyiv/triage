@@ -67,17 +67,4 @@ ActiveRecord::Schema.define(version: 20140624045335) do
   add_index "matters", ["petitioner"], name: "index_matters_on_petitioner", using: :btree
   add_index "matters", ["respondent"], name: "index_matters_on_respondent", using: :btree
 
-  create_table "presentations", force: true do |t|
-    t.string   "title"
-    t.integer  "speaker_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "speakers", force: true do |t|
-    t.string   "name"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
 end
