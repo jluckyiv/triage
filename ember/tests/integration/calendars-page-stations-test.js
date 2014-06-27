@@ -17,6 +17,7 @@ module('Integration - Calendars Page Station Button', {
 test('Should allow changing stations', function() {
   visit('/calendars/20140623').then(function() {
     var button = find('button:contains("CCRC")').first();
+    var sendToCount = find('li:contains("Send to")').length;
 
     isOrange(button, '"CCRC" button should start out orange');
 
@@ -38,6 +39,7 @@ test('Should allow changing stations', function() {
       click('a:contains("Check in Triage")').then(function() {
         isGreen(button, 'After checkin, button should turn green');
         hasText(button, "Triage", 'After checkin, text should remain "Triage"');
+        equal(find('li:contains("Send to")').length, sendToCount + 1, "Should have one more Send to header");
       });
     });
 
@@ -52,6 +54,7 @@ test('Should allow changing stations', function() {
       click('a:contains("Check in DCSS")').then(function() {
         isGreen(button, 'After checkin, button should turn green');
         hasText(button, "DCSS", 'After checkin, text should remain "DCSS"');
+        equal(find('li:contains("Send to")').length, sendToCount, "Should have one fewer Send to header");
       });
     });
 

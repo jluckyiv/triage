@@ -1,11 +1,11 @@
 <div class="col-sm-2">
   <div class="btn-group">
-    <button {{bind-attr class="checkedIn:btn-success:btn-warning :btn :dropdown-toggle"}} data-toggle="dropdown">
+    <button {{bind-attr class="hasReachedStation:btn-success:btn-warning :btn :dropdown-toggle"}} data-toggle="dropdown">
       {{currentStation}} <span class="caret"></span>
     </button>
-    {{#if checkedIn}}
+    {{#if hasReachedStation}}
     <ul class="dropdown-menu" role="menu">
-      {{#if inTriage}}
+      {{#if showStations}}
       <li role="presentation" class="dropdown-header">Send to</li>
       <li><a {{action "dispatch" "CCRC"}}>CCRC</a></li>
       <li><a {{action "dispatch" "DCSS"}}>DCSS</a></li>

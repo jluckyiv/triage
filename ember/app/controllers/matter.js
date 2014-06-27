@@ -2,81 +2,73 @@ import Ember from 'ember';
 
 export default Ember.ObjectController.extend({
 
-  inTriage: function() {
-    return this.get('model.currentStation') === 'Triage';
-  }.property('currentStation'),
+  hasReachedStation: function() {
+    return this.get('checkedIn');
+  }.property('currentStation', 'checkedIn'),
 
-  saveAppearanceEvent: function(subject, action) {
+  showStations: function() {
+    return this.get('model.currentStation') === 'Triage';
+  }.property('currentStation', 'checkedIn'),
+
+  saveEvent: function(category, subject, action) {
     var event = this.store.createRecord('event', {
       matter: this.get('model'),
-      category: "appearance",
+      category: category,
       subject: subject,
       action: action,
       timestamp: new Date().getTime()
     });
-    event.save();
+    return event.save();
+  },
+
+  saveAppearanceEvent: function(subject, action) {
+    return this.saveEvent("appearance", subject, action);
   },
 
   saveStationEvent: function(subject, action) {
-    var event = this.store.createRecord('event', {
-      matter: this.get('model'),
-      category: "station",
-      subject: subject,
-      action: action,
-      timestamp: new Date().getTime()
-    });
-    event.save();
+    return this.saveEvent("station", subject, action);
   },
 
   saveDispoEvent: function(subject, action) {
-    var event = this.store.createRecord('event', {
-      matter: this.get('model'),
-      category: "disposition",
-      subject: subject,
-      action: action,
-      timestamp: new Date().getTime()
+    return this.saveEvent("disposition", subject, action);
+  },
+
+  sendToTriage: function(station, action) {
+    var self = this;
+    self.setProperties({'checkedIn': false, 'currentStation': 'Triage'});
+    return self.saveDispoEvent(station, action).then(function() {
+      return self.saveStationEvent('Triage', 'dispatch');
     });
-    event.save();
   },
 
   actions: {
-    checkin: function(currentStation) {
+    checkin: function(station) {
       this.set('checkedIn', true);
-      this.saveStationEvent(currentStation, 'arrive');
+      return this.saveStationEvent(station, 'arrive');
     },
 
     dispatch: function(station) {
-      this.set('checkedIn', false);
-      this.saveStationEvent(station, 'dispatch');
-      this.set('currentStation', station);
+      this.setProperties({'checkedIn': false, 'currentStation': station});
+      return this.saveStationEvent(station, 'dispatch');
     },
 
-    fullStip: function(currentStation) {
-      this.set('checkedIn', false);
-      this.saveDispoEvent(currentStation, "fullstip");
-      this.saveStationEvent('Triage', 'dispatch');
-      this.set('currentStation', 'Triage');
+    fullStip: function(station) {
+      return this.sendToTriage(station, "fullstip");
     },
-    partialStip: function(currentStation) {
-      this.set('checkedIn', false);
-      this.saveDispoEvent(currentStation, "partialstip");
-      this.saveStationEvent('Triage', 'dispatch');
-      this.set('currentStation', 'Triage');
+    partialStip: function(station) {
+      return this.sendToTriage(station, "partialstip");
     },
-    noStip: function(currentStation) {
-      this.set('checkedIn', false);
-      this.saveDispoEvent(currentStation, "nostip");
-      this.saveStationEvent('Triage', 'dispatch');
-      this.set('currentStation', 'Triage');
+    noStip: function(station) {
+      return this.sendToTriage(station, "nostip");
     },
 
     petitionerCheckin: function() {
       this.set('petitionerPresent', true);
-      this.saveAppearanceEvent('petitioner', 'checkin');
+      return this.saveAppearanceEvent('petitioner', 'checkin');
     },
     respondentCheckin: function() {
       this.set('respondentPresent', true);
-      this.saveAppearanceEvent('respondent', 'checkin');
+      return this.saveAppearanceEvent('respondent', 'checkin');
     },
     petitionerCheckout: function() {
       this.set('petitionerPresent', false);
