@@ -7,28 +7,28 @@ export default Ember.Route.extend({
     return this.store.find('calendar', this.get('date'));
   },
 
-  afterModel: function() {
-    this.tick();
-  },
+  // afterModel: function() {
+  //   this.tick();
+  // },
 
-  tick: function() {
-    var now = new Date();
+  // reload: (function() {
+  //   this.modelFor(this.routeName).reload();
+  // }).observes('quarterMinute'),
 
-    this.setProperties({
-      second: now.getSeconds(),
-      quarterMinute: Math.round(now.getSeconds() / 15),
-      halfMinute: Math.round(now.getSeconds() / 30),
-      minute: now.getMinutes(),
-      hour:   now.getHours()
-    });
+  // tick: function() {
+  //   var now = new Date();
 
-    var self = this;
-    setTimeout(function(){ self.tick(); }, 1000);
-  },
+  //   this.setProperties({
+  //     second: now.getSeconds(),
+  //     quarterMinute: Math.round(now.getSeconds() / 15),
+  //     halfMinute: Math.round(now.getSeconds() / 30),
+  //     minute: now.getMinutes(),
+  //     hour:   now.getHours()
+  //   });
 
-  reload: (function() {
-    this.modelFor(this.routeName).reload();
-  }).observes('quarterMinute')
+  //   var self = this;
+  //   setTimeout(function(){ self.tick(); }, 1000);
+  // }
 
 });
 
