@@ -30,8 +30,6 @@ export default Ember.Route.extend({
   reload: (function() {
     console.log('reload();');
     this.modelFor(this.routeName).reload();
-    // this.get('model').reload();
-    // return this.store.find('calendar', this.get('date'));
   }).observes('quarterMinute')
 
 });
