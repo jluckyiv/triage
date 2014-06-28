@@ -8,7 +8,6 @@ export default Ember.Route.extend({
   },
 
   afterModel: function() {
-    console.log('model = ' + this.get('model'));
     this.tick();
   },
 
@@ -28,7 +27,6 @@ export default Ember.Route.extend({
   },
 
   reload: (function() {
-    console.log('reload();');
     this.modelFor(this.routeName).reload();
   }).observes('quarterMinute')
 
