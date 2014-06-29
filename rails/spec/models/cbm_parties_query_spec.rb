@@ -10,6 +10,7 @@ describe CbmPartiesQuery do
   it { should respond_to :content }
   it { should respond_to :content_length }
   it { should respond_to :md5 }
+  it { should respond_to :to_h }
 
   it "should default to court_code 'F'" do
     expect(subject.court_code).to eq 'F'
@@ -21,6 +22,9 @@ describe CbmPartiesQuery do
 
   context "with valid data and department" do
     query =  CbmPartiesQuery.new(court_code: 'G', case_type: 'IND', case_number: '087055')
+    it "should have the right hash" do
+      expect(query.to_h).to eq({court_code: 'G', case_type: 'IND', case_number: '087055'})
+    end
     it "should have the right court_code" do
       VCR.use_cassette('IND087055') do
         expect(query.court_code).to eq "G"

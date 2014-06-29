@@ -5,6 +5,10 @@ class CbmQuery
     raise NotImplementedError.new("Need initialize method taking a hash parameter")
   end
 
+  def to_h
+    raise NotImplementedError.new("Need .to_h method")
+  end
+
   def header
     @header ||= open(uri)
   end

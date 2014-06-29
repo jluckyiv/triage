@@ -8,6 +8,14 @@ class CbmPartiesQuery < CbmQuery
     @case_number = data.fetch(:case_number).upcase.strip
   end
 
+  def to_h
+    {
+      court_code: court_code,
+      case_type: case_type,
+      case_number: case_number
+    }
+  end
+
   private
 
   def build_uri
