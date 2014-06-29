@@ -2,9 +2,12 @@ import Ember from 'ember';
 
 export default Ember.ArrayController.extend({
 
+  needs: ['calendars'],
+
   init: function() {
     this.setProperties({
       content: this.get('model'),
+      dateString: this.get('controllers.calendars.dateString'),
       itemController: ('matter'),
       sortAscending: true,
       sortProperties: ['department'],
