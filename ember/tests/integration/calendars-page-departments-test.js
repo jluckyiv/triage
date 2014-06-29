@@ -16,9 +16,9 @@ module('Integration - Calendars Page Departments List', {
 
 test('Should list departments for matters on calendar', function() {
   visit('/calendars/20140623').then(function() {
-    equal(find('button:contains("F101")').length, 1);
-    equal(find('button:contains("F102")').length, 1);
-    equal(find('button:contains("F103")').length, 1);
+    equal(find('button.department:contains("F201")').length, 1, "Should have one case from F201");
+    equal(find('button.department:contains("F301")').length, 1, "Should have one case from F301");
+    equal(find('button.department:contains("F401")').length, 1, "Should have one case from F401");
   });
 });
 
