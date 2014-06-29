@@ -1,8 +1,6 @@
 class CbmHearingsQueryParser
   require 'nokogiri'
 
-  attr_reader :factory, :doc
-
   def initialize(data)
     @factory = CbmHearingsFactory.new(data)
   end
@@ -25,6 +23,8 @@ class CbmHearingsQueryParser
   end
 
   private
+
+  attr_reader :factory
 
   def clean_doc
     doc = Nokogiri::XML(factory.run.body)
