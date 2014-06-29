@@ -1,9 +1,12 @@
 class MatterSerializer < ActiveModel::Serializer
+  embed :ids, include: true
+
+  has_one :calendar
+  has_many :events
+
   attributes :id, :department, :case_number, :petitioner, :respondent,
     :petitioner_present, :respondent_present,
     :current_station, :checked_in
-
-  has_many :events
 
   def current_station
     return "Triage" if station.nil?

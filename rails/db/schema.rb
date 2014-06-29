@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140629102622) do
+ActiveRecord::Schema.define(version: 20140629171702) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -21,6 +21,18 @@ ActiveRecord::Schema.define(version: 20140629102622) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "case_numbers", force: true do |t|
+    t.string   "court_code"
+    t.string   "case_type"
+    t.string   "case_number"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "case_numbers", ["case_number"], name: "index_case_numbers_on_case_number", using: :btree
+  add_index "case_numbers", ["case_type"], name: "index_case_numbers_on_case_type", using: :btree
+  add_index "case_numbers", ["court_code"], name: "index_case_numbers_on_court_code", using: :btree
 
   create_table "cbm_hearings_query_caches", force: true do |t|
     t.string   "court_code"
