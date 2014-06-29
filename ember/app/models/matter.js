@@ -6,7 +6,6 @@ export default DS.Model.extend({
   caseNumber          : DS.attr('string'),
   currentStation      : DS.attr('string'),
   checkedIn           : DS.attr('boolean'),
-  lastStationedAt     : DS.attr('number'),
   department          : DS.attr('string'),
   petitioner          : DS.attr('string'),
   respondent          : DS.attr('string'),
