@@ -16,10 +16,18 @@ module('Integration - Calendars Page Station Button', {
 
 test('Should allow changing stations', function() {
   visit('/calendars/20140623').then(function() {
-    var button = find('button:contains("CCRC")').first();
+    var button = find('button:contains("Triage")').first();
     var sendToCount = find('li:contains("Send to")').length;
+    equal(sendToCount, 1, "There should be one 'Send to' menu");
 
-    isOrange(button, '"CCRC" button should start out orange');
+    isGreen(button, '"Triage" button should start out green');
+
+    click(button).then(function() {
+      click('a:contains("CCRC")').then(function() {
+        isOrange(button, 'After dispatch, button should turn orange');
+        hasText(button, "CCRC", 'After dispatch, text should change to "CCRC"');
+      });
+    });
 
     click(button).then(function() {
       click('a:contains("Check in CCRC")').then(function() {
@@ -29,9 +37,10 @@ test('Should allow changing stations', function() {
     });
 
     click(button).then(function() {
+      // equal(sendToCount, 0, "There should be no 'Send to' menu");
       click('a:contains("Partial stipulation (CCRC)")').then(function() {
         isOrange(button, 'After partial stip, button should turn orange');
-        hasText(button, "Triage", 'After checkin, text should change to "Triage"');
+        hasText(button, "Triage", 'After partial stip, text should change to "Triage"');
       });
     });
 
@@ -39,7 +48,6 @@ test('Should allow changing stations', function() {
       click('a:contains("Check in Triage")').then(function() {
         isGreen(button, 'After checkin, button should turn green');
         hasText(button, "Triage", 'After checkin, text should remain "Triage"');
-        equal(find('li:contains("Send to")').length, sendToCount + 1, "Should have one more Send to header");
       });
     });
 
@@ -54,7 +62,7 @@ test('Should allow changing stations', function() {
       click('a:contains("Check in DCSS")').then(function() {
         isGreen(button, 'After checkin, button should turn green');
         hasText(button, "DCSS", 'After checkin, text should remain "DCSS"');
-        equal(find('li:contains("Send to")').length, sendToCount, "Should have one fewer Send to header");
+        // equal(find('li:contains("Send to")').length, sendToCount, "Should have one fewer Send to header");
       });
     });
 

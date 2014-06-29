@@ -1,11 +1,11 @@
 <div class="col-sm-2">
-  <div class="btn-group">
-    <button {{bind-attr class="hasReachedStation:btn-success:btn-warning :btn :dropdown-toggle"}} data-toggle="dropdown">
-      {{currentStation}} <span class="caret"></span>
+  <div class="btn-group dropdown-parent">
+    <button {{action pausePolling}} {{bind-attr class="isInStation:btn-success:btn-warning :btn :dropdown-toggle"}} data-toggle="dropdown">
+      {{station}} <span class="caret"></span>
     </button>
-    {{#if hasReachedStation}}
+    {{#if isInStation}}
     <ul class="dropdown-menu" role="menu">
-      {{#if showStations}}
+      {{#if isInTriage}}
       <li role="presentation" class="dropdown-header">Send to</li>
       <li><a {{action "dispatch" "CCRC"}}>CCRC</a></li>
       <li><a {{action "dispatch" "DCSS"}}>DCSS</a></li>
@@ -14,13 +14,13 @@
       <li role="presentation" class="divider"></li>
       {{/if}}
       <li role="presentation" class="dropdown-header">Disposition</li>
-      <li><a {{action "fullStip" currentStation }}>Full stipulation ({{currentStation}})</a></li>
-      <li><a {{action "partialStip" currentStation }}>Partial stipulation ({{currentStation}})</a></li>
-      <li><a {{action "noStip" currentStation }}>No stipulation ({{currentStation}})</a></li>
+      <li><a {{action "fullStip" station }}>Full stipulation ({{station}})</a></li>
+      <li><a {{action "partialStip" station }}>Partial stipulation ({{station}})</a></li>
+      <li><a {{action "noStip" station }}>No stipulation ({{station}})</a></li>
     </ul>
     {{else}}
     <ul class="dropdown-menu" role="menu">
-      <li><a {{action "checkin" currentStation }}>Check in {{currentStation}}</a></li>
+      <li><a {{action "checkin" station }}>Check in {{station}}</a></li>
     </ul>
     {{/if}}
   </div>

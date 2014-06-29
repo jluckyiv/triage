@@ -2,23 +2,56 @@ import Ember from 'ember';
 
 export default Ember.ObjectController.extend({
 
-  hasReachedStation: function() {
-    return this.get('checkedIn');
-  }.property('currentStation', 'checkedIn'),
+  needs: ['calendars'],
 
-  showStations: function() {
-    return this.get('model.currentStation') === 'Triage';
-  }.property('currentStation', 'checkedIn'),
+  init: function() {
+    this._super();
+    this.syncPetitioner();
+    this.syncRespondent();
+    this.syncStation();
+    this.syncCheckedIn();
+    this.startPolling();
+  },
+
+  syncPetitioner: function() {
+    this.set('petitionerAppeared', this.get('petitionerPresent'));
+  }.observes('petitionerPresent'),
+
+  syncRespondent: function() {
+    this.set('respondentAppeared', this.get('respondentPresent'));
+  }.observes('respondentPresent'),
+
+  syncStation: function() {
+    this.set('station', this.get('currentStation'));
+  }.observes('currentStation'),
+
+  syncCheckedIn: function() {
+    this.set('isInStation', this.get('checkedIn'));
+  }.observes('checkedIn'),
+
+  isInTriage: function() {
+    return this.get('station').indexOf('Triage') > -1;
+  }.property(),
+
+  startPolling: function() {
+    return this.get('controllers.calendars').set('pausedPollingAt', 0);
+  },
 
   saveEvent: function(category, subject, action) {
+    var matter = this.get('model');
     var event = this.store.createRecord('event', {
-      matter: this.get('model'),
+      matter: matter,
       category: category,
       subject: subject,
       action: action,
       timestamp: new Date().getTime()
     });
-    return event.save();
+    this.startPolling();
+    return event.save().then(function() {
+      // Success callback
+    }, function() {
+      // Error callback
+    });
   },
 
   saveAppearanceEvent: function(subject, action) {
@@ -35,7 +68,7 @@ export default Ember.ObjectController.extend({
 
   sendToTriage: function(station, action) {
     var self = this;
-    self.setProperties({'checkedIn': false, 'currentStation': 'Triage'});
+    self.setProperties({'isInStation': false, 'station': 'Triage'});
     return self.saveDispoEvent(station, action).then(function() {
       return self.saveStationEvent('Triage', 'dispatch');
     });
@@ -43,12 +76,12 @@ export default Ember.ObjectController.extend({
 
   actions: {
     checkin: function(station) {
-      this.set('checkedIn', true);
+      this.set('isInStation', true);
       return this.saveStationEvent(station, 'arrive');
     },
 
     dispatch: function(station) {
-      this.setProperties({'checkedIn': false, 'currentStation': station});
+      this.setProperties({'isInStation': false, 'station': station});
       return this.saveStationEvent(station, 'dispatch');
     },
 
@@ -63,20 +96,23 @@ export default Ember.ObjectController.extend({
     },
 
     petitionerCheckin: function() {
-      this.set('petitionerPresent', true);
+      this.set('petitionerAppeared', true);
       return this.saveAppearanceEvent('petitioner', 'checkin');
     },
     respondentCheckin: function() {
-      this.set('respondentPresent', true);
+      this.set('respondentAppeared', true);
       return this.saveAppearanceEvent('respondent', 'checkin');
     },
     petitionerCheckout: function() {
-      this.set('petitionerPresent', false);
+      this.set('petitionerAppeared', false);
       this.saveAppearanceEvent('petitioner', 'checkout');
     },
     respondentCheckout: function() {
-      this.set('respondentPresent', false);
+      this.set('respondentAppeared', false);
       this.saveAppearanceEvent('respondent', 'checkout');
+    },
+    pausePolling: function() {
+      this.get('controllers.calendars').set('pausedPollingAt', new Date().getTime());
     }
   }
 });

@@ -1,16 +1,16 @@
 class MatterSerializer < ActiveModel::Serializer
   attributes :id, :department, :case_number, :petitioner, :respondent,
-    :petitioner_present, :respondent_present, :current_station, :checked_in
+    :petitioner_present, :respondent_present,
+    :current_station, :checked_in
+
   has_many :events
 
   def current_station
-    station = object.events.where({ category: "station" }).last
     return "Triage" if station.nil?
     station.attributes.fetch('subject') { "Triage" }
   end
 
   def checked_in
-    station = object.events.where({ category: "station" }).last
     return false if station.nil?
     return true if station.action == "arrive"
     return false
@@ -22,6 +22,12 @@ class MatterSerializer < ActiveModel::Serializer
 
   def respondent_present
     is_present?("respondent")
+  end
+
+  private
+
+  def station
+    @station ||= object.events.where({ category: "station" }).last
   end
 
   def is_present?(party)

@@ -1,9 +1,9 @@
 <div class="col-sm-3">
-  <div class="btn-group">
-    <button {{bind-attr class="petitionerPresent:btn-success:btn-warning :btn :dropdown-toggle"}} data-toggle="dropdown">
+  <div class="btn-group dropdown-parent">
+    <button {{action "pausePolling"}} {{bind-attr class="petitionerAppeared:btn-success:btn-warning :btn :dropdown-toggle"}} data-toggle="dropdown">
       {{petitioner}} <span class="caret"></span>
     </button>
-    {{#if petitionerPresent}}
+    {{#if petitionerAppeared}}
     <ul class="dropdown-menu" role="menu">
       <li><a {{action "petitionerCheckout" this }}>Check out {{petitioner}}</a></li>
     </ul>

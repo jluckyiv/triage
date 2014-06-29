@@ -6,6 +6,8 @@ export default Ember.ObjectController.extend({
   }.property('date'),
 
   init: function() {
+    if (window.test) { return; }
+    this.set('pausedPollingAt', 0);
     this.tick();
   },
 
@@ -14,11 +16,11 @@ export default Ember.ObjectController.extend({
     var self = this;
 
     self.setProperties({
-      second: now.getSeconds(),
-      quarterMinute: Math.round(now.getSeconds() / 15),
-      halfMinute: Math.round(now.getSeconds() / 30),
-      minute: now.getMinutes(),
-      hour:   now.getHours()
+      second        : now.getSeconds(),
+      quarterMinute : Math.round(now.getSeconds() / 15),
+      halfMinute    : Math.round(now.getSeconds() / 30),
+      minute        : now.getMinutes(),
+      hour          : now.getHours()
     });
 
     Ember.run.later(self, function(){
@@ -26,9 +28,13 @@ export default Ember.ObjectController.extend({
     }, 1000);
   },
 
-  reset: (function() {
-    console.log('reset();');
-    this.get('model').reload();
+  pollModel: (function() {
+    var started = this.get('pausedPollingAt');
+    var now = new Date().getTime();
+    if (now - started > 30000) {
+      this.get('model').reload();
+      this.set('pausedPollingAt', 0);
+    }
   }).observes('quarterMinute')
 });
 
