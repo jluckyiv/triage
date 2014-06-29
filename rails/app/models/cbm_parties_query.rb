@@ -1,12 +1,12 @@
-class CbmHearingsQuery
+class CbmPartiesQuery
   require 'open-uri'
 
-  attr_reader :court_code, :department, :date
+  attr_reader :court_code, :case_type, :case_number
 
   def initialize(data)
     @court_code = (data.fetch(:court_code) { 'F' }).upcase.strip
-    @date = (data.fetch(:date) { Date.today.strftime('%Y%m%d') }).upcase.strip
-    @department = data.fetch(:department).upcase.strip
+    @case_type = (data.fetch(:case_type) { 'RID' }).upcase.strip
+    @case_number = data.fetch(:case_number).upcase.strip
   end
 
   def header
@@ -32,7 +32,7 @@ class CbmHearingsQuery
   end
 
   def build_uri
-    "http://riv-dev1/confidentialbenchmemo/api/v1/hearings.aspx?cc=#{court_code}&dept=#{department}&date=#{date}"
+    "http://riv-dev1/confidentialbenchmemo/api/v1/parties.aspx?cc=#{court_code}&ct=#{case_type}&cn=#{case_number}"
   end
 
 end

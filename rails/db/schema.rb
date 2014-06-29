@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140629075602) do
+ActiveRecord::Schema.define(version: 20140629102622) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -22,19 +22,36 @@ ActiveRecord::Schema.define(version: 20140629075602) do
     t.datetime "updated_at"
   end
 
-  create_table "cbm_hearings_queries", force: true do |t|
+  create_table "cbm_hearings_query_caches", force: true do |t|
     t.string   "court_code"
     t.string   "department"
     t.string   "date"
+    t.text     "body"
     t.string   "md5"
+    t.integer  "content_length"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  add_index "cbm_hearings_queries", ["court_code"], name: "index_cbm_hearings_queries_on_court_code", using: :btree
-  add_index "cbm_hearings_queries", ["date"], name: "index_cbm_hearings_queries_on_date", using: :btree
-  add_index "cbm_hearings_queries", ["department"], name: "index_cbm_hearings_queries_on_department", using: :btree
-  add_index "cbm_hearings_queries", ["md5"], name: "index_cbm_hearings_queries_on_md5", using: :btree
+  add_index "cbm_hearings_query_caches", ["court_code"], name: "index_cbm_hearings_query_caches_on_court_code", using: :btree
+  add_index "cbm_hearings_query_caches", ["date"], name: "index_cbm_hearings_query_caches_on_date", using: :btree
+  add_index "cbm_hearings_query_caches", ["department"], name: "index_cbm_hearings_query_caches_on_department", using: :btree
+  add_index "cbm_hearings_query_caches", ["md5"], name: "index_cbm_hearings_query_caches_on_md5", using: :btree
+
+  create_table "cbm_parties_query_caches", force: true do |t|
+    t.string   "court_code"
+    t.string   "case_type"
+    t.string   "case_number"
+    t.text     "body"
+    t.string   "md5"
+    t.integer  "content_length"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "cbm_parties_query_caches", ["case_number"], name: "index_cbm_parties_query_caches_on_case_number", using: :btree
+  add_index "cbm_parties_query_caches", ["case_type"], name: "index_cbm_parties_query_caches_on_case_type", using: :btree
+  add_index "cbm_parties_query_caches", ["court_code"], name: "index_cbm_parties_query_caches_on_court_code", using: :btree
 
   create_table "events", force: true do |t|
     t.integer  "matter_id"

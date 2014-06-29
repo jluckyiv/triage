@@ -13,11 +13,12 @@ gem 'spring',        group: :development
 
 gem 'active_model_serializers', '0.8.1'
 gem 'friendly_id', '5.0.4'
+gem 'nokogiri', '1.6.2.1'
 
 group :development, :test do
-  gem 'spring-commands-rspec'
-  gem 'rspec-rails'
-  gem 'guard-rspec'
+  gem 'spring-commands-rspec', '1.0.2'
+  gem 'rspec-rails', '2.14.2'
+  gem 'guard-rspec', '4.2.10'
   gem 'rb-fsevent' if `uname` =~ /Darwin/
 end
 
