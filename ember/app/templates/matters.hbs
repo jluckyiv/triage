@@ -1,0 +1,9 @@
+{{partial 'filter-bar'}}
+
+<h3>{{filterValue}} cases:</h3>
+{{#each filtered}}
+  {{render 'matter' this}}
+{{else}}
+  <h4>None</h4>
+{{/each}}
+

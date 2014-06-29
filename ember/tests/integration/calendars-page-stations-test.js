@@ -16,7 +16,7 @@ module('Integration - Calendars Page Station Button', {
 
 test('Should allow changing stations', function() {
   visit('/calendars/20140623').then(function() {
-    var button = find('button:contains("Triage")').first();
+    var button = find('button.station:contains("Triage")').first();
     var sendToCount = find('li:contains("Send to")').length;
     equal(sendToCount, 1, "There should be one 'Send to' menu");
 

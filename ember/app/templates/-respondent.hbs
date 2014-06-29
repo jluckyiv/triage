@@ -1,6 +1,6 @@
 <div class="col-sm-3">
   <div class="btn-group dropdown-parent">
-    <button {{action pausePolling}} {{bind-attr class="respondentAppeared:btn-success:btn-warning :btn :dropdown-toggle"}} data-toggle="dropdown">
+    <button {{action pausePolling}} {{bind-attr class="respondentAppeared:btn-success:btn-warning :respondent-button :btn :dropdown-toggle"}} data-toggle="dropdown">
       {{respondent}} <span class="caret"></span>
     </button>
     {{#if respondentAppeared}}
