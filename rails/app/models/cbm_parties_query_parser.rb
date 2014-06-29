@@ -1,27 +1,7 @@
-class CbmPartiesQueryParser
-  require 'nokogiri'
-
-  attr_reader :factory, :doc
+class CbmPartiesQueryParser < CbmQueryParser
 
   def initialize(data)
     @factory = CbmPartiesFactory.new(data)
-  end
-
-  def parse
-    Hash.from_xml(doc.to_s)
-  end
-  alias_method :hash, :parse
-
-  def json
-    hash.to_json
-  end
-
-  def nokogiri_doc
-    doc
-  end
-
-  def struct
-    OpenStruct.new(hash)
   end
 
   private
@@ -34,7 +14,4 @@ class CbmPartiesQueryParser
     return doc
   end
 
-  def doc
-    @doc ||= clean_doc
-  end
 end
