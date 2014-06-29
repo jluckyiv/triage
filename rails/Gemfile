@@ -20,6 +20,9 @@ group :development, :test do
   gem 'rspec-rails', '2.14.2'
   gem 'guard-rspec', '4.2.10'
   gem 'rb-fsevent' if `uname` =~ /Darwin/
+end
+
+group :test do
   gem 'vcr', '2.9.0'
   gem 'webmock', '1.17.4'
 end
