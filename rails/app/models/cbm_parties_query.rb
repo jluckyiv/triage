@@ -16,6 +16,7 @@ class CbmPartiesQuery
   def body
     @body ||= header.read
   end
+  alias_method :content, :body
 
   def content_length
     @content_length = header.meta.fetch("content-length").to_i { 0 }

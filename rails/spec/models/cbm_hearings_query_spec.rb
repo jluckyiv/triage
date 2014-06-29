@@ -20,28 +20,35 @@ describe CbmHearingsQuery do
   end
 
   context "with valid data and department" do
-    VCR.use_cassette('20140630_F501') do
-      query = CbmHearingsQuery.new(department: "F501", date: "20140630")
-      it "should have the right court_code" do
+    query = CbmHearingsQuery.new(department: "F501", date: "20140630")
+    it "should have the right court_code" do
+      VCR.use_cassette('20140630_F501') do
         expect(query.court_code).to eq "F"
       end
-      it "should have the right department" do
+    end
+    it "should have the right department" do
+      VCR.use_cassette('20140630_F501') do
         expect(query.department).to eq "F501"
       end
-      it "should have the right date" do
+    end
+    it "should have the right date" do
+      VCR.use_cassette('20140630_F501') do
         expect(query.date).to eq "20140630"
       end
-      it "should have the right header" do
-        expect(query.header).to eq {}
+    end
+    it "should have the right header" do
+      VCR.use_cassette('20140630_F501') do
+        expect(query.header.status).to eq(["200", "OK"])
       end
-      it "should have the right content" do
-        expect(query.content).to eq ""
+    end
+    it "should have the right content length" do
+      VCR.use_cassette('20140630_F501') do
+        expect(query.content_length).to eq 7167
       end
-      it "should have the right content length" do
-        expect(query.content_length).to eq 0
-      end
-      it "should have the right md5" do
-        expect(query.md5).to eq ""
+    end
+    it "should have the right md5" do
+      VCR.use_cassette('20140630_F501') do
+        expect(query.md5).to eq "055bfebe9625d6a3ee35440201922273"
       end
     end
   end
