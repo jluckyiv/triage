@@ -4,6 +4,7 @@ class CreateCaseNumbers < ActiveRecord::Migration
       t.string :court_code
       t.string :case_type
       t.string :case_number
+      t.string :parties_md5
 
       t.timestamps
     end

@@ -7,21 +7,23 @@ export default Ember.ArrayController.extend({
   init: function() {
     this.setProperties({
       content: this.get('model'),
-      dateString: this.get('controllers.calendars.dateString'),
       itemController: ('matter'),
       sortAscending: true,
-      sortProperties: ['department'],
+      sortProperties: ['department', 'caseNumber'],
       filterType: 'department',
       filterValue: 'All'
     });
   },
 
+  dateString: function() {
+    return formatDate(this.get('controllers.calendars.model.date'));
+  }.property('controllers.calendars.model.date'),
+
   filtered: function() {
     var property = this.get('filterType');
     var value = this.get('filterValue');
-    if (value === 'All') { return this.get('content'); }
-    console.log('filterBy(' + property + ', ' + value + ');');
-    return this.get('content').filterBy(property, value).sortBy('department');
+    if (value === 'All') { return this.get('content').sortBy('department', 'caseNumber'); }
+    return this.get('content').filterBy(property, value).sortBy('department', 'caseNumber');
   }.property('filterType', 'filterValue', '@each', '@each.station'),
 
   actions: {
@@ -36,4 +38,13 @@ export default Ember.ArrayController.extend({
     }
   }
 });
+
+var parseDate = function(text) {
+  text = text.toString();
+  return Date.parse(text);
+};
+
+var formatDate = function(text) {
+  return parseDate(text).toString("MMMM dd, yyyy");
+};
 

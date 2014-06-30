@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140629171702) do
+ActiveRecord::Schema.define(version: 20140630034754) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -22,10 +22,13 @@ ActiveRecord::Schema.define(version: 20140629171702) do
     t.datetime "updated_at"
   end
 
+  add_index "calendars", ["date"], name: "index_calendars_on_date", using: :btree
+
   create_table "case_numbers", force: true do |t|
     t.string   "court_code"
     t.string   "case_type"
     t.string   "case_number"
+    t.string   "parties_md5"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -94,20 +97,50 @@ ActiveRecord::Schema.define(version: 20140629171702) do
   add_index "friendly_id_slugs", ["sluggable_id"], name: "index_friendly_id_slugs_on_sluggable_id", using: :btree
   add_index "friendly_id_slugs", ["sluggable_type"], name: "index_friendly_id_slugs_on_sluggable_type", using: :btree
 
+  create_table "hearings", force: true do |t|
+    t.integer  "matter_id"
+    t.string   "time"
+    t.string   "description"
+    t.string   "md5"
+    t.string   "interpreter"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "hearings", ["matter_id"], name: "index_hearings_on_matter_id", using: :btree
+  add_index "hearings", ["md5"], name: "index_hearings_on_md5", using: :btree
+  add_index "hearings", ["time"], name: "index_hearings_on_time", using: :btree
+
   create_table "matters", force: true do |t|
     t.integer  "calendar_id"
-    t.string   "case_number"
+    t.integer  "case_number_id"
     t.string   "department"
-    t.string   "petitioner"
-    t.string   "respondent"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   add_index "matters", ["calendar_id"], name: "index_matters_on_calendar_id", using: :btree
-  add_index "matters", ["case_number"], name: "index_matters_on_case_number", using: :btree
+  add_index "matters", ["case_number_id"], name: "index_matters_on_case_number_id", using: :btree
   add_index "matters", ["department"], name: "index_matters_on_department", using: :btree
-  add_index "matters", ["petitioner"], name: "index_matters_on_petitioner", using: :btree
-  add_index "matters", ["respondent"], name: "index_matters_on_respondent", using: :btree
+
+  create_table "parties", force: true do |t|
+    t.integer  "case_number_id"
+    t.integer  "number"
+    t.string   "category"
+    t.string   "first"
+    t.string   "middle"
+    t.string   "last"
+    t.string   "suffix"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "parties", ["case_number_id"], name: "index_parties_on_case_number_id", using: :btree
+  add_index "parties", ["category"], name: "index_parties_on_category", using: :btree
+  add_index "parties", ["first"], name: "index_parties_on_first", using: :btree
+  add_index "parties", ["last"], name: "index_parties_on_last", using: :btree
+  add_index "parties", ["middle"], name: "index_parties_on_middle", using: :btree
+  add_index "parties", ["number"], name: "index_parties_on_number", using: :btree
+  add_index "parties", ["suffix"], name: "index_parties_on_suffix", using: :btree
 
 end

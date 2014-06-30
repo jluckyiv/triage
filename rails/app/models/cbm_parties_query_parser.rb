@@ -4,6 +4,14 @@ class CbmPartiesQueryParser < CbmQueryParser
     @factory = CbmPartiesFactory.new(data)
   end
 
+  def parties
+    @parties ||= struct.root['party']
+  end
+
+  def md5
+    Digest::MD5.hexdigest(parties.inspect)
+  end
+
   private
 
   def clean_doc

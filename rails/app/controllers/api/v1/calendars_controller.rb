@@ -7,12 +7,13 @@ module Api
       end
 
       rescue_from ActiveRecord::RecordNotFound do
-        render json: {
-          calendar: {
-            id: 0,
-            date: params[:id]
-          }
-        }
+        render json: CbmCalendarFactory.new(date: params[:id]).run
+        # render json: {
+        #   calendar: {
+        #     id: 0,
+        #     date: params[:id]
+        #   }
+        # }
       end
 
     end

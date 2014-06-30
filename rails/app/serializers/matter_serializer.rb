@@ -8,6 +8,10 @@ class MatterSerializer < ActiveModel::Serializer
     :petitioner_present, :respondent_present,
     :current_station, :checked_in
 
+  def case_number
+    "#{object.case_number.case_type}#{object.case_number.case_number}"
+  end
+
   def current_station
     return "Triage" if station.nil?
     station.attributes.fetch('subject') { "Triage" }

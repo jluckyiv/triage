@@ -10,7 +10,17 @@ class CbmQuery
   end
 
   def header
-    @header ||= open(uri)
+    @header ||= open_page
+  end
+
+  def open_page
+    begin
+      doc = open(uri)
+    rescue
+      Timeout::Error
+      sleep(1)
+      doc = open(uri)
+    end
   end
 
   def body
