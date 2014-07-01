@@ -7,16 +7,20 @@
     <ul class="dropdown-menu" role="menu">
       {{#if isInTriage}}
       <li role="presentation" class="dropdown-header">Send to</li>
-      <li><a {{action "dispatch" "CCRC"}}>CCRC</a></li>
-      <li><a {{action "dispatch" "DCSS"}}>DCSS</a></li>
-      <li><a {{action "dispatch" "Self-help"}}>Self-help</a></li>
-      <li><a {{action "dispatch" "Hearing"}}>Hearing department</a></li>
+      <li><a {{action 'dispatch' "CCRC"}}>CCRC</a></li>
+      <li><a {{action 'dispatch' "DCSS"}}>DCSS</a></li>
+      <li><a {{action 'dispatch' "Self-help"}}>Self-help</a></li>
       <li role="presentation" class="divider"></li>
       {{/if}}
       <li role="presentation" class="dropdown-header">Disposition</li>
-      <li><a {{action "fullStip" station }}>Full stipulation ({{station}})</a></li>
-      <li><a {{action "partialStip" station }}>Partial stipulation ({{station}})</a></li>
-      <li><a {{action "noStip" station }}>No stipulation ({{station}})</a></li>
+      <li><a {{action 'fullStip' station }}>Full stipulation ({{station}})</a></li>
+      <li><a {{action 'partialStip' station }}>Partial stipulation ({{station}})</a></li>
+      <li><a {{action 'noStip' station }}>No stipulation ({{station}})</a></li>
+      {{#if isInTriage}}
+      <li><a {{action 'dispatch' "Hearing"}}>Hearing</a></li>
+      <li><a {{action 'dispatch' "Continue"}}>Continue</a></li>
+      <li><a {{action 'dispatch' "Off calendar"}}>Off calendar</a></li>
+      {{/if}}
     </ul>
     {{else}}
     <ul class="dropdown-menu" role="menu">
