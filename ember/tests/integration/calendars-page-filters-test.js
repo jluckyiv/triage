@@ -16,7 +16,14 @@ module('Integration - Calendars Page Filters', {
 });
 
 test('Should filter by department', function() {
-  visit('/calendars/20140623').then(function() {
+  visit('/calendars/20140623');
+  andThen(function() {
+    click('button.department-filter:contains("All")').then(function() {
+      equal(find('button.department:contains("F201")').length, 1, "Filter for All should have one F201 case");
+      equal(find('button.department:contains("F301")').length, 1, "Filter for All should have one F301 case");
+      equal(find('button.department:contains("F401")').length, 1, "Filter for All should have one F401 case");
+    });
+
     click('button.department-filter:contains("F201")').then(function() {
       equal(find('button.department:contains("F201")').length, 1, "Filter for F201 should have one F201 case");
       equal(find('button.department:contains("F301")').length, 0, "Filter for F201 should have no F301 case");
