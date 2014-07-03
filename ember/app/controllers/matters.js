@@ -8,10 +8,8 @@ export default Ember.ArrayController.extend({
     this.setProperties({
       content: this.get('model'),
       itemController: ('matter'),
-      sortAscending: true,
-      sortProperties: ['department', 'caseNumber'],
-      filterType: '',
-      filterValue: ''
+      filterType: 'department',
+      filterValue: 'All'
     });
   },
 
@@ -22,10 +20,11 @@ export default Ember.ArrayController.extend({
   filtered: function() {
     var property = this.get('filterType');
     var value = this.get('filterValue');
-    if (value) {
+    if (value !== "All") {
       return this.get('model').filterBy(property, value).sortBy('department', 'caseNumber');
     } else {
-      return this.get('model').sortBy('department', 'caseNumber');
+      // return this.get('model').sortBy('department', 'caseNumber');
+      return this.get('model');
     }
   }.property('filterType', 'filterValue', '@each', '@each.station'),
 
