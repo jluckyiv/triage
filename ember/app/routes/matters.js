@@ -7,6 +7,10 @@ export default Ember.Route.extend({
 
   model: function(params) {
     this.set('date', DateHelper.urlFormat(params.date));
+    return this.findMatters();
+  },
+
+  findMatters: function() {
     return this.store.find('matter', {calendar: this.get('date')});
   },
 
@@ -50,7 +54,7 @@ export default Ember.Route.extend({
 
     if (now - started > 30 * SECONDS) {
       controller.set('pausedPollingAt', 0);
-      return this.store.find('matter', {calendar: this.get('date')});
+      this.findMatters();
     }
   }).observes('quarterMinute'),
 
