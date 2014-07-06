@@ -3,7 +3,7 @@ import pretendCalendarServer from 'triage/tests/helpers/pretend-calendar-server'
 
 var App, server;
 
-module('Integration - Calendars Page Filters', {
+module('Integration - Matters Page Filters', {
   setup: function() {
     App = startApp();
     server = pretendCalendarServer();
@@ -16,7 +16,7 @@ module('Integration - Calendars Page Filters', {
 });
 
 test('Should filter by department', function() {
-  visit('/calendars/20140623');
+  visit('/matters/20140623');
   andThen(function() {
     click('button.department-filter:contains("All")').then(function() {
       equal(find('button.department:contains("F201")').length, 1, "Filter for All should have one F201 case");

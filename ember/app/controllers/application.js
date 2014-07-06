@@ -8,7 +8,7 @@ export default Ember.ObjectController.extend({
       var date = Date.parse(text);
       this.set('calendarDate', date.toString('yyyyMMdd'));
       this.set('newCalendarDate', "");
-      this.transitionToRoute('calendars', this.get('calendarDate'));
+      this.transitionToRoute('matters', this.get('calendarDate'));
     }
   }
 });
