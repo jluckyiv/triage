@@ -2,7 +2,8 @@ import Ember from 'ember';
 
 export default Ember.ObjectController.extend({
 
-  needs: ['calendars'],
+  // needs: ['calendars'],
+  needs: ['matters'],
 
   init: function() {
     this._super();
@@ -34,7 +35,7 @@ export default Ember.ObjectController.extend({
   }.property(),
 
   startPolling: function() {
-    return this.get('controllers.calendars').set('pausedPollingAt', 0);
+    return this.get('controllers.matters').set('pausedPollingAt', 0);
   },
 
   saveEvent: function(category, subject, action) {
@@ -112,7 +113,7 @@ export default Ember.ObjectController.extend({
       this.saveAppearanceEvent('respondent', 'checkout');
     },
     pausePolling: function() {
-      this.get('controllers.calendars').set('pausedPollingAt', new Date().getTime());
+      this.get('controllers.matters').set('pausedPollingAt', new Date().getTime());
     }
   }
 });

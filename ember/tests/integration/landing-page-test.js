@@ -12,16 +12,18 @@ module('Integration - Landing Page', {
 });
 
 test('Should welcome me to Triage', function() {
-  visit('/').then(function() {
-    equal(find('h2#title').text(), 'Welcome to Triage');
+  visit('/');
+  andThen(function() {
+    equal(find('h2#title').text(), 'Welcome to Triage',
+         "Expect index page to Welcome user");
   });
 });
 
 test('Should link to the About page', function() {
-  visit('/').then(function() {
-    click("a:contains('About')").then(function() {
-      equal(find('h2').text(), 'About');
-    });
+  visit('/');
+  click("a:contains('About')");
+  andThen(function() {
+    equal(find('h2').text(), 'About', "Expect About page to have About header");
   });
 });
 

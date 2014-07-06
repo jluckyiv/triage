@@ -1,16 +1,16 @@
 <div class="page-header">
-  <h2 id="date">Triage Calendar
+  <h2 id="matters-title">Triage Matters
     <small>
       {{filterValue}} cases for
       {{dateString}}
     </small>
-  </h3>
+  </h2>
 </div>
 {{partial 'filter-bar'}}
 {{#each filtered}}
 {{render 'matter' this}}
 {{else}}
-<hr>
+<hr />
 <h4>None</h4>
 {{/each}}
 

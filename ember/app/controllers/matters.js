@@ -2,29 +2,26 @@ import Ember from 'ember';
 
 export default Ember.ArrayController.extend({
 
-  needs: ['calendars'],
-
   init: function() {
     this.setProperties({
       content: this.get('model'),
-      itemController: ('matter'),
       filterType: 'department',
-      filterValue: 'All'
+      filterValue: 'All',
+      pausedPollingAt: 0
     });
   },
 
   dateString: function() {
-    return formatDate(this.get('controllers.calendars.model.date'));
-  }.property('controllers.calendars.model.date'),
+    return formatDate(this.get('date'));
+  }.property('date'),
 
   filtered: function() {
     var property = this.get('filterType');
     var value = this.get('filterValue');
     if (value !== "All") {
-      return this.get('model').filterBy(property, value).sortBy('department', 'caseNumber');
+      return this.get('content').filterBy(property, value).sortBy('department', 'caseNumber');
     } else {
-      // return this.get('model').sortBy('department', 'caseNumber');
-      return this.get('model');
+      return this.get('content').sortBy('department', 'caseNumber');
     }
   }.property('filterType', 'filterValue', '@each', '@each.station'),
 

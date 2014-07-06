@@ -2,10 +2,18 @@ module Api
   module V1
     class MattersController < ApplicationController
 
-      skip_before_action :verify_authenticity_token
+      def index
+        render json: Calendar.friendly.find(params[:calendar])
+      end
 
-      def show
-        render json: Event.find(params[:id])
+      rescue_from ActiveRecord::RecordNotFound do
+        render json: CbmCalendarFactory.new(date: params[:calendar]).run
+        # render json: {
+        #   calendar: {
+        #     id: 0,
+        #     date: params[:id]
+        #   }
+        # }
       end
 
     end
