@@ -1,49 +1,49 @@
 import Ember from 'ember';
+import DateHelper from 'triage/helpers/date-helper';
 
 export default Ember.ArrayController.extend({
 
   init: function() {
     this.setProperties({
-      content: this.get('model'),
-      filterType: 'department',
+      filterProperty: 'department',
       filterValue: 'All',
       pausedPollingAt: 0
     });
   },
 
   dateString: function() {
-    return formatDate(this.get('date'));
+    return DateHelper.textFormat(this.get('date'));
   }.property('date'),
 
   filtered: function() {
-    var property = this.get('filterType');
+    var property = this.get('filterProperty');
     var value = this.get('filterValue');
+    var content = this.get('content').sortBy('department', 'caseNumber');
     if (value !== "All") {
-      return this.get('content').filterBy(property, value).sortBy('department', 'caseNumber');
+      return content.filterBy(property, value);
     } else {
-      return this.get('content').sortBy('department', 'caseNumber');
+      return content;
     }
-  }.property('filterType', 'filterValue', '@each', '@each.station'),
+  }.property('filterProperty', 'filterValue', '@each', '@each.station'),
+
+  setFilter: function(filterProperty, filterValue) {
+    this.set('filterProperty', filterProperty);
+    this.set('filterValue', filterValue);
+  },
+  setStationFilter: function(station) {
+    this.setFilter('currentStation', station);
+  },
+  setDepartmentFilter: function(department) {
+    this.setFilter('department', department);
+  },
 
   actions: {
     setStationFilter: function(station) {
-      this.set('filterType', 'currentStation');
-      this.set('filterValue', station);
+      this.setStationFilter(station);
     },
     setDepartmentFilter: function(department) {
-      var value = department;
-      this.set('filterType', 'department');
-      this.set('filterValue', value);
+      this.setDepartmentFilter(department);
     }
   }
 });
-
-var parseDate = function(text) {
-  text = text.toString();
-  return Date.parse(text);
-};
-
-var formatDate = function(text) {
-  return parseDate(text).toString("MMMM dd, yyyy");
-};
 

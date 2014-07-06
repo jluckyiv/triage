@@ -1,15 +1,13 @@
 import Ember from 'ember';
+import DateHelper from 'triage/helpers/date-helper';
+
+var SECONDS = 1000;
 
 export default Ember.Route.extend({
 
   model: function(params) {
-    this.set('date', toUrlDate(params.date));
+    this.set('date', DateHelper.urlFormat(params.date));
     return this.store.find('matter', {calendar: this.get('date')});
-  },
-
-  setupController: function (controller, model) {
-    controller.set('model', model);
-    controller.set('date', this.get('date'));
   },
 
   activate: function() {
@@ -18,16 +16,20 @@ export default Ember.Route.extend({
     }
   },
 
-  untick: function() {
-    if (this.get('timer')) {
-      Ember.run.cancel(this.get('timer'));
-    }
+  deactivate: function() {
+    this.untick();
+  },
+
+  setupController: function (controller, model) {
+    controller.set('model', model);
+    controller.set('date', this.get('date'));
   },
 
   tick: function() {
-    var now = new Date();
+    this.untick();
+
     var self = this;
-    self.untick();
+    var now = new Date();
     self.setProperties({
       second        : now.getSeconds(),
       quarterMinute : Math.round(now.getSeconds() / 15),
@@ -38,26 +40,25 @@ export default Ember.Route.extend({
 
     self.set('timer', Ember.run.later(self, function(){
       self.tick();
-    }, 1000));
+    }, 1 * SECONDS));
   },
 
   pollModel: (function() {
-    var now     = new Date().getTime();
+    var now        = new Date().getTime();
     var controller = this.controllerFor('matters');
-    var started = controller.get('pausedPollingAt');
+    var started    = controller.get('pausedPollingAt');
 
-    if (now - started > 30000) {
+    if (now - started > 30 * SECONDS) {
       controller.set('pausedPollingAt', 0);
       return this.store.find('matter', {calendar: this.get('date')});
     }
   }).observes('quarterMinute'),
 
-  deactivate: function() {
-    this.untick();
-  }
-});
+  untick: function() {
+    if (this.get('timer')) {
+      Ember.run.cancel(this.get('timer'));
+    }
+  },
 
-function toUrlDate(dateText) {
-  return Date.parse(dateText).toString("yyyyMMdd");
-}
+});
 
