@@ -5,9 +5,12 @@ class CreateHearings < ActiveRecord::Migration
       t.string :time
       t.string :description
       t.string :interpreter
+      t.string :md5
 
       t.timestamps
     end
     add_index :hearings, :time
+    add_index :hearings, :md5
+    add_index :hearings, [:md5, :time], unique: true
   end
 end
