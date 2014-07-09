@@ -16,14 +16,6 @@ ActiveRecord::Schema.define(version: 20140630034754) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "calendars", force: true do |t|
-    t.string   "date"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "calendars", ["date"], name: "index_calendars_on_date", using: :btree
-
   create_table "case_numbers", force: true do |t|
     t.string   "court_code"
     t.string   "case_type"
@@ -41,7 +33,6 @@ ActiveRecord::Schema.define(version: 20140630034754) do
     t.string   "court_code"
     t.string   "department"
     t.string   "date"
-    t.text     "body"
     t.string   "md5"
     t.integer  "content_length"
     t.datetime "created_at"
@@ -49,6 +40,7 @@ ActiveRecord::Schema.define(version: 20140630034754) do
   end
 
   add_index "cbm_hearings_query_caches", ["court_code"], name: "index_cbm_hearings_query_caches_on_court_code", using: :btree
+  add_index "cbm_hearings_query_caches", ["date", "department", "court_code"], name: "index_cbm_hearings_query_caches_on_date_dept_cc", unique: true, using: :btree
   add_index "cbm_hearings_query_caches", ["date"], name: "index_cbm_hearings_query_caches_on_date", using: :btree
   add_index "cbm_hearings_query_caches", ["department"], name: "index_cbm_hearings_query_caches_on_department", using: :btree
   add_index "cbm_hearings_query_caches", ["md5"], name: "index_cbm_hearings_query_caches_on_md5", using: :btree
@@ -112,15 +104,15 @@ ActiveRecord::Schema.define(version: 20140630034754) do
   add_index "hearings", ["time"], name: "index_hearings_on_time", using: :btree
 
   create_table "matters", force: true do |t|
-    t.integer  "calendar_id"
     t.integer  "case_number_id"
+    t.string   "date"
     t.string   "department"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  add_index "matters", ["calendar_id"], name: "index_matters_on_calendar_id", using: :btree
   add_index "matters", ["case_number_id"], name: "index_matters_on_case_number_id", using: :btree
+  add_index "matters", ["date"], name: "index_matters_on_date", using: :btree
   add_index "matters", ["department"], name: "index_matters_on_department", using: :btree
 
   create_table "parties", force: true do |t|

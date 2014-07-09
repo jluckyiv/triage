@@ -1,11 +1,11 @@
 class CbmPartiesQueryParser < CbmQueryParser
 
   def initialize(data)
-    @factory = CbmPartiesFactory.new(data)
+    @query = CbmPartiesQuery.new(data)
   end
 
-  def parties
-    @parties ||= struct.root['party']
+  def run
+    parties
   end
 
   def md5
@@ -14,8 +14,12 @@ class CbmPartiesQueryParser < CbmQueryParser
 
   private
 
+  def parties
+    @parties ||= struct.root['party']
+  end
+
   def clean_doc
-    doc = Nokogiri::XML(factory.run.body)
+    doc = Nokogiri::XML(query.content)
     doc.search('//text()').each do |t|
       t.replace(t.content.strip.squeeze(' '))
     end

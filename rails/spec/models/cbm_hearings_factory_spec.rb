@@ -2,24 +2,55 @@ require 'spec_helper'
 
 describe CbmHearingsFactory do
 
-  subject { CbmHearingsFactory.new(department: "F501") }
-  it { should respond_to :run }
-  it { should respond_to :needs_update? }
+  subject { CbmHearingsFactory.new(department: "F401", date: "20140630") }
 
-  context "with valid data" do
-    it "should not duplicate the same query" do
+  it { should respond_to :run }
+
+  context "with single courtroom" do
+
+    it "should create case numbers" do
       VCR.use_cassette('20140630_F401') do
-        f1 = CbmHearingsFactory.new(court_code: "F", date: "20140630", department: "F401")
-        run1 = f1.run
-        f2 = CbmHearingsFactory.new(date: "20140630", department: "F401")
-        run2 = f2.run
-        expect(run1.md5).to eq("274d7d56ca4e7ca64ed8d29640b1fd9e")
-        expect(run2.md5).to eq("274d7d56ca4e7ca64ed8d29640b1fd9e")
-        expect(run1.id).to eq(run2.id)
-        expect(run1.instance_of?(CbmHearingsQueryCache)).to be_true
-        expect(run2.instance_of?(CbmHearingsQueryCache)).to be_true
-        expect(run1).to eq(run2)
+        expect{subject.run}.to change{CaseNumber.count}.from(0).to(23)
       end
     end
+
+    it "should create matters" do
+      VCR.use_cassette('20140630_F401') do
+        expect{subject.run}.to change{Matter.count}.from(0).to(23)
+      end
+    end
+
+    it "should return matters" do
+      VCR.use_cassette('20140630_F401') do
+        expect(subject.run).to have(23).items
+      end
+    end
+
+    it "should not recreate case numbers" do
+      VCR.use_cassette('20140630_F401') do
+        subject.run
+        expect{subject.run}.not_to change{CaseNumber.count}.from(23).to(46)
+      end
+    end
+
+    it "should not recreate matters" do
+      VCR.use_cassette('20140630_F401') do
+        subject.run
+        expect{subject.run}.not_to change{Matter.count}.from(23).to(46)
+      end
+    end
+
   end
+
+  context "with a specific time" do
+
+    subject { CbmHearingsFactory.new(department: "F401", date: "20140630", time: "8.15") }
+    it "should return matters" do
+      VCR.use_cassette('20140630_F401') do
+        expect(subject.run).to have(3).items
+      end
+    end
+
+  end
+
 end

@@ -7,7 +7,7 @@ describe CbmPartiesQueryParser do
   it { should respond_to :json }
   it { should respond_to :nokogiri_doc }
   it { should respond_to :struct }
-  it { should respond_to :parties }
+  it { should respond_to :run }
 
   context "with valid case information" do
     parser = CbmPartiesQueryParser.new(court_code: "G", case_type: "IND", case_number: "087055")

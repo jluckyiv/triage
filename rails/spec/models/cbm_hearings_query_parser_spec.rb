@@ -7,7 +7,7 @@ describe CbmHearingsQueryParser do
   it { should respond_to :json }
   it { should respond_to :nokogiri_doc }
   it { should respond_to :struct }
-  it { should respond_to :cases }
+  it { should respond_to :run }
   it { should respond_to :md5 }
 
   context "with valid calendar information" do

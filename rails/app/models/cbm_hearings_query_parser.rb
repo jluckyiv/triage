@@ -1,11 +1,11 @@
 class CbmHearingsQueryParser < CbmQueryParser
 
   def initialize(data)
-    @factory = CbmHearingsFactory.new(data)
+    @query = CbmHearingsQuery.new(data)
   end
 
-  def cases
-    @cases ||= struct.root['case']
+  def run
+    cases
   end
 
   def md5
@@ -14,8 +14,12 @@ class CbmHearingsQueryParser < CbmQueryParser
 
   private
 
+  def cases
+    @cases ||= struct.root['case']
+  end
+
   def clean_doc
-    doc = Nokogiri::XML(factory.run.body)
+    doc = Nokogiri::XML(query.content)
     doc.search('//text()').each do |t|
       t.replace(t.content.strip.squeeze(' ').gsub(/Orderon/, "Order on"))
     end

@@ -8,7 +8,7 @@ class CbmHearingsQuery < CbmQuery
     @department = data.fetch(:department).upcase.strip
   end
 
-  def to_h
+  def attributes
     {
       court_code: court_code,
       date: date,

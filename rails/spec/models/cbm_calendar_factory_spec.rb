@@ -1,6 +1,7 @@
 require 'spec_helper'
 
 describe CbmCalendarFactory do
+  before { pending }
   it { should respond_to :run }
 
   context "with a single courtroom" do

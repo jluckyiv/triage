@@ -168,6 +168,7 @@ DEPENDENCIES
   pg (= 0.17.1)
   rails (= 4.1.1)
   rb-fsevent
+  rspec-mocks (= 2.14.6)
   rspec-rails (= 2.14.2)
   sdoc (~> 0.4.0)
   spring

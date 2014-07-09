@@ -6,10 +6,10 @@ describe CbmHearingsQuery do
   it { should respond_to :department }
   it { should respond_to :date }
   it { should respond_to :header }
-  it { should respond_to :body }
   it { should respond_to :content }
   it { should respond_to :content_length }
   it { should respond_to :md5 }
+  it { should respond_to :attributes }
 
   it "should default to court_code 'F'" do
     expect(subject.court_code).to eq 'F'

@@ -1,8 +1,7 @@
 class CbmQueryParser
   require 'nokogiri'
 
-  def initialize(data)
-    # @factory = CbmHearingsFactory.new(data)
+  def initialize(data={})
     raise NotImplementedError.new("Need .initialize(data) assigning an instance of a CbmFactory class")
   end
 
@@ -12,7 +11,7 @@ class CbmQueryParser
   alias_method :hash, :parse
 
   def json
-    hash.to_json
+    parse.to_json
   end
 
   def nokogiri_doc
@@ -25,11 +24,10 @@ class CbmQueryParser
 
   private
 
-  attr_reader :factory
+  attr_reader :query
 
   def clean_doc
-    # doc = Nokogiri::XML(factory.run.body)
-    raise NotImplementedError.new("Need .clean_doc returning Nokogiri::XML(factory.run.body)")
+    raise NotImplementedError.new("Need .clean_doc returning Nokogiri::XML(query.content)")
   end
 
   def doc

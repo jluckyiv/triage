@@ -1,19 +1,19 @@
-class CbmFactory
+class CbmQueryFactory
 
   attr_reader :query, :cache
 
   def initialize(data)
-    raise NotImplementedError.new("Must implment initialize method")
-  end
-
-  def needs_update?
-    return true if query.content_length != cache.content_length
-    # return true if query.md5 != cache.md5
-    return false
+    raise NotImplementedError.new("Must implement initialize method")
   end
 
   def run
     find_or_create
+  end
+
+  def needs_update?
+    return true if query.content_length != cache.content_length
+    return true if query.md5 != cache.md5
+    return false
   end
 
   private
@@ -29,7 +29,6 @@ class CbmFactory
   def new_cache
     cache.content_length = query.content_length
     cache.md5 = query.md5
-    cache.body = query.body
     return save_cache
   end
 
