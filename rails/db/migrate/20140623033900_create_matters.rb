@@ -9,6 +9,7 @@ class CreateMatters < ActiveRecord::Migration
     end
     add_index :matters, :date
     add_index :matters, :department
+    add_index :matters, [:date, :department]
   end
 end
 

@@ -20,11 +20,11 @@ ActiveRecord::Schema.define(version: 20140630034754) do
     t.string   "court_code"
     t.string   "case_type"
     t.string   "case_number"
-    t.string   "parties_md5"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
+  add_index "case_numbers", ["case_number", "case_type"], name: "index_case_numbers_on_case_number_and_case_type", using: :btree
   add_index "case_numbers", ["case_number"], name: "index_case_numbers_on_case_number", using: :btree
   add_index "case_numbers", ["case_type"], name: "index_case_numbers_on_case_type", using: :btree
   add_index "case_numbers", ["court_code"], name: "index_case_numbers_on_court_code", using: :btree
@@ -49,16 +49,17 @@ ActiveRecord::Schema.define(version: 20140630034754) do
     t.string   "court_code"
     t.string   "case_type"
     t.string   "case_number"
-    t.text     "body"
     t.string   "md5"
     t.integer  "content_length"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
+  add_index "cbm_parties_query_caches", ["case_number", "case_type"], name: "index_cbm_parties_query_caches_on_case_number_and_case_type", using: :btree
   add_index "cbm_parties_query_caches", ["case_number"], name: "index_cbm_parties_query_caches_on_case_number", using: :btree
   add_index "cbm_parties_query_caches", ["case_type"], name: "index_cbm_parties_query_caches_on_case_type", using: :btree
   add_index "cbm_parties_query_caches", ["court_code"], name: "index_cbm_parties_query_caches_on_court_code", using: :btree
+  add_index "cbm_parties_query_caches", ["md5"], name: "index_cbm_parties_query_caches_on_md5", using: :btree
 
   create_table "events", force: true do |t|
     t.integer  "matter_id"
@@ -70,6 +71,7 @@ ActiveRecord::Schema.define(version: 20140630034754) do
     t.datetime "updated_at"
   end
 
+  add_index "events", ["action", "subject", "category"], name: "index_events_on_action_and_subject_and_category", using: :btree
   add_index "events", ["action"], name: "index_events_on_action", using: :btree
   add_index "events", ["category"], name: "index_events_on_category", using: :btree
   add_index "events", ["matter_id"], name: "index_events_on_matter_id", using: :btree
@@ -93,14 +95,12 @@ ActiveRecord::Schema.define(version: 20140630034754) do
     t.integer  "matter_id"
     t.string   "time"
     t.string   "description"
-    t.string   "md5"
     t.string   "interpreter"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   add_index "hearings", ["matter_id"], name: "index_hearings_on_matter_id", using: :btree
-  add_index "hearings", ["md5"], name: "index_hearings_on_md5", using: :btree
   add_index "hearings", ["time"], name: "index_hearings_on_time", using: :btree
 
   create_table "matters", force: true do |t|
@@ -112,6 +112,7 @@ ActiveRecord::Schema.define(version: 20140630034754) do
   end
 
   add_index "matters", ["case_number_id"], name: "index_matters_on_case_number_id", using: :btree
+  add_index "matters", ["date", "department"], name: "index_matters_on_date_and_department", using: :btree
   add_index "matters", ["date"], name: "index_matters_on_date", using: :btree
   add_index "matters", ["department"], name: "index_matters_on_department", using: :btree
 
@@ -130,6 +131,7 @@ ActiveRecord::Schema.define(version: 20140630034754) do
   add_index "parties", ["case_number_id"], name: "index_parties_on_case_number_id", using: :btree
   add_index "parties", ["category"], name: "index_parties_on_category", using: :btree
   add_index "parties", ["first"], name: "index_parties_on_first", using: :btree
+  add_index "parties", ["last", "first"], name: "index_parties_on_last_and_first", using: :btree
   add_index "parties", ["last"], name: "index_parties_on_last", using: :btree
   add_index "parties", ["middle"], name: "index_parties_on_middle", using: :btree
   add_index "parties", ["number"], name: "index_parties_on_number", using: :btree

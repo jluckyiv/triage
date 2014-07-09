@@ -12,6 +12,7 @@ class CreateEvents < ActiveRecord::Migration
     add_index :events, :category
     add_index :events, :subject
     add_index :events, :action
+    add_index :events, [:action, :subject, :category]
     add_index :events, :timestamp
   end
 end

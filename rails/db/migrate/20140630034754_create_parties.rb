@@ -17,5 +17,6 @@ class CreateParties < ActiveRecord::Migration
     add_index :parties, :middle
     add_index :parties, :last
     add_index :parties, :suffix
+    add_index :parties, [:last, :first]
   end
 end

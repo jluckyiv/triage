@@ -4,7 +4,6 @@ class CreateCbmPartiesQueryCaches < ActiveRecord::Migration
       t.string :court_code
       t.string :case_type
       t.string :case_number
-      t.text :body
       t.string :md5
       t.integer :content_length
 
@@ -13,5 +12,7 @@ class CreateCbmPartiesQueryCaches < ActiveRecord::Migration
     add_index :cbm_parties_query_caches, :court_code
     add_index :cbm_parties_query_caches, :case_type
     add_index :cbm_parties_query_caches, :case_number
+    add_index :cbm_parties_query_caches, [:case_number, :case_type]
+    add_index :cbm_parties_query_caches, :md5
   end
 end

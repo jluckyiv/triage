@@ -4,12 +4,12 @@ class CreateCaseNumbers < ActiveRecord::Migration
       t.string :court_code
       t.string :case_type
       t.string :case_number
-      t.string :parties_md5
 
       t.timestamps
     end
     add_index :case_numbers, :court_code
     add_index :case_numbers, :case_type
     add_index :case_numbers, :case_number
+    add_index :case_numbers, [:case_number, :case_type]
   end
 end
