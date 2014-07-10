@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140630034754) do
+ActiveRecord::Schema.define(version: 20140710050019) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -60,6 +60,22 @@ ActiveRecord::Schema.define(version: 20140630034754) do
   add_index "cbm_parties_query_caches", ["case_type"], name: "index_cbm_parties_query_caches_on_case_type", using: :btree
   add_index "cbm_parties_query_caches", ["court_code"], name: "index_cbm_parties_query_caches_on_court_code", using: :btree
   add_index "cbm_parties_query_caches", ["md5"], name: "index_cbm_parties_query_caches_on_md5", using: :btree
+
+  create_table "delayed_jobs", force: true do |t|
+    t.integer  "priority",   default: 0, null: false
+    t.integer  "attempts",   default: 0, null: false
+    t.text     "handler",                null: false
+    t.text     "last_error"
+    t.datetime "run_at"
+    t.datetime "locked_at"
+    t.datetime "failed_at"
+    t.string   "locked_by"
+    t.string   "queue"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "delayed_jobs", ["priority", "run_at"], name: "delayed_jobs_priority", using: :btree
 
   create_table "events", force: true do |t|
     t.integer  "matter_id"
