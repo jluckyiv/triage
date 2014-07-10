@@ -3,36 +3,41 @@ class CbmPartiesFactory
   attr_reader :case_number
 
   def initialize(data={})
-    @case_number = CaseNumber.find_or_create_by(data)
-    @query_factory = CbmPartiesQueryFactory.new(data)
-    @parser = CbmPartiesQueryParser.new(data)
+    hash = HashWithIndifferentAccess.new(data)
+    @case_number = CaseNumber.find_or_create_by(hash)
+    @query_factory = CbmPartiesQueryFactory.new(hash)
+    @parser = CbmPartiesQueryParser.new(hash)
   end
 
   def run
-    if query_factory.needs_update?
-      parse
+    if parties.nil?
+      create_parties
     end
-    Party.where(case_number: case_number)
+    parties
   end
 
   private
 
-  attr_reader :query_factory, :parser
+  attr_reader :query_factory, :parser, :parties
 
-  def parse
+  def parties
+    @parties = Party.where(case_number: case_number)
+  end
+
+  def create_parties
     parser.run.each do |party|
       case_number.parties.find_or_create_by(attributes(party))
     end
   end
 
-  def attributes(data)
+  def attributes(party)
     {
-      number: data['number'],
-      category: data['type'],
-      first: data['name']['first'],
-      middle: data['name']['middle'],
-      last: data['name']['last'],
-      suffix: data['name']['suffix']
+      number: party['number'],
+      category: party['type'],
+      first: party['name']['first'],
+      middle: party['name']['middle'],
+      last: party['name']['last'],
+      suffix: party['name']['suffix']
     }
   end
 

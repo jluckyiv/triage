@@ -2,9 +2,10 @@ class CbmCalendarAdapter
 
   attr_reader :department, :date, :time
   def run(department, options = {})
+    hash = HashWithIndifferentAccess.new(options)
     @department = department
-    @date = options.fetch(date) { Date.today.strftime("%Y&m&d") }
-    @time = options.fetch(time) { "8.15" }
+    @date = hash.fetch(date) { Date.today.strftime("%Y&m&d") }
+    @time = hash.fetch(time) { "8.15" }
     matters
   end
 

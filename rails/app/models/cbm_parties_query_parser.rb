@@ -1,7 +1,8 @@
 class CbmPartiesQueryParser < CbmQueryParser
 
   def initialize(data)
-    @query = CbmPartiesQuery.new(data)
+    hash = HashWithIndifferentAccess.new(data)
+    @query = CbmPartiesQuery.new(hash)
   end
 
   def run

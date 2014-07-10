@@ -8,9 +8,10 @@ class CbmCaseNumberFactory
     }
   end
   def initialize(data)
-    @court_code = (data.fetch(:court_code) { "F" }).upcase.strip
-    @case_type  = (data.fetch(:case_type)  { "RID" }).upcase.strip
-    @case_number = data.fetch(:case_number).upcase.strip
+    hash = HashWithIndifferentAccess.new(data)
+    @court_code = (hash.fetch(:court_code) { "F" }).upcase.strip
+    @case_type  = (hash.fetch(:case_type)  { "RID" }).upcase.strip
+    @case_number = hash.fetch(:case_number).upcase.strip
   end
 
   def run

@@ -1,7 +1,6 @@
 class MatterSerializer < ActiveModel::Serializer
   embed :ids, include: true
 
-  has_one :calendar
   has_many :events
 
   attributes :id, :department, :case_number, :petitioner, :respondent,

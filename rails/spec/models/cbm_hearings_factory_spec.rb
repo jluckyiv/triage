@@ -20,6 +20,12 @@ describe CbmHearingsFactory do
       end
     end
 
+    it "should create hearings" do
+      VCR.use_cassette('20140630_F401') do
+        expect{subject.run}.to change{Hearing.count}.from(0).to(26)
+      end
+    end
+
     it "should return matters" do
       VCR.use_cassette('20140630_F401') do
         expect(subject.run).to have(23).items

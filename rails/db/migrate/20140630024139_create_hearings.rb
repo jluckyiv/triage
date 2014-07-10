@@ -3,7 +3,7 @@ class CreateHearings < ActiveRecord::Migration
     create_table :hearings do |t|
       t.references :matter, index: true
       t.string :time
-      t.string :description
+      t.text :description
       t.string :interpreter
       t.string :md5
 
@@ -11,6 +11,6 @@ class CreateHearings < ActiveRecord::Migration
     end
     add_index :hearings, :time
     add_index :hearings, :md5
-    add_index :hearings, [:md5, :time], unique: true
+    add_index :hearings, [:md5, :matter_id, :time], unique: true
   end
 end

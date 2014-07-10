@@ -3,11 +3,12 @@ class CalendarFactory
   attr_reader :adapter
 
   def initialize(options = {})
-    @adapter = options.fetch(:adapter) { CbmCalendarAdapter.new }
+    hash = HashWithIndifferentAccess.new(options)
+    @adapter = hash.fetch(:adapter) { CbmCalendarAdapter.new }
   end
 
   def run(data = {})
-    @data = data
+    @data = HashWithIndifferentAccess.new(data)
     departments.each_with_object([]) { |department, list|
       list.concat(matters_for(department))
     }

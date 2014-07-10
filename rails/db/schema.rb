@@ -94,13 +94,16 @@ ActiveRecord::Schema.define(version: 20140630034754) do
   create_table "hearings", force: true do |t|
     t.integer  "matter_id"
     t.string   "time"
-    t.string   "description"
+    t.text     "description"
     t.string   "interpreter"
+    t.string   "md5"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   add_index "hearings", ["matter_id"], name: "index_hearings_on_matter_id", using: :btree
+  add_index "hearings", ["md5", "matter_id", "time"], name: "index_hearings_on_md5_and_matter_id_and_time", unique: true, using: :btree
+  add_index "hearings", ["md5"], name: "index_hearings_on_md5", using: :btree
   add_index "hearings", ["time"], name: "index_hearings_on_time", using: :btree
 
   create_table "matters", force: true do |t|

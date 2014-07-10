@@ -3,7 +3,7 @@ class CbmHearingsFactory
   attr_reader :data
 
   def initialize(data={})
-    @params = data
+    @params = HashWithIndifferentAccess.new(data)
     @query_factory = CbmHearingsQueryFactory.new(matter_params)
     @parser = CbmHearingsQueryParser.new(matter_params)
   end
@@ -32,12 +32,20 @@ class CbmHearingsFactory
   end
 
   def create_matter(data)
-      case_number = CaseNumber.find_or_create_by(case_number_attributes(data))
-      case_number.matters.find_or_create_by(matter_params)
+    case_number = CaseNumberFactory.new(case_number_params(data)).run
+    matter = case_number.matters.find_or_create_by(matter_params)
+    create_hearings(matter, data)
+  end
+
+  def create_hearings(matter, data)
+    Array.wrap(data['hearing']).each do |hearing_data|
+      params = hearing_data.update(matter_id: matter.id)
+      HearingFactory.new(params).run
+    end
   end
 
   def includes_hearing_at_time?(matter_data)
-      params[:time].nil? || matter_data.inspect.include?(params[:time])
+    params[:time].nil? || matter_data.inspect.include?(params[:time])
   end
 
   def matter_params
@@ -47,7 +55,7 @@ class CbmHearingsFactory
     }
   end
 
-  def case_number_attributes(data)
+  def case_number_params(data)
     {
       case_type: data.fetch('type'),
       case_number: data.fetch('number')

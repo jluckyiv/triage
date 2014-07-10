@@ -7,7 +7,7 @@ describe CbmPartiesQueryFactory do
 
   context "with valid data" do
     it "should not duplicate the same query" do
-      VCR.use_cassette('RID1203066') do
+      VCR.use_cassette('RID1203066', allow_playback_repeats: true) do
         CbmPartiesQueryFactory.new(court_code: "F", case_type: "RID", case_number: "1203066").run
         CbmPartiesQueryFactory.new(case_type: "RID", case_number: "1203066").run
         CbmPartiesQueryFactory.new(case_number: "1203066").run
