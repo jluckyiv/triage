@@ -15,16 +15,21 @@ class CaseNumber < ActiveRecord::Base
   end
 
   def petitioner
-    petitioner = substitute_riverside_county(find_petitioner)
+    petitioner = substitute_riverside_county(find_petitioner) || placeholder
     "#{petitioner.first} #{petitioner.last}"
   end
 
   def respondent
-    respondent = substitute_riverside_county(find_respondent)
+    respondent = substitute_riverside_county(find_respondent) || placeholder
     "#{respondent.first} #{respondent.last}"
   end
 
   private
+
+  def placeholder
+    OpenStruct.new(first: "Loading", last: "")
+
+  end
 
   def find_petitioner
     parties_by_category("PETITIONER") || parties_by_number(1)
@@ -35,10 +40,11 @@ class CaseNumber < ActiveRecord::Base
   end
 
   def substitute_riverside_county(party)
-    if party.last.include? "COUNTY OF RIVERSIDE"
-      return parties_by_number(3)
-    else
+    return party if party.nil?
+    unless party.last.include? "COUNTY OF RIVERSIDE"
       return party
+    else
+      return parties_by_number(3)
     end
   end
 

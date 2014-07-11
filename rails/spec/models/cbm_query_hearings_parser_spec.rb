@@ -1,7 +1,7 @@
 require 'spec_helper'
 
-describe CbmHearingsQueryParser do
-  subject { CbmHearingsQueryParser.new(department: "F501") }
+describe CbmQueryHearingsParser do
+  subject { CbmQueryHearingsParser.new(department: "F501") }
   it { should respond_to :parse }
   it { should respond_to :hash }
   it { should respond_to :json }
@@ -11,7 +11,7 @@ describe CbmHearingsQueryParser do
   it { should respond_to :md5 }
 
   context "with valid calendar information" do
-    parser = CbmHearingsQueryParser.new(department: "F501", date: "20140630")
+    parser = CbmQueryHearingsParser.new(department: "F501", date: "20140630")
 
     it "should parse correctly" do
       VCR.use_cassette('20140630_F501') do

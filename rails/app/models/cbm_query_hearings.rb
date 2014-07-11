@@ -1,4 +1,4 @@
-class CbmHearingsQuery < CbmQuery
+class CbmQueryHearings < CbmQuery
 
   attr_reader :court_code, :department, :date
 
@@ -10,11 +10,11 @@ class CbmHearingsQuery < CbmQuery
   end
 
   def attributes
-    {
+    HashWithIndifferentAccess.new(
       court_code: court_code,
       date: date,
       department: department
-    }
+    )
   end
 
   private

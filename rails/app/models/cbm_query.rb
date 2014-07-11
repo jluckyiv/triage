@@ -16,6 +16,7 @@ class CbmQuery
   def content
     @content ||= header.read
   end
+  alias_method :run, :content
 
   def content_length
     @content_length = header.meta.fetch("content-length").to_i { 0 }
@@ -25,13 +26,13 @@ class CbmQuery
     @md5 ||= Digest::MD5.hexdigest(content)
   end
 
-  private
-
-  attr_accessor :timeouts
-
   def uri
     URI.parse(build_uri)
   end
+
+  private
+
+  attr_accessor :timeouts
 
   def build_uri
     raise NotImplementedError.new("Must implement #build_uri method")

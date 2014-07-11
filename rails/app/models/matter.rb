@@ -7,8 +7,4 @@ class Matter < ActiveRecord::Base
   delegate :petitioner, to: :case_number
   delegate :respondent, to: :case_number
 
-  def self.find_by_case_number_and_date(data)
-    case_number = CaseNumber.find_or_create_by(data)
-    case_number.matters.where(date: data.fetch(:date))
-  end
 end

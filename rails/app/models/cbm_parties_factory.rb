@@ -10,10 +10,14 @@ class CbmPartiesFactory
   end
 
   def run
-    if parties.nil?
+    if needs_update?
       create_parties
     end
     parties
+  end
+
+  def needs_update?
+    parties.empty? || query_factory.needs_update?
   end
 
   private
@@ -21,7 +25,7 @@ class CbmPartiesFactory
   attr_reader :query_factory, :parser, :parties
 
   def parties
-    @parties = Party.where(case_number: case_number)
+    Party.where(case_number: case_number)
   end
 
   def create_parties
@@ -29,6 +33,7 @@ class CbmPartiesFactory
       case_number.parties.find_or_create_by(attributes(party))
     end
   end
+  handle_asynchronously :create_parties unless Rails.env.test?
 
   def attributes(party)
     {

@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe CbmHearingsQueryCache do
+describe CbmQueryHearingsCache do
   it { should respond_to :court_code }
   it { should respond_to :department }
   it { should respond_to :date }

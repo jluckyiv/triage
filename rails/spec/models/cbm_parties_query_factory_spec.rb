@@ -2,6 +2,8 @@ require 'spec_helper'
 
 describe CbmPartiesQueryFactory do
 
+  it_behaves_like "cache_factory"
+
   subject { CbmPartiesQueryFactory.new(case_number: "1203066") }
   it { should respond_to :run }
 

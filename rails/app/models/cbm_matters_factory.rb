@@ -1,11 +1,11 @@
-class CbmHearingsFactory
+class CbmMattersFactory
 
   attr_reader :data
 
   def initialize(data={})
     @params = HashWithIndifferentAccess.new(data)
-    @query_factory = CbmHearingsQueryFactory.new(matter_params)
-    @parser = CbmHearingsQueryParser.new(matter_params)
+    @query_factory = CbmQueryHearingsCacheFactory.new(matter_params)
+    @parser = CbmQueryHearingsParser.new(matter_params)
   end
 
   def run

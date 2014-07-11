@@ -1,8 +1,8 @@
 require 'spec_helper'
 
-describe CbmHearingsFactory do
+describe CbmMattersFactory do
 
-  subject { CbmHearingsFactory.new(department: "F401", date: "20140630") }
+  subject { CbmMattersFactory.new(department: "F401", date: "20140630") }
 
   it { should respond_to :run }
 
@@ -50,7 +50,7 @@ describe CbmHearingsFactory do
 
   context "with a specific time" do
 
-    subject { CbmHearingsFactory.new(department: "F401", date: "20140630", time: "8.15") }
+    subject { CbmMattersFactory.new(department: "F401", date: "20140630", time: "8.15") }
     it "should return matters" do
       VCR.use_cassette('20140630_F401') do
         expect(subject.run).to have(3).items

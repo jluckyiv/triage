@@ -21,11 +21,12 @@ class CbmCalendarFactory
   private
 
   def matters_for_department(department)
-    matters = CbmHearingsFactory.new(department: department, date: date, time: time).run
+    matters = CbmMattersFactory.new(department: department, date: date, time: time).run
   end
 
   def parties_for_matter(matter)
     CbmPartiesFactory.new(matter.case_number.attributes).run
   end
+  # handle_asynchronously :parties_for_matter
 
 end

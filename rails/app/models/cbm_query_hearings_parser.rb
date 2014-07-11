@@ -1,8 +1,8 @@
-class CbmHearingsQueryParser < CbmQueryParser
+class CbmQueryHearingsParser < CbmQueryParser
 
   def initialize(data)
     hash = HashWithIndifferentAccess.new(data)
-    @query = CbmHearingsQuery.new(hash)
+    @query = CbmQueryHearings.new(hash)
   end
 
   def run
