@@ -4,12 +4,24 @@ module Api
 
       def index
         # render json: Calendar.friendly.find(params[:date])
-        # render json: CbmCalendarFactory.new(date: params[:date]).run
-        render json: Matter.where(date: params[:date], time: '8.15')
+        CbmCalendarFactory.new.delay.run(
+          date: params[:date],
+          time: "8.15",
+          departments: %w[F201 F301 F401 F402]
+        )
+        render json: MattersFactory.new(
+          date: params[:date],
+          time: "8.15",
+          departments: %w[F201 F301 F401 F402]
+        ).run
       end
 
       rescue_from ActiveRecord::RecordNotFound do
-        render json: CbmCalendarFactory.new(date: params[:date]).run
+        render json: MattersFactory.new(
+          date: params[:date],
+          time: "8.15",
+          departments: %w[F201 F301 F401 F402]
+        ).run
       end
 
     end

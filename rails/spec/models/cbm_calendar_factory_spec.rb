@@ -32,7 +32,7 @@ describe CbmCalendarFactory do
     end
 
     it "should increase the number of parties" do
-      VCR.use_cassette('20140709_F501', allow_playback_repeats: true) do
+      VCR.use_cassette('20140709_F501') do
         expect{factory.run}.to change{Party.count}.from(0).to(18)
       end
     end
@@ -40,32 +40,39 @@ describe CbmCalendarFactory do
   end
 
   context "with multiple courtrooms" do
-    factory = CbmCalendarFactory.new(date: "20140630",
-                                     departments: ["F201", "F301", "F401", "F402"])
 
-    it "should increase the number of cases" do
-      VCR.use_cassette('20140630_Triage', allow_playback_repeats: true) do
-        expect{factory.run}.to change{CaseNumber.count}.from(0).to(111)
+    it "should return the matters" do
+      VCR.use_cassette('20140630') do
+        factory = CbmCalendarFactory.new(date: "20140630",
+                                         departments: ["F201", "F301", "F401", "F402"])
+
+        expect(factory.run).to have(112).items
       end
     end
 
-    it "should increase the number of matters" do
-      VCR.use_cassette('20140630_Triage', allow_playback_repeats: true) do
-        expect{factory.run}.to change{Matter.count}.from(0).to(112)
-      end
-    end
+    # it "should increase the number of matters" do
+    #   VCR.use_cassette('20140630') do
+    #     expect{factory.run}.to change{Matter.count}.from(0).to(112)
+    #   end
+    # end
 
-    it "should increase the number of hearings" do
-      VCR.use_cassette('20140630_Triage', allow_playback_repeats: true) do
-        expect{factory.run}.to change{Hearing.count}.from(0).to(123)
-      end
-    end
+    # it "should increase the number of cases" do
+    #   VCR.use_cassette('20140630') do
+    #     expect{factory.run}.to change{CaseNumber.count}.from(0).to(111)
+    #   end
+    # end
 
-    it "should increase the number of parties" do
-      VCR.use_cassette('20140630_Triage', allow_playback_repeats: true) do
-        expect{factory.run}.to change{Party.count}.from(0).to(518)
-      end
-    end
+    # it "should increase the number of hearings" do
+    #   VCR.use_cassette('20140630') do
+    #     expect{factory.run}.to change{Hearing.count}.from(0).to(123)
+    #   end
+    # end
+
+    # it "should increase the number of parties" do
+    #   VCR.use_cassette('20140630') do
+    #     expect{factory.run}.to change{Party.count}.from(0).to(518)
+    #   end
+    # end
 
   end
 
@@ -73,21 +80,27 @@ describe CbmCalendarFactory do
     factory = CbmCalendarFactory.new(date: "20140630", time: "8.15",
                                      departments: ["F201", "F301", "F401", "F402"])
 
-    it "should increase the number of cases" do
+    it "should return the matters" do
       VCR.use_cassette('20140630_Triage') do
-        expect{factory.run}.to change{CaseNumber.count}.from(0).to(24)
+        expect(factory.run).to have(24).items
       end
     end
 
     it "should increase the number of matters" do
       VCR.use_cassette('20140630_Triage') do
-        expect{factory.run}.to change{CaseNumber.count}.from(0).to(24)
+        expect{factory.run}.to change{CaseNumber.count}.from(0).to(111)
+      end
+    end
+
+    it "should increase the number of cases" do
+      VCR.use_cassette('20140630_Triage') do
+        expect{factory.run}.to change{CaseNumber.count}.from(0).to(111)
       end
     end
 
     it "should increase the number of hearings" do
       VCR.use_cassette('20140630_Triage') do
-        expect{factory.run}.to change{Hearing.count}.from(0).to(26)
+        expect{factory.run}.to change{Hearing.count}.from(0).to(123)
       end
     end
 
@@ -103,21 +116,27 @@ describe CbmCalendarFactory do
     factory = CbmCalendarFactory.new(date: "20140630", time: "8.15",
                                      departments: ["F201"])
 
-    it "should increase the number of cases" do
+    it "should return the matters" do
       VCR.use_cassette('20140630_8.15_F201') do
-        expect{factory.run}.to change{CaseNumber.count}.from(0).to(7)
+        expect(factory.run).to have(7).items
       end
     end
 
     it "should increase the number of matters" do
       VCR.use_cassette('20140630_8.15_F201') do
-        expect{factory.run}.to change{CaseNumber.count}.from(0).to(7)
+        expect{factory.run}.to change{CaseNumber.count}.from(0).to(36)
+      end
+    end
+
+    it "should increase the number of cases" do
+      VCR.use_cassette('20140630_8.15_F201') do
+        expect{factory.run}.to change{CaseNumber.count}.from(0).to(36)
       end
     end
 
     it "should increase the number of hearings" do
       VCR.use_cassette('20140630_8.15_F201') do
-        expect{factory.run}.to change{Hearing.count}.from(0).to(7)
+        expect{factory.run}.to change{Hearing.count}.from(0).to(36)
       end
     end
 
@@ -133,21 +152,27 @@ describe CbmCalendarFactory do
     factory = CbmCalendarFactory.new(date: "20140630", time: "8.15",
                                      departments: ["F301"])
 
-    it "should increase the number of cases" do
+    it "should return the matters" do
       VCR.use_cassette('20140630_8.15_F301') do
-        expect{factory.run}.to change{CaseNumber.count}.from(0).to(9)
+        expect(factory.run).to have(9).items
       end
     end
 
     it "should increase the number of matters" do
       VCR.use_cassette('20140630_8.15_F301') do
-        expect{factory.run}.to change{CaseNumber.count}.from(0).to(9)
+        expect{factory.run}.to change{CaseNumber.count}.from(0).to(24)
+      end
+    end
+
+    it "should increase the number of cases" do
+      VCR.use_cassette('20140630_8.15_F301') do
+        expect{factory.run}.to change{CaseNumber.count}.from(0).to(24)
       end
     end
 
     it "should increase the number of hearings" do
       VCR.use_cassette('20140630_8.15_F301') do
-        expect{factory.run}.to change{Hearing.count}.from(0).to(11)
+        expect{factory.run}.to change{Hearing.count}.from(0).to(26)
       end
     end
 

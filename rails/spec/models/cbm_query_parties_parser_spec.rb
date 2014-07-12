@@ -1,7 +1,7 @@
 require 'spec_helper'
 
-describe CbmPartiesQueryParser do
-  subject { CbmPartiesQueryParser.new(court_code: "G", case_type: "IND", case_number: "087055") }
+describe CbmQueryPartiesParser do
+  subject { CbmQueryPartiesParser.new(court_code: "G", case_type: "IND", case_number: "087055") }
   it { should respond_to :parse }
   it { should respond_to :hash }
   it { should respond_to :json }
@@ -10,7 +10,7 @@ describe CbmPartiesQueryParser do
   it { should respond_to :run }
 
   context "with valid case information" do
-    parser = CbmPartiesQueryParser.new(court_code: "G", case_type: "IND", case_number: "087055")
+    parser = CbmQueryPartiesParser.new(court_code: "G", case_type: "IND", case_number: "087055")
 
     it "should parse correctly" do
       VCR.use_cassette('IND087055') do

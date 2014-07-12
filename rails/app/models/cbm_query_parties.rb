@@ -1,4 +1,4 @@
-class CbmPartiesQuery < CbmQuery
+class CbmQueryParties < CbmQuery
 
   attr_reader :court_code, :case_type, :case_number
 

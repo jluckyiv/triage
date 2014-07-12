@@ -11,7 +11,7 @@ export default Ember.Route.extend({
   },
 
   findMatters: function() {
-    return this.store.find('matter', {date: this.get('date')});
+    return this.store.find('matter', {date: this.get('date'), now: new Date().getTime()});
   },
 
   activate: function() {

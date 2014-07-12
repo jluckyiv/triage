@@ -1,4 +1,4 @@
-class CbmQueryHearingsCacheFactory < CbmQueryCacheFactory
+class CbmQueryHearingsCacheValidator < CbmQueryCacheValidator
 
   def initialize(data)
     hash = HashWithIndifferentAccess.new(data)

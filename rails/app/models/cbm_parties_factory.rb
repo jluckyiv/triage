@@ -5,31 +5,31 @@ class CbmPartiesFactory
   def initialize(data={})
     hash = HashWithIndifferentAccess.new(data)
     @case_number = CaseNumber.find_or_create_by(hash)
-    @query_factory = CbmPartiesQueryFactory.new(hash)
-    @parser = CbmPartiesQueryParser.new(hash)
+    @validator = CbmQueryPartiesCacheValidator.new(hash)
+    @parser = CbmQueryPartiesParser.new(hash)
   end
 
   def run
     if needs_update?
-      create_parties
+      create_parties(parser.run)
     end
     parties
   end
 
   def needs_update?
-    parties.empty? || query_factory.needs_update?
+     validator.run == false
   end
 
   private
 
-  attr_reader :query_factory, :parser, :parties
+  attr_reader :validator, :parser, :parties
 
   def parties
     Party.where(case_number: case_number)
   end
 
-  def create_parties
-    parser.run.each do |party|
+  def create_parties(parties_objects)
+    Array.wrap(parties_objects).each do |party|
       case_number.parties.find_or_create_by(attributes(party))
     end
   end

@@ -24,7 +24,7 @@ export default Ember.ArrayController.extend({
     } else {
       return content;
     }
-  }.property('filterProperty', 'filterValue', '@each', '@each.station'),
+  }.property('filterProperty', 'filterValue', '@each.currentStation'),
 
   setFilter: function(filterProperty, filterValue) {
     this.set('filterProperty', filterProperty);

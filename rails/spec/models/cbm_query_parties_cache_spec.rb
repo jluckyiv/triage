@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe CbmPartiesQueryCache do
+describe CbmQueryPartiesCache do
   it { should respond_to :court_code }
   it { should respond_to :case_type }
   it { should respond_to :case_number }

@@ -21,6 +21,22 @@ describe CbmPartiesFactory do
         expect{factory.run}.to change{Party.count}.from(0).to(13)
       end
     end
+
+    it "should need update on first run" do
+      VCR.use_cassette('IND087055', allow_playback_repeats: true) do
+        factory = CbmPartiesFactory.new(court_code: "G", case_type: "IND", case_number: "087055")
+        expect(factory.needs_update?).to be_true
+      end
+    end
+
+    it "should not need an update on second run" do
+      VCR.use_cassette('IND087055', allow_playback_repeats: true) do
+        factory = CbmPartiesFactory.new(court_code: "G", case_type: "IND", case_number: "087055")
+        factory.run
+        expect(factory.needs_update?).to be_false
+      end
+    end
+
   end
 
   context "with Riverside case" do
@@ -32,7 +48,7 @@ describe CbmPartiesFactory do
     end
 
     it "should create parties" do
-      VCR.use_cassette('RID1203066') do
+      VCR.use_cassette('RID1203066', allow_playback_repeats: true) do
         factory = CbmPartiesFactory.new(court_code: "F", case_type: "RID", case_number: "1203066")
         expect{factory.run}.to change{Party.count}.from(0).to(3)
       end

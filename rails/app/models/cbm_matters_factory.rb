@@ -4,32 +4,42 @@ class CbmMattersFactory
 
   def initialize(data={})
     @params = HashWithIndifferentAccess.new(data)
-    @query_factory = CbmQueryHearingsCacheFactory.new(matter_params)
+    @validator = CbmQueryHearingsCacheValidator.new(matter_params)
     @parser = CbmQueryHearingsParser.new(matter_params)
   end
 
-  def run
-    if query_factory.needs_update?
-      create_matters
+  def run(data={})
+    if needs_update?
+      create_matters(parser.run)
     end
-    Matter.where(matter_params)
+    Array.wrap(matters_with_hearing_at_time)
   end
 
   private
 
-  attr_reader :query_factory, :parser, :params
+  attr_reader :validator, :parser, :params
 
-  def create_matters
-    matters_with_hearing_at_time.each do |data|
-      create_matter(data)
-    end
+  def needs_update?
+    validator.run == false || matters.count != parser.count
+  end
+
+  def matters
+    Matter.where(matter_params)
   end
 
   def matters_with_hearing_at_time
-    parser.run.select { |matter_data|
-      includes_hearing_at_time?(matter_data)
+    matters.select { |matter|
+      matter.includes_hearing_at_time?(params[:time])
     }
   end
+
+  def create_matters(object)
+    Array.wrap(object).each do |data|
+      return if data.include?("NOTHING")
+      create_matter(data)
+    end
+  end
+  handle_asynchronously :create_matters unless Rails.env.test?
 
   def create_matter(data)
     case_number = CaseNumberFactory.new(case_number_params(data)).run
@@ -42,10 +52,6 @@ class CbmMattersFactory
       params = hearing_data.update(matter_id: matter.id)
       HearingFactory.new(params).run
     end
-  end
-
-  def includes_hearing_at_time?(matter_data)
-    params[:time].nil? || matter_data.inspect.include?(params[:time])
   end
 
   def matter_params

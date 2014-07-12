@@ -4,7 +4,10 @@ class Matter < ActiveRecord::Base
   has_many :hearings
   has_many :events
 
-  delegate :petitioner, to: :case_number
-  delegate :respondent, to: :case_number
+  def includes_hearing_at_time?(time)
+    time.nil? || hearings.any? {|hearing|
+      hearing.time.include?(time)
+    }
+  end
 
 end

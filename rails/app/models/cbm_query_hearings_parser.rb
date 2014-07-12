@@ -6,7 +6,11 @@ class CbmQueryHearingsParser < CbmQueryParser
   end
 
   def run
-    cases
+    Array.wrap(cases)
+  end
+
+  def count
+    cases.count
   end
 
   def md5
@@ -24,7 +28,7 @@ class CbmQueryHearingsParser < CbmQueryParser
     doc.search('//text()').each do |t|
       t.replace(t.content.strip.squeeze(' ').gsub(/Orderon/, "Order on"))
     end
-    return doc
+    doc
   end
 
 end

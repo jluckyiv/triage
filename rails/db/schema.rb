@@ -29,22 +29,6 @@ ActiveRecord::Schema.define(version: 20140710050019) do
   add_index "case_numbers", ["case_type"], name: "index_case_numbers_on_case_type", using: :btree
   add_index "case_numbers", ["court_code"], name: "index_case_numbers_on_court_code", using: :btree
 
-  create_table "cbm_parties_query_caches", force: true do |t|
-    t.string   "court_code"
-    t.string   "case_type"
-    t.string   "case_number"
-    t.string   "md5"
-    t.integer  "content_length"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "cbm_parties_query_caches", ["case_number", "case_type"], name: "index_cbm_parties_query_caches_on_case_number_and_case_type", using: :btree
-  add_index "cbm_parties_query_caches", ["case_number"], name: "index_cbm_parties_query_caches_on_case_number", using: :btree
-  add_index "cbm_parties_query_caches", ["case_type"], name: "index_cbm_parties_query_caches_on_case_type", using: :btree
-  add_index "cbm_parties_query_caches", ["court_code"], name: "index_cbm_parties_query_caches_on_court_code", using: :btree
-  add_index "cbm_parties_query_caches", ["md5"], name: "index_cbm_parties_query_caches_on_md5", using: :btree
-
   create_table "cbm_query_hearings_caches", force: true do |t|
     t.string   "court_code"
     t.string   "department"
@@ -60,6 +44,22 @@ ActiveRecord::Schema.define(version: 20140710050019) do
   add_index "cbm_query_hearings_caches", ["date"], name: "index_cbm_query_hearings_caches_on_date", using: :btree
   add_index "cbm_query_hearings_caches", ["department"], name: "index_cbm_query_hearings_caches_on_department", using: :btree
   add_index "cbm_query_hearings_caches", ["md5"], name: "index_cbm_query_hearings_caches_on_md5", using: :btree
+
+  create_table "cbm_query_parties_caches", force: true do |t|
+    t.string   "court_code"
+    t.string   "case_type"
+    t.string   "case_number"
+    t.string   "md5"
+    t.integer  "content_length"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "cbm_query_parties_caches", ["case_number", "case_type"], name: "index_cbm_query_parties_caches_on_case_number_and_case_type", using: :btree
+  add_index "cbm_query_parties_caches", ["case_number"], name: "index_cbm_query_parties_caches_on_case_number", using: :btree
+  add_index "cbm_query_parties_caches", ["case_type"], name: "index_cbm_query_parties_caches_on_case_type", using: :btree
+  add_index "cbm_query_parties_caches", ["court_code"], name: "index_cbm_query_parties_caches_on_court_code", using: :btree
+  add_index "cbm_query_parties_caches", ["md5"], name: "index_cbm_query_parties_caches_on_md5", using: :btree
 
   create_table "delayed_jobs", force: true do |t|
     t.integer  "priority",   default: 0, null: false

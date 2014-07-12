@@ -1,7 +1,7 @@
 require 'spec_helper'
 
-describe CbmPartiesQuery do
-  subject { CbmPartiesQuery.new(case_number: '1203066') }
+describe CbmQueryParties do
+  subject { CbmQueryParties.new(case_number: '1203066') }
   it { should respond_to :court_code }
   it { should respond_to :case_type }
   it { should respond_to :case_number }
@@ -20,7 +20,7 @@ describe CbmPartiesQuery do
   end
 
   context "with valid data and department" do
-    query =  CbmPartiesQuery.new(court_code: 'G', case_type: 'IND', case_number: '087055')
+    query =  CbmQueryParties.new(court_code: 'G', case_type: 'IND', case_number: '087055')
 
     it "should have the right attributes" do
       expect(query.attributes).to eq({court_code: 'G', case_type: 'IND', case_number: '087055'})
