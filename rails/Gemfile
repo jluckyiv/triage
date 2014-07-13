@@ -22,7 +22,6 @@ end
 group :development, :test do
   gem 'database_cleaner', '1.2.0'
   gem 'guard-rspec', '4.2.10'
-  gem 'rb-fsevent' if `uname` =~ /Darwin/
   gem 'rspec-mocks', '2.14.6'
   gem 'rspec-rails', '2.14.2'
   gem 'spring-commands-rspec', '1.0.2'
