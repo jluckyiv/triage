@@ -4,7 +4,7 @@ class ApplicationController < ActionController::Base
   # protect_from_forgery with: :exception
   protect_from_forgery with: :null_session
 
-  def list_from_uris(uris)
+  def cbm_results(uris)
     hydra = Typhoeus::Hydra.hydra
 
     list = Array.wrap(uris).each_with_object([]) {|uri, list|
