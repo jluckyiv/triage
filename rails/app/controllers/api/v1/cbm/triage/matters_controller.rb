@@ -23,21 +23,28 @@ class Api::V1::Cbm::Triage::MattersController < Api::V1::Cbm::CalendarsControlle
   end
 
   def triage_entries(calendar)
-    calendar['cases'].each_with_object([]) do |kase, list|
-      list << triage_entry(kase, calendar)
+    calendar['cases'].each_with_object([]) do |matter, list|
+      list << triage_entry(matter, calendar)
     end
   end
 
-  def triage_entry(kase, calendar)
-    petitioner = petitioner(kase)
-    respondent = respondent(kase)
+  def triage_entry(matter, calendar)
+    case_number = CaseNumber.find_or_create_by(court_code: cc, case_type: matter['type'], case_number: matter['number'])
+    petitioner = petitioner(matter)
+    respondent = respondent(matter)
     entry = {}
+    entry[:id] = case_number.id
+    entry[:case_number] = case_number.full_case_number
     entry[:department] = calendar['department']
-    entry[:id] = case_number(kase)
     entry[:petitioner] = name(petitioner)
     entry[:respondent] = name(respondent)
+    entry[:petitioner_present] = petitioner_present?(case_number)
+    entry[:respondent_present] = respondent_present?(case_number)
     entry[:petitioners_attorney] = attorney(petitioner)
     entry[:respondents_attorney] = attorney(respondent)
+    entry[:events] = case_number.events
+    entry[:current_station] = current_station(case_number)
+    entry[:checked_in] = checked_in?(case_number)
     entry
   end
 
@@ -51,6 +58,38 @@ class Api::V1::Cbm::Triage::MattersController < Api::V1::Cbm::CalendarsControlle
 
   def respondent(kase)
     party(kase, "respondent", 2)
+  end
+
+  def petitioner_present?(case_number)
+    is_present?("petitioner", case_number)
+  end
+
+  def respondent_present?(case_number)
+    is_present?("respondent", case_number)
+  end
+
+  def current_station(case_number)
+    station = case_number.events.where({ category: "station" }).last
+    return "Triage" if station.nil?
+    station.attributes.fetch('subject') { "Triage" }
+  end
+
+  def checked_in?(case_number)
+    station = case_number.events.where({ category: "station" }).last
+    return false if station.nil?
+    return true if station.action == "arrive"
+    return false
+  end
+
+  private
+
+  def is_present?(role, case_number)
+    last_appearance = case_number.events.where({
+      category: "appearance", subject: role
+    }).last
+    return false if last_appearance.nil?
+    return true if last_appearance.action == "checkin"
+    return false
   end
 
   def party(kase, role, number)

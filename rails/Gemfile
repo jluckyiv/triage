@@ -2,12 +2,12 @@ source 'https://rubygems.org'
 
 gem 'rails', '4.1.1'
 gem 'active_model_serializers', '0.8.1'
+gem 'chronic', '0.10.2'
 gem 'friendly_id', '5.0.4'
 gem 'nokogiri', '1.6.2.1'
 gem 'pg', '0.17.1'
 gem 'pry', '0.9.12.6'
 gem 'sdoc', '~> 0.4.0',          group: :doc
-gem 'spring',        group: :development
 gem 'thin'
 gem 'typhoeus', '0.6.9'
 
@@ -15,6 +15,7 @@ group :development do
   gem 'better_errors'
   gem 'binding_of_caller'
   gem 'pry-rails', '0.3.2'
+  gem 'spring'
 end
 
 group :development, :test do

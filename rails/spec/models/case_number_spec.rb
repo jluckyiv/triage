@@ -2,7 +2,8 @@ require 'spec_helper'
 
 describe CaseNumber do
   it { should respond_to :parties }
-  it { should respond_to :matters }
+  it { should respond_to :hearings }
+  it { should respond_to :events }
   it { should respond_to :court_code }
   it { should respond_to :case_type }
   it { should respond_to :case_number }

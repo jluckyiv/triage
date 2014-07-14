@@ -9,7 +9,7 @@ describe Cbm::QueryManager do
   context "with a single request" do
     qm = Cbm::QueryManager.new
     it "should return a result" do
-      expect(qm.run("www.example.com")).to eq ""
+      pending
     end
   end
 end

@@ -38,6 +38,7 @@ GEM
     builder (3.2.2)
     celluloid (0.15.2)
       timers (~> 1.1.0)
+    chronic (0.10.2)
     coderay (1.1.0)
     daemons (1.1.9)
     database_cleaner (1.2.0)
@@ -166,6 +167,7 @@ DEPENDENCIES
   active_model_serializers (= 0.8.1)
   better_errors
   binding_of_caller
+  chronic (= 0.10.2)
   database_cleaner (= 1.2.0)
   friendly_id (= 5.0.4)
   guard-rspec (= 4.2.10)

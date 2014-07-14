@@ -11,6 +11,7 @@ Rails.application.routes.draw do
         resources :calendars, only: [:index]
         namespace :triage do
           resources :matters, only: [:index, :show]
+          resources :events, only: [:create]
         end
       end
     end

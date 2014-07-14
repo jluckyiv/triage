@@ -40,13 +40,14 @@ export default Ember.ObjectController.extend({
 
   saveEvent: function(category, subject, action) {
     var matter = this.get('model');
-    var event = this.store.createRecord('event', {
+    var hash = {
       matter: matter,
       category: category,
       subject: subject,
       action: action,
-      timestamp: new Date().getTime()
-    });
+      unix_timestamp: new Date().getTime()
+    };
+    var event = this.store.createRecord('event', hash);
     this.startPolling();
     return event.save().then(function() {
       // Success callback

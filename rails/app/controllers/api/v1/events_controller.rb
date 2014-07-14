@@ -1,32 +1,37 @@
 module Api
   module V1
-    class EventsController < ApplicationController
+    module Cbm
+      module Triage
+        class EventsController < ApplicationController
 
-      skip_before_action :verify_authenticity_token
+          skip_before_action :verify_authenticity_token
 
-      def show
-        render json: Event.find(params[:id])
-      end
+          def show
+            render json: Event.find(params[:id])
+          end
 
-      def create
-        render json: Event.create(event_params)
-      end
+          def create
+            binding.pry
+            render json: Event.create(event_params)
+          end
 
-      rescue_from ActiveRecord::RecordNotFound do
-        render json: {
-          event: {
-            id: 0,
-            matter_id: 0,
-            category: "",
-            subject: "",
-            action: "",
-            timestamp: 0
-          }
-        }
-      end
+          rescue_from ActiveRecord::RecordNotFound do
+            render json: {
+              event: {
+                id: 0,
+                case_number_id: 0,
+                category: "",
+                subject: "",
+                action: "",
+                unix_timestamp: 0
+              }
+            }
+          end
 
-      def event_params
-        params.require(:event).permit(:matter_id, :category, :subject, :action, :timestamp)
+          def event_params
+            params.require(:event).permit(:case_number_id, :category, :subject, :action, :unix_timestamp)
+          end
+        end
       end
     end
   end

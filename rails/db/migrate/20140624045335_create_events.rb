@@ -1,11 +1,11 @@
 class CreateEvents < ActiveRecord::Migration
   def change
     create_table :events do |t|
-      t.references :matter, index: true
+      t.references :case_number, index: true
       t.string :category
       t.string :subject
       t.string :action
-      t.integer :timestamp, :limit => 8
+      t.integer :unix_timestamp, :limit => 8
 
       t.timestamps
     end
@@ -13,6 +13,6 @@ class CreateEvents < ActiveRecord::Migration
     add_index :events, :subject
     add_index :events, :action
     add_index :events, [:action, :subject, :category]
-    add_index :events, :timestamp
+    add_index :events, :unix_timestamp
   end
 end

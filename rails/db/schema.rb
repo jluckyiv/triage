@@ -11,10 +11,38 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140710050019) do
+ActiveRecord::Schema.define(version: 20140714064541) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "addresses", force: true do |t|
+    t.string   "street1"
+    t.string   "street2"
+    t.string   "city"
+    t.string   "state"
+    t.string   "zip"
+    t.integer  "addressable_id"
+    t.string   "addressable_type"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "addresses", ["addressable_id", "addressable_type"], name: "index_addresses_on_addressable_id_and_addressable_type", using: :btree
+
+  create_table "attorneys", force: true do |t|
+    t.string   "name"
+    t.string   "name_digest"
+    t.integer  "sbn"
+    t.string   "email"
+    t.string   "phone"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "attorneys", ["name"], name: "index_attorneys_on_name", using: :btree
+  add_index "attorneys", ["name_digest"], name: "index_attorneys_on_name_digest", using: :btree
+  add_index "attorneys", ["sbn"], name: "index_attorneys_on_sbn", using: :btree
 
   create_table "case_numbers", force: true do |t|
     t.string   "court_code"
@@ -29,70 +57,43 @@ ActiveRecord::Schema.define(version: 20140710050019) do
   add_index "case_numbers", ["case_type"], name: "index_case_numbers_on_case_type", using: :btree
   add_index "case_numbers", ["court_code"], name: "index_case_numbers_on_court_code", using: :btree
 
-  create_table "cbm_query_hearings_caches", force: true do |t|
-    t.string   "court_code"
-    t.string   "department"
-    t.string   "date"
-    t.string   "md5"
-    t.integer  "content_length"
+  create_table "courthouses", force: true do |t|
+    t.string   "branch_name"
+    t.string   "county"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  add_index "cbm_query_hearings_caches", ["court_code"], name: "index_cbm_query_hearings_caches_on_court_code", using: :btree
-  add_index "cbm_query_hearings_caches", ["date", "department", "court_code"], name: "index_cbm_hearings_query_caches_on_date_dept_cc", unique: true, using: :btree
-  add_index "cbm_query_hearings_caches", ["date"], name: "index_cbm_query_hearings_caches_on_date", using: :btree
-  add_index "cbm_query_hearings_caches", ["department"], name: "index_cbm_query_hearings_caches_on_department", using: :btree
-  add_index "cbm_query_hearings_caches", ["md5"], name: "index_cbm_query_hearings_caches_on_md5", using: :btree
+  add_index "courthouses", ["branch_name"], name: "index_courthouses_on_branch_name", using: :btree
+  add_index "courthouses", ["county"], name: "index_courthouses_on_county", using: :btree
 
-  create_table "cbm_query_parties_caches", force: true do |t|
-    t.string   "court_code"
-    t.string   "case_type"
-    t.string   "case_number"
-    t.string   "md5"
-    t.integer  "content_length"
+  create_table "departments", force: true do |t|
+    t.string   "name"
+    t.integer  "courthouse_id"
+    t.string   "judicial_officer"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  add_index "cbm_query_parties_caches", ["case_number", "case_type"], name: "index_cbm_query_parties_caches_on_case_number_and_case_type", using: :btree
-  add_index "cbm_query_parties_caches", ["case_number"], name: "index_cbm_query_parties_caches_on_case_number", using: :btree
-  add_index "cbm_query_parties_caches", ["case_type"], name: "index_cbm_query_parties_caches_on_case_type", using: :btree
-  add_index "cbm_query_parties_caches", ["court_code"], name: "index_cbm_query_parties_caches_on_court_code", using: :btree
-  add_index "cbm_query_parties_caches", ["md5"], name: "index_cbm_query_parties_caches_on_md5", using: :btree
-
-  create_table "delayed_jobs", force: true do |t|
-    t.integer  "priority",   default: 0, null: false
-    t.integer  "attempts",   default: 0, null: false
-    t.text     "handler",                null: false
-    t.text     "last_error"
-    t.datetime "run_at"
-    t.datetime "locked_at"
-    t.datetime "failed_at"
-    t.string   "locked_by"
-    t.string   "queue"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "delayed_jobs", ["priority", "run_at"], name: "delayed_jobs_priority", using: :btree
+  add_index "departments", ["courthouse_id"], name: "index_departments_on_courthouse_id", using: :btree
+  add_index "departments", ["name"], name: "index_departments_on_name", using: :btree
 
   create_table "events", force: true do |t|
-    t.integer  "matter_id"
+    t.integer  "case_number_id"
     t.string   "category"
     t.string   "subject"
     t.string   "action"
-    t.integer  "timestamp",  limit: 8
+    t.integer  "unix_timestamp", limit: 8
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   add_index "events", ["action", "subject", "category"], name: "index_events_on_action_and_subject_and_category", using: :btree
   add_index "events", ["action"], name: "index_events_on_action", using: :btree
+  add_index "events", ["case_number_id"], name: "index_events_on_case_number_id", using: :btree
   add_index "events", ["category"], name: "index_events_on_category", using: :btree
-  add_index "events", ["matter_id"], name: "index_events_on_matter_id", using: :btree
   add_index "events", ["subject"], name: "index_events_on_subject", using: :btree
-  add_index "events", ["timestamp"], name: "index_events_on_timestamp", using: :btree
+  add_index "events", ["unix_timestamp"], name: "index_events_on_unix_timestamp", using: :btree
 
   create_table "friendly_id_slugs", force: true do |t|
     t.string   "slug",                      null: false
@@ -108,52 +109,54 @@ ActiveRecord::Schema.define(version: 20140710050019) do
   add_index "friendly_id_slugs", ["sluggable_type"], name: "index_friendly_id_slugs_on_sluggable_type", using: :btree
 
   create_table "hearings", force: true do |t|
-    t.integer  "matter_id"
-    t.string   "time"
-    t.text     "description"
+    t.integer  "case_number_id"
+    t.integer  "department_id"
+    t.datetime "date_time"
     t.string   "interpreter"
-    t.string   "md5"
+    t.text     "description"
+    t.string   "description_digest"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  add_index "hearings", ["matter_id"], name: "index_hearings_on_matter_id", using: :btree
-  add_index "hearings", ["md5", "matter_id", "time"], name: "index_hearings_on_md5_and_matter_id_and_time", unique: true, using: :btree
-  add_index "hearings", ["md5"], name: "index_hearings_on_md5", using: :btree
-  add_index "hearings", ["time"], name: "index_hearings_on_time", using: :btree
+  add_index "hearings", ["case_number_id"], name: "index_hearings_on_case_number_id", using: :btree
+  add_index "hearings", ["date_time"], name: "index_hearings_on_date_time", using: :btree
+  add_index "hearings", ["department_id"], name: "index_hearings_on_department_id", using: :btree
+  add_index "hearings", ["description_digest"], name: "index_hearings_on_description_digest", using: :btree
 
-  create_table "matters", force: true do |t|
-    t.integer  "case_number_id"
-    t.string   "date"
-    t.string   "department"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "matters", ["case_number_id"], name: "index_matters_on_case_number_id", using: :btree
-  add_index "matters", ["date", "department"], name: "index_matters_on_date_and_department", using: :btree
-  add_index "matters", ["date"], name: "index_matters_on_date", using: :btree
-  add_index "matters", ["department"], name: "index_matters_on_department", using: :btree
-
-  create_table "parties", force: true do |t|
-    t.integer  "case_number_id"
-    t.integer  "number"
-    t.string   "category"
+  create_table "names", force: true do |t|
     t.string   "first"
     t.string   "middle"
     t.string   "last"
     t.string   "suffix"
+    t.integer  "nameable_id"
+    t.string   "nameable_type"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
+  add_index "names", ["first"], name: "index_names_on_first", using: :btree
+  add_index "names", ["last", "first"], name: "index_names_on_last_and_first", using: :btree
+  add_index "names", ["last"], name: "index_names_on_last", using: :btree
+  add_index "names", ["middle"], name: "index_names_on_middle", using: :btree
+  add_index "names", ["nameable_id", "nameable_type"], name: "index_names_on_nameable_id_and_nameable_type", using: :btree
+  add_index "names", ["suffix"], name: "index_names_on_suffix", using: :btree
+
+  create_table "parties", force: true do |t|
+    t.integer  "case_number_id"
+    t.integer  "attorney_id"
+    t.integer  "number"
+    t.string   "role"
+    t.datetime "dob"
+    t.string   "phone"
+    t.string   "email"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "parties", ["attorney_id"], name: "index_parties_on_attorney_id", using: :btree
   add_index "parties", ["case_number_id"], name: "index_parties_on_case_number_id", using: :btree
-  add_index "parties", ["category"], name: "index_parties_on_category", using: :btree
-  add_index "parties", ["first"], name: "index_parties_on_first", using: :btree
-  add_index "parties", ["last", "first"], name: "index_parties_on_last_and_first", using: :btree
-  add_index "parties", ["last"], name: "index_parties_on_last", using: :btree
-  add_index "parties", ["middle"], name: "index_parties_on_middle", using: :btree
   add_index "parties", ["number"], name: "index_parties_on_number", using: :btree
-  add_index "parties", ["suffix"], name: "index_parties_on_suffix", using: :btree
+  add_index "parties", ["role"], name: "index_parties_on_role", using: :btree
 
 end

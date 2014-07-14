@@ -1,16 +1,16 @@
 class CreateHearings < ActiveRecord::Migration
   def change
     create_table :hearings do |t|
-      t.references :matter, index: true
-      t.string :time
-      t.text :description
+      t.references :case_number, index: true
+      t.references :department, index: true
+      t.datetime :date_time
       t.string :interpreter
-      t.string :md5
+      t.text :description
+      t.string :description_digest
 
       t.timestamps
     end
-    add_index :hearings, :time
-    add_index :hearings, :md5
-    add_index :hearings, [:md5, :matter_id, :time], unique: true
+    add_index :hearings, :date_time
+    add_index :hearings, :description_digest
   end
 end

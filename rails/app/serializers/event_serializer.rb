@@ -3,5 +3,6 @@ class EventSerializer < ActiveModel::Serializer
 
   has_one :matter
 
-  attributes :id, :category, :subject, :action, :timestamp
+  attributes :id, :category, :subject, :action, :unix_timestamp
+
 end

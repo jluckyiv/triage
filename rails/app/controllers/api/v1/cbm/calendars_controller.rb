@@ -39,9 +39,36 @@ class Api::V1::Cbm::CalendarsController < ApplicationController
     ct = kase['type']
     cn = kase['number']
     uri = "http://riv-dev1/confidentialbenchmemo/api/v1/parties.aspx?cc=#{cc}&ct=#{ct}&cn=#{cn}"
-    hash = cbm_result(uri)
+    hash = cbm_query_result(uri)
     kase['parties'] = Array.wrap(hash['party'])
   end
+
+  # def add_parties(kase)
+  #   return if empty?(kase)
+  #   ct = kase['type']
+  #   cn = kase['number']
+  #   unless case_number = CaseNumber.find_by(court_code: cc, case_type: ct, case_number: cn)
+  #     uri = "http://riv-dev1/confidentialbenchmemo/api/v1/parties.aspx?cc=#{cc}&ct=#{ct}&cn=#{cn}"
+  #     parties_hashes = Array.wrap(cbm_query_result(uri)['party'])
+  #     case_number = CaseNumber.create(court_code: cc, case_type: ct, case_number: cn)
+  #     parties_hashes.each do |hash|
+  #       next if empty?(hash)
+  #       hash['role'] = hash.delete('type') if hash.has_key?('type')
+  #       hash['dob'] = Chronic.parse(hash.delete('dob')) if hash.has_key?('dob')
+  #       hash['address_attributes'] = hash.delete('address') if hash.has_key?('address')
+  #       if hash.has_key?('name')
+  #         hash['name_attributes'] = hash.delete('name')
+  #         hash['name_attributes'].delete('full')
+  #       end
+  #       if hash.has_key?('attorney')
+  #         hash['attorney']['address_attributes'] = hash['attorney'].delete('address')
+  #         hash['attorney_attributes'] = hash.delete('attorney')
+  #       end
+  #       case_number.parties.create(hash)
+  #     end
+  #   end
+  #   kase['parties'] = case_number.parties
+  # end
 
   def should_delete?(kase)
     empty?(kase) || at_wrong_time?(kase)
