@@ -5,7 +5,7 @@ class Api::V1::Cbm::HearingsController < ApplicationController
     date = params[:date].nil? ? Date.today.strftime("%Y%m%d") : URI.escape(params[:date])
     cc   = params[:cc].nil? ? "F" : URI.escape(params[:cc])
     uri = "http://riv-dev1/confidentialbenchmemo/api/v1/hearings.aspx?cc=#{cc}&dept=#{dept}&date=#{date}"
-    render json: cbm_results(uri)
+    render json: cbm_query_results(uri)
   end
 
 end

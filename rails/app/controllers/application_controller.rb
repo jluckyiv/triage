@@ -4,12 +4,22 @@ class ApplicationController < ActionController::Base
   # protect_from_forgery with: :exception
   protect_from_forgery with: :null_session
 
-  def cbm_result(uri)
-    uris = Array.wrap(uri).first
-    cbm_results(uris).first
+  attr_reader :cms_adapter
+
+  def name_parser
+    People::NameParser.new
   end
 
-  def cbm_results(uris)
+  def cms_adapter
+    @cms_adapter = Cbm::Adapter.new
+  end
+
+  def cbm_query_result(uri)
+    uris = Array.wrap(uri).first
+    cbm_query_results(uris).first
+  end
+
+  def cbm_query_results(uris)
     hydra = Typhoeus::Hydra.hydra
 
     list = Array.wrap(uris).each_with_object([]) {|uri, list|
@@ -46,9 +56,9 @@ class ApplicationController < ActionController::Base
   end
 
   def success_hash(res)
-      doc = Nokogiri::XML(res.body)
-      clean_doc(doc)
-      Hash.from_xml(doc.to_s)['root']
+    doc = Nokogiri::XML(res.body)
+    clean_doc(doc)
+    Hash.from_xml(doc.to_s)['root']
   end
 
   def clean_doc(doc)

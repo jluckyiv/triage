@@ -4,7 +4,7 @@ export default function pretendCalendarServer(attrs) {
   var Server, pretend200, mattersForDate, matters, events;
   Server = new Pretender(function() {
 
-    this.get('/api/v1/matters', function(request) {
+    this.get('/api/v1/cbm/triage/matters', function(request) {
       return (mattersForDate(request.queryParams.date));
     });
 
@@ -32,12 +32,12 @@ export default function pretendCalendarServer(attrs) {
   };
 
    matters = [
-    { id: 1, date: '20140623', department: "F201", case_number: "RIK2100001", petitioner: "KATHRYN HOLT", petitioner_present: true, respondent: "HARVEY STEVENS", respondent_present: true, current_station: "Triage", checked_in: true, event_ids: [1,2] },
-    { id: 2, date: '20140623', department: "F301", case_number: "RIK2100002", petitioner: "COURTNEY HOLLAND", petitioner_present: true, respondent: "WENDELL PARKS", current_station: "Self-help" },
-    { id: 3, date: '20140623', department: "F401", case_number: "RID2100003", petitioner: "PAM BLACK", respondent: "ANDREW FRANK", current_station: "Self-help" },
-    { id: 4, date: '20140623', department: "F201", case_number: "RID2100006", petitioner: "EDNA WADE", respondent: "WAYNE ANDERSON", current_station: "Self-help" },
-    { id: 5, date: '20140624', department: "F402", case_number: "RID2100004", petitioner: "BRETT HOWELL", respondent: "JOANNE PERKINS", current_station: "Self-help" },
-    { id: 6, date: '20140630', department: "F402", case_number: "RID2100005", petitioner: "DUANE WOLFE", respondent: "MARIE HILL", current_station: "Self-help" },
+    { date: '20140623', department: "F201", id: "RIK2100001", petitioner: "KATHRYN HOLT", petitioner_present: true, respondent: "HARVEY STEVENS", respondent_present: true, current_station: "Triage", checked_in: true, event_ids: [1,2] },
+    { date: '20140623', department: "F301", id: "RIK2100002", petitioner: "COURTNEY HOLLAND", petitioner_present: true, respondent: "WENDELL PARKS", current_station: "Self-help" },
+    { date: '20140623', department: "F401", id: "RID2100003", petitioner: "PAM BLACK", respondent: "ANDREW FRANK", current_station: "Self-help" },
+    { date: '20140623', department: "F201", id: "RID2100006", petitioner: "EDNA WADE", respondent: "WAYNE ANDERSON", current_station: "Self-help" },
+    { date: '20140624', department: "F402", id: "RID2100004", petitioner: "BRETT HOWELL", respondent: "JOANNE PERKINS", current_station: "Self-help" },
+    { date: '20140630', department: "F402", id: "RID2100005", petitioner: "DUANE WOLFE", respondent: "MARIE HILL", current_station: "Self-help" },
   ];
 
    events = [

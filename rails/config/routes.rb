@@ -9,6 +9,9 @@ Rails.application.routes.draw do
         resources :hearings, only: [:index]
         resources :parties, only: [:index]
         resources :calendars, only: [:index]
+        namespace :triage do
+          resources :matters, only: [:index, :show]
+        end
       end
     end
   end

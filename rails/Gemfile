@@ -12,6 +12,7 @@ gem 'sdoc', '~> 0.4.0',          group: :doc
 gem 'spring',        group: :development
 gem 'thin'
 gem 'typhoeus', '0.6.9'
+gem 'people', '0.2.1'
 
 group :development do
   gem 'better_errors'
