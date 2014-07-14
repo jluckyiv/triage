@@ -2,8 +2,6 @@ source 'https://rubygems.org'
 
 gem 'rails', '4.1.1'
 gem 'active_model_serializers', '0.8.1'
-gem 'daemon', '1.1.0'
-gem 'delayed_job_active_record', '4.0.1'
 gem 'friendly_id', '5.0.4'
 gem 'nokogiri', '1.6.2.1'
 gem 'pg', '0.17.1'
@@ -12,7 +10,6 @@ gem 'sdoc', '~> 0.4.0',          group: :doc
 gem 'spring',        group: :development
 gem 'thin'
 gem 'typhoeus', '0.6.9'
-gem 'people', '0.2.1'
 
 group :development do
   gem 'better_errors'
