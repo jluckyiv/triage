@@ -20,7 +20,13 @@ export default Ember.ArrayController.extend({
     var value = this.get('filterValue');
     var content = this.get('content').sortBy('department', 'caseNumber');
     if (value !== "All") {
-      return content.filterBy(property, value);
+      // return content.filterBy(property, value);
+      return content.filter(function(item, index, self) {
+        console.log('property = ' + property);
+        console.log('value = ' + value);
+        console.log('item.get(property) = ' + item.get(property));
+        if (item.get(property).indexOf(value) > -1) { return true; }
+      });
     } else {
       return content;
     }
