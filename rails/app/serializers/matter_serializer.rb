@@ -7,6 +7,10 @@ class MatterSerializer < ActiveModel::Serializer
     :petitioner, :respondent, :petitioner_present, :respondent_present,
     :current_station, :checked_in
 
+  def id
+    object.case_number.id
+  end
+
   def case_number
     "#{object.case_number.case_type}#{object.case_number.case_number}"
   end
