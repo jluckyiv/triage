@@ -1,4 +1,4 @@
-class CaseNumberFactory
+class MatterFactory
 
 
   def initialize(data = {})
@@ -9,7 +9,7 @@ class CaseNumberFactory
   end
 
   def run
-    CaseNumber.find_or_create_by({
+    Matter.find_or_create_by({
       case_number: case_number,
       case_type:   case_type,
       court_code:  court_code

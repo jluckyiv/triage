@@ -1,5 +1,5 @@
 class Hearing < ActiveRecord::Base
-  belongs_to :case_number
+  belongs_to :matter
   belongs_to :department
 
   before_save :set_description_digest

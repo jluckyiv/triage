@@ -1,6 +1,6 @@
 class Attorney < ActiveRecord::Base
   has_one :address, as: :addressable
-  has_many :clients, foreign_key: 'attorney_id', class_name: 'Party'
+  has_many :parties
 
   before_save :set_name_digest
 
