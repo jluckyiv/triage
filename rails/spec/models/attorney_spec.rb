@@ -8,9 +8,9 @@ describe Attorney do
   it { should respond_to :phone }
   it { should respond_to :sbn }
 
-  describe "#clients" do
+  describe "#parties" do
     attorney = Attorney.create(name: "attorney")
-    party = attorney.clients.new
+    party = attorney.parties.new
     it "should create a party" do
       expect(party.attorney_id).to eq attorney.id
     end

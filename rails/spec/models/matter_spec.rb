@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Matters do
+describe Matter do
   it { should respond_to :parties }
   it { should respond_to :hearings }
   it { should respond_to :events }
