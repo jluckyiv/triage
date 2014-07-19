@@ -44,19 +44,6 @@ ActiveRecord::Schema.define(version: 20140714064541) do
   add_index "attorneys", ["name_digest"], name: "index_attorneys_on_name_digest", using: :btree
   add_index "attorneys", ["sbn"], name: "index_attorneys_on_sbn", using: :btree
 
-  create_table "case_numbers", force: true do |t|
-    t.string   "court_code"
-    t.string   "case_type"
-    t.string   "case_number"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "case_numbers", ["case_number", "case_type"], name: "index_case_numbers_on_case_number_and_case_type", using: :btree
-  add_index "case_numbers", ["case_number"], name: "index_case_numbers_on_case_number", using: :btree
-  add_index "case_numbers", ["case_type"], name: "index_case_numbers_on_case_type", using: :btree
-  add_index "case_numbers", ["court_code"], name: "index_case_numbers_on_court_code", using: :btree
-
   create_table "courthouses", force: true do |t|
     t.string   "branch_name"
     t.string   "county"
@@ -79,7 +66,7 @@ ActiveRecord::Schema.define(version: 20140714064541) do
   add_index "departments", ["name"], name: "index_departments_on_name", using: :btree
 
   create_table "events", force: true do |t|
-    t.integer  "case_number_id"
+    t.integer  "matter_id"
     t.string   "category"
     t.string   "subject"
     t.string   "action"
@@ -90,8 +77,8 @@ ActiveRecord::Schema.define(version: 20140714064541) do
 
   add_index "events", ["action", "subject", "category"], name: "index_events_on_action_and_subject_and_category", using: :btree
   add_index "events", ["action"], name: "index_events_on_action", using: :btree
-  add_index "events", ["case_number_id"], name: "index_events_on_case_number_id", using: :btree
   add_index "events", ["category"], name: "index_events_on_category", using: :btree
+  add_index "events", ["matter_id"], name: "index_events_on_matter_id", using: :btree
   add_index "events", ["subject"], name: "index_events_on_subject", using: :btree
   add_index "events", ["unix_timestamp"], name: "index_events_on_unix_timestamp", using: :btree
 
@@ -109,7 +96,7 @@ ActiveRecord::Schema.define(version: 20140714064541) do
   add_index "friendly_id_slugs", ["sluggable_type"], name: "index_friendly_id_slugs_on_sluggable_type", using: :btree
 
   create_table "hearings", force: true do |t|
-    t.integer  "case_number_id"
+    t.integer  "matter_id"
     t.integer  "department_id"
     t.datetime "date_time"
     t.string   "interpreter"
@@ -119,10 +106,23 @@ ActiveRecord::Schema.define(version: 20140714064541) do
     t.datetime "updated_at"
   end
 
-  add_index "hearings", ["case_number_id"], name: "index_hearings_on_case_number_id", using: :btree
   add_index "hearings", ["date_time"], name: "index_hearings_on_date_time", using: :btree
   add_index "hearings", ["department_id"], name: "index_hearings_on_department_id", using: :btree
   add_index "hearings", ["description_digest"], name: "index_hearings_on_description_digest", using: :btree
+  add_index "hearings", ["matter_id"], name: "index_hearings_on_matter_id", using: :btree
+
+  create_table "matters", force: true do |t|
+    t.string   "court_code"
+    t.string   "case_type"
+    t.string   "case_number"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "matters", ["case_number", "case_type"], name: "index_matters_on_case_number_and_case_type", using: :btree
+  add_index "matters", ["case_number"], name: "index_matters_on_case_number", using: :btree
+  add_index "matters", ["case_type"], name: "index_matters_on_case_type", using: :btree
+  add_index "matters", ["court_code"], name: "index_matters_on_court_code", using: :btree
 
   create_table "names", force: true do |t|
     t.string   "first"
@@ -143,7 +143,7 @@ ActiveRecord::Schema.define(version: 20140714064541) do
   add_index "names", ["suffix"], name: "index_names_on_suffix", using: :btree
 
   create_table "parties", force: true do |t|
-    t.integer  "case_number_id"
+    t.integer  "matter_id"
     t.integer  "attorney_id"
     t.integer  "number"
     t.string   "role"
@@ -155,7 +155,7 @@ ActiveRecord::Schema.define(version: 20140714064541) do
   end
 
   add_index "parties", ["attorney_id"], name: "index_parties_on_attorney_id", using: :btree
-  add_index "parties", ["case_number_id"], name: "index_parties_on_case_number_id", using: :btree
+  add_index "parties", ["matter_id"], name: "index_parties_on_matter_id", using: :btree
   add_index "parties", ["number"], name: "index_parties_on_number", using: :btree
   add_index "parties", ["role"], name: "index_parties_on_role", using: :btree
 
