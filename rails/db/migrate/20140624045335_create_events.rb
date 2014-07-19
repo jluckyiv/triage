@@ -1,7 +1,7 @@
 class CreateEvents < ActiveRecord::Migration
   def change
     create_table :events do |t|
-      t.references :case_number, index: true
+      t.references :matter, index: true
       t.string :category
       t.string :subject
       t.string :action
