@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Hearing do
-  it { should respond_to :case_number }
+  it { should respond_to :matter }
   it { should respond_to :department }
   it { should respond_to :date_time }
   it { should respond_to :interpreter }

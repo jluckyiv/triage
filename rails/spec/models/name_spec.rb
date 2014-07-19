@@ -1,5 +1,8 @@
 require 'spec_helper'
 
 describe Name do
-  pending "add some examples to (or delete) #{__FILE__}"
+  it { should respond_to :first }
+  it { should respond_to :middle }
+  it { should respond_to :last }
+  it { should respond_to :suffix }
 end
