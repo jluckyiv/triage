@@ -1,4 +1,8 @@
+require 'singleton'
+
 class QueryManager
+
+  include Singleton
 
   def initialize
     @hydra ||= Typhoeus::Hydra.new
@@ -21,12 +25,23 @@ class QueryManager
     }
 
     hydra.run
-    return responses
+    return results_for(responses)
   end
   alias_method :run_all, :run
 
   private
 
   attr_accessor :hydra
+
+  def results_for(responses)
+    Array.wrap(responses).each_with_object([]) do |response, list|
+      list << QueryManagerResult.new({
+        response_body: response.response_body,
+        response_code: response.response_code,
+        response_headers: response.response_headers,
+        return_code:   response.return_code
+      })
+    end
+  end
 
 end

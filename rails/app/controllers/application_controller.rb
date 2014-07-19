@@ -4,36 +4,6 @@ class ApplicationController < ActionController::Base
   # protect_from_forgery with: :exception
   protect_from_forgery with: :null_session
 
-  attr_reader :cms_adapter
-
-  def name_parser
-    People::NameParser.new
-  end
-
-  def cms_adapter
-    @cms_adapter = Cbm::Adapter.new
-  end
-
-  def cbm_query_result(uri)
-    uris = Array.wrap(uri).first
-    cbm_query_results(uris).first
-  end
-
-  def cbm_query_results(uris)
-    hydra = Typhoeus::Hydra.hydra
-
-    list = Array.wrap(uris).each_with_object([]) {|uri, list|
-      req = Typhoeus::Request.new(URI.parse(uri))
-      req.on_complete do |res|
-        list << hash_for_response(res)
-      end
-      hydra.queue(req)
-    }
-
-    hydra.run
-    return list
-  end
-
   private
 
   def hash_for_response(res)
