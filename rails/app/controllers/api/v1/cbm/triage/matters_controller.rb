@@ -29,22 +29,22 @@ class Api::V1::Cbm::Triage::MattersController < Api::V1::Cbm::CalendarsControlle
   end
 
   def triage_entry(matter, calendar)
-    case_number = CaseNumber.find_or_create_by(court_code: cc, case_type: matter['type'], case_number: matter['number'])
+    matter = matter.find_or_create_by(court_code: cc, case_type: matter['type'], case_number: matter['number'])
     petitioner = petitioner(matter)
     respondent = respondent(matter)
     entry = {}
-    entry[:id] = case_number.id
-    entry[:case_number] = case_number.full_case_number
+    entry[:id] = matter.id
+    entry[:case_number] = matter.full_case_number
     entry[:department] = calendar['department']
     entry[:petitioner] = name(petitioner)
     entry[:respondent] = name(respondent)
-    entry[:petitioner_present] = petitioner_present?(case_number)
-    entry[:respondent_present] = respondent_present?(case_number)
+    entry[:petitioner_present] = petitioner_present?(matter)
+    entry[:respondent_present] = respondent_present?(matter)
     entry[:petitioners_attorney] = attorney(petitioner)
     entry[:respondents_attorney] = attorney(respondent)
-    entry[:events] = case_number.events
-    entry[:current_station] = current_station(case_number)
-    entry[:checked_in] = checked_in?(case_number)
+    entry[:events] = matter.events
+    entry[:current_station] = current_station(matter)
+    entry[:checked_in] = checked_in?(matter)
     entry
   end
 
