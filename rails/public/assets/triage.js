@@ -18,13 +18,9 @@ eval("//# sourceURL=assets/ember-cli/loader.js");
 
 ;eval("define(\"triage/models/calendar\", \n  [\"ember-data\",\"exports\"],\n  function(__dependency1__, __exports__) {\n    \"use strict\";\n    var DS = __dependency1__[\"default\"];\n\n    __exports__[\"default\"] = DS.Model.extend({\n      date:    DS.attr(\'string\'),\n      matters: DS.hasMany(\'matter\', {async: true})\n    });\n  });//# sourceURL=triage/models/calendar.js");
 
-;eval("define(\"triage/models/court-case\", \n  [\"ember-data\",\"exports\"],\n  function(__dependency1__, __exports__) {\n    \"use strict\";\n    var DS = __dependency1__[\"default\"];\n\n    __exports__[\"default\"] = DS.Model.extend({\n      code:    DS.attr(\'string\'),\n      type:    DS.attr(\'string\'),\n      number:  DS.attr(\'string\'),\n      matters: DS.hasMany(\'matter\')\n    });\n  });//# sourceURL=triage/models/court-case.js");
-
 ;eval("define(\"triage/models/event\", \n  [\"ember-data\",\"exports\"],\n  function(__dependency1__, __exports__) {\n    \"use strict\";\n    var DS = __dependency1__[\"default\"];\n\n    __exports__[\"default\"] = DS.Model.extend({\n      matter:     DS.belongsTo(\'matter\'),\n      category:   DS.attr(\'string\'),\n      subject:    DS.attr(\'string\'),\n      action:     DS.attr(\'string\'),\n      unix_timestamp:  DS.attr(\'number\')\n    });\n  });//# sourceURL=triage/models/event.js");
 
 ;eval("define(\"triage/models/matter\", \n  [\"ember-data\",\"exports\"],\n  function(__dependency1__, __exports__) {\n    \"use strict\";\n    var DS = __dependency1__[\"default\"];\n\n    __exports__[\"default\"] = DS.Model.extend({\n      events              : DS.hasMany(\'event\', {async: true}),\n      caseNumber          : DS.attr(\'string\'),\n      currentStation      : DS.attr(\'string\'),\n      checkedIn           : DS.attr(\'boolean\'),\n      department          : DS.attr(\'string\'),\n      petitioner          : DS.attr(\'string\'),\n      respondent          : DS.attr(\'string\'),\n      petitionerPresent   : DS.attr(\'boolean\'),\n      respondentPresent   : DS.attr(\'boolean\')\n    });\n  });//# sourceURL=triage/models/matter.js");
-
-;eval("define(\"triage/models/presentation\", \n  [\"ember-data\",\"exports\"],\n  function(__dependency1__, __exports__) {\n    \"use strict\";\n    var DS = __dependency1__[\"default\"];\n\n    __exports__[\"default\"] = DS.Model.extend({\n      title: DS.attr(\'string\'),\n      speaker: DS.belongsTo(\'speaker\')\n    });\n  });//# sourceURL=triage/models/presentation.js");
 
 ;eval("define(\"triage/router\", \n  [\"ember\",\"exports\"],\n  function(__dependency1__, __exports__) {\n    \"use strict\";\n    var Ember = __dependency1__[\"default\"];\n\n    var Router = Ember.Router.extend({\n      location: TriageENV.locationType\n    });\n\n    Router.map(function() {\n      this.route(\'about\');\n      this.resource(\'speakers\', function() {\n        this.route(\'show\', {path: \':speaker_id\'});\n      });\n      this.resource(\'calendars\', {path: \'/calendars/:date\'});\n      this.resource(\'matters\', {path: \'/matters/:date\'});\n    });\n\n    __exports__[\"default\"] = Router;\n  });//# sourceURL=triage/router.js");
 
@@ -108,13 +104,9 @@ eval("//# sourceURL=assets/ember-cli/loader.js");
 
 ;eval("define(\"triage/tests/triage/models/calendar.jshint\", \n  [],\n  function() {\n    \"use strict\";\n    module(\'JSHint - triage/models\');\n    test(\'triage/models/calendar.js should pass jshint\', function() { \n      ok(true, \'triage/models/calendar.js should pass jshint.\'); \n    });\n  });//# sourceURL=triage/tests/triage/models/calendar.jshint.js");
 
-;eval("define(\"triage/tests/triage/models/court-case.jshint\", \n  [],\n  function() {\n    \"use strict\";\n    module(\'JSHint - triage/models\');\n    test(\'triage/models/court-case.js should pass jshint\', function() { \n      ok(true, \'triage/models/court-case.js should pass jshint.\'); \n    });\n  });//# sourceURL=triage/tests/triage/models/court-case.jshint.js");
-
 ;eval("define(\"triage/tests/triage/models/event.jshint\", \n  [],\n  function() {\n    \"use strict\";\n    module(\'JSHint - triage/models\');\n    test(\'triage/models/event.js should pass jshint\', function() { \n      ok(true, \'triage/models/event.js should pass jshint.\'); \n    });\n  });//# sourceURL=triage/tests/triage/models/event.jshint.js");
 
 ;eval("define(\"triage/tests/triage/models/matter.jshint\", \n  [],\n  function() {\n    \"use strict\";\n    module(\'JSHint - triage/models\');\n    test(\'triage/models/matter.js should pass jshint\', function() { \n      ok(true, \'triage/models/matter.js should pass jshint.\'); \n    });\n  });//# sourceURL=triage/tests/triage/models/matter.jshint.js");
-
-;eval("define(\"triage/tests/triage/models/presentation.jshint\", \n  [],\n  function() {\n    \"use strict\";\n    module(\'JSHint - triage/models\');\n    test(\'triage/models/presentation.js should pass jshint\', function() { \n      ok(true, \'triage/models/presentation.js should pass jshint.\'); \n    });\n  });//# sourceURL=triage/tests/triage/models/presentation.jshint.js");
 
 ;eval("define(\"triage/tests/triage/router.jshint\", \n  [],\n  function() {\n    \"use strict\";\n    module(\'JSHint - triage\');\n    test(\'triage/router.js should pass jshint\', function() { \n      ok(true, \'triage/router.js should pass jshint.\'); \n    });\n  });//# sourceURL=triage/tests/triage/router.jshint.js");
 
