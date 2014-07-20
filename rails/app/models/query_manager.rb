@@ -17,7 +17,7 @@ class QueryManager
   def run(uris)
 
     responses = Array.wrap(uris).each_with_object([]) {|uri, list|
-      req = Typhoeus::Request.new(URI.parse(uri))
+      req = Typhoeus::Request.new(parsed_uri(uri))
       req.on_complete do |res|
         list << res
       end
@@ -35,13 +35,13 @@ class QueryManager
 
   def results_for(responses)
     Array.wrap(responses).each_with_object([]) do |response, list|
-      list << QueryManagerResult.new({
-        response_body: response.response_body,
-        response_code: response.response_code,
-        response_headers: response.response_headers,
-        return_code:   response.return_code
-      })
+      list << QueryManagerResult.with_typhoeus_response(response)
     end
+  end
+
+  def parsed_uri(uri)
+    return uri if uri.is_a? URI
+    return URI.parse(uri) if uri.is_a? String
   end
 
 end

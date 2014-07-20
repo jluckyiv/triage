@@ -6,7 +6,7 @@ class CreateCourthouses < ActiveRecord::Migration
 
       t.timestamps
     end
-    add_index :courthouses, :branch_name
+    add_index :courthouses, :branch_name, unique: true
     add_index :courthouses, :county
   end
 end

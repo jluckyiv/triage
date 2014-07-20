@@ -10,6 +10,6 @@ class CreateMatters < ActiveRecord::Migration
     add_index :matters, :court_code
     add_index :matters, :case_type
     add_index :matters, :case_number
-    add_index :matters, [:case_number, :case_type]
+    add_index :matters, [:case_number, :case_type], unique: true
   end
 end

@@ -23,8 +23,8 @@ describe CaseNumberParser do
       end
     end
 
-    context "with case number and court code" do
-      parser = CaseNumberParser.new("IND094333", court_code: "F")
+    context "with case number hash" do
+      parser = CaseNumberParser.new(court_code: "F", case_type: "IND", case_number: "094333")
       it "should return a valid hash" do
         expect(parser.parse).to eq({
           :case_number => "094333",

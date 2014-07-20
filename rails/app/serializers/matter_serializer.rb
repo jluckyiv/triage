@@ -1,18 +1,21 @@
 class MatterSerializer < ActiveModel::Serializer
+
   embed :ids, include: true
 
   has_many :events
+  has_many :parties
+  has_many :hearings
 
   attributes :id, :department, :case_number, :petitioner, :respondent,
     :petitioner, :respondent, :petitioner_present, :respondent_present,
     :current_station, :checked_in
 
-  def id
-    object.case_number.id
+  def case_number
+    "#{object.case_type}#{object.case_number}"
   end
 
-  def case_number
-    "#{object.case_number.case_type}#{object.case_number.case_number}"
+  def department
+    "Department"
   end
 
   def current_station
@@ -21,6 +24,7 @@ class MatterSerializer < ActiveModel::Serializer
   end
 
   def checked_in
+    return true if station.nil? && petitioner_present && respondent_present
     return false if station.nil?
     return true if station.action == "arrive"
     return false
@@ -28,12 +32,12 @@ class MatterSerializer < ActiveModel::Serializer
 
   def petitioner
     petitioner = substitute_riverside_county(find_petitioner) || placeholder
-    "#{petitioner.first} #{petitioner.last}"
+    "#{petitioner.name.first} #{petitioner.name.last}"
   end
 
   def respondent
     respondent = substitute_riverside_county(find_respondent) || placeholder
-    "#{respondent.first} #{respondent.last}"
+    "#{respondent.name.first} #{respondent.name.last}"
   end
 
   def petitioner_present
@@ -64,16 +68,16 @@ class MatterSerializer < ActiveModel::Serializer
   end
 
   def find_petitioner
-    parties_by_category("PETITIONER") || parties_by_number(1)
+    parties_by_role("PETITIONER") || parties_by_number(1)
   end
 
   def find_respondent
-    parties_by_category("RESPONDENT") || parties_by_number(2)
+    parties_by_role("RESPONDENT") || parties_by_number(2)
   end
 
   def substitute_riverside_county(party)
     return party if party.nil?
-    unless party.last.include? "COUNTY OF RIVERSIDE"
+    unless party.name.last.include? "COUNTY OF RIVERSIDE"
       return party
     else
       return parties_by_number(3)
@@ -81,11 +85,11 @@ class MatterSerializer < ActiveModel::Serializer
   end
 
   def parties_by_number(number)
-    object.case_number.parties.find { |party| party.number == number }
+    object.parties.find { |party| party.number == number }
   end
 
-  def parties_by_category(category)
-    object.case_number.parties.find { |party| party.category.upcase.include?(category.upcase) }
+  def parties_by_role(role)
+    object.parties.find { |party| party.role.upcase.include?(role.upcase) }
   end
 
 end

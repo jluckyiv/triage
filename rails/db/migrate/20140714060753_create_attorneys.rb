@@ -10,7 +10,7 @@ class CreateAttorneys < ActiveRecord::Migration
       t.timestamps
     end
     add_index :attorneys, :name
-    add_index :attorneys, :name_digest
-    add_index :attorneys, :sbn
+    add_index :attorneys, :name_digest, unique: true
+    add_index :attorneys, :sbn, unique: true
   end
 end

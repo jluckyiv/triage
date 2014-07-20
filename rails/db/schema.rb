@@ -29,6 +29,11 @@ ActiveRecord::Schema.define(version: 20140714064541) do
   end
 
   add_index "addresses", ["addressable_id", "addressable_type"], name: "index_addresses_on_addressable_id_and_addressable_type", using: :btree
+  add_index "addresses", ["city"], name: "index_addresses_on_city", using: :btree
+  add_index "addresses", ["state"], name: "index_addresses_on_state", using: :btree
+  add_index "addresses", ["street1", "zip", "street2"], name: "index_addresses_on_street1_and_zip_and_street2", unique: true, using: :btree
+  add_index "addresses", ["street1"], name: "index_addresses_on_street1", using: :btree
+  add_index "addresses", ["zip"], name: "index_addresses_on_zip", using: :btree
 
   create_table "attorneys", force: true do |t|
     t.string   "name"
@@ -41,8 +46,8 @@ ActiveRecord::Schema.define(version: 20140714064541) do
   end
 
   add_index "attorneys", ["name"], name: "index_attorneys_on_name", using: :btree
-  add_index "attorneys", ["name_digest"], name: "index_attorneys_on_name_digest", using: :btree
-  add_index "attorneys", ["sbn"], name: "index_attorneys_on_sbn", using: :btree
+  add_index "attorneys", ["name_digest"], name: "index_attorneys_on_name_digest", unique: true, using: :btree
+  add_index "attorneys", ["sbn"], name: "index_attorneys_on_sbn", unique: true, using: :btree
 
   create_table "courthouses", force: true do |t|
     t.string   "branch_name"
@@ -51,7 +56,7 @@ ActiveRecord::Schema.define(version: 20140714064541) do
     t.datetime "updated_at"
   end
 
-  add_index "courthouses", ["branch_name"], name: "index_courthouses_on_branch_name", using: :btree
+  add_index "courthouses", ["branch_name"], name: "index_courthouses_on_branch_name", unique: true, using: :btree
   add_index "courthouses", ["county"], name: "index_courthouses_on_county", using: :btree
 
   create_table "departments", force: true do |t|
@@ -63,7 +68,7 @@ ActiveRecord::Schema.define(version: 20140714064541) do
   end
 
   add_index "departments", ["courthouse_id"], name: "index_departments_on_courthouse_id", using: :btree
-  add_index "departments", ["name"], name: "index_departments_on_name", using: :btree
+  add_index "departments", ["name"], name: "index_departments_on_name", unique: true, using: :btree
 
   create_table "events", force: true do |t|
     t.integer  "matter_id"
@@ -119,7 +124,7 @@ ActiveRecord::Schema.define(version: 20140714064541) do
     t.datetime "updated_at"
   end
 
-  add_index "matters", ["case_number", "case_type"], name: "index_matters_on_case_number_and_case_type", using: :btree
+  add_index "matters", ["case_number", "case_type"], name: "index_matters_on_case_number_and_case_type", unique: true, using: :btree
   add_index "matters", ["case_number"], name: "index_matters_on_case_number", using: :btree
   add_index "matters", ["case_type"], name: "index_matters_on_case_type", using: :btree
   add_index "matters", ["court_code"], name: "index_matters_on_court_code", using: :btree
@@ -135,8 +140,9 @@ ActiveRecord::Schema.define(version: 20140714064541) do
     t.datetime "updated_at"
   end
 
+  add_index "names", ["first", "last"], name: "index_names_on_first_and_last", using: :btree
+  add_index "names", ["first", "middle", "last", "suffix"], name: "index_names_on_first_and_middle_and_last_and_suffix", using: :btree
   add_index "names", ["first"], name: "index_names_on_first", using: :btree
-  add_index "names", ["last", "first"], name: "index_names_on_last_and_first", using: :btree
   add_index "names", ["last"], name: "index_names_on_last", using: :btree
   add_index "names", ["middle"], name: "index_names_on_middle", using: :btree
   add_index "names", ["nameable_id", "nameable_type"], name: "index_names_on_nameable_id_and_nameable_type", using: :btree

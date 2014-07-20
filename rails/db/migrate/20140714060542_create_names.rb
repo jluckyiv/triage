@@ -13,6 +13,7 @@ class CreateNames < ActiveRecord::Migration
     add_index :names, :middle
     add_index :names, :last
     add_index :names, :suffix
-    add_index :names, [:last, :first]
+    add_index :names, [:first, :last]
+    add_index :names, [:first, :middle, :last, :suffix]
   end
 end
