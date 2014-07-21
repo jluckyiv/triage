@@ -75,7 +75,6 @@ ActiveRecord::Schema.define(version: 20140714064541) do
     t.string   "category"
     t.string   "subject"
     t.string   "action"
-    t.integer  "unix_timestamp", limit: 8
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -85,7 +84,6 @@ ActiveRecord::Schema.define(version: 20140714064541) do
   add_index "events", ["category"], name: "index_events_on_category", using: :btree
   add_index "events", ["matter_id"], name: "index_events_on_matter_id", using: :btree
   add_index "events", ["subject"], name: "index_events_on_subject", using: :btree
-  add_index "events", ["unix_timestamp"], name: "index_events_on_unix_timestamp", using: :btree
 
   create_table "friendly_id_slugs", force: true do |t|
     t.string   "slug",                      null: false

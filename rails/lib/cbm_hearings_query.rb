@@ -1,15 +1,17 @@
 class CbmHearingsQuery
 
+  require 'nokogiri'
+
   class << self
 
-    def run(query_params = {})
-      CbmHearingsQuery.new.run(query_params)
+    def where(query_params = {})
+      CbmHearingsQuery.new.where(query_params)
     end
   end
 
   attr_accessor :cc, :date, :time, :departments
 
-  def run(query_params = {})
+  def where(query_params = {})
     @cc = query_params[:cc] || "F"
     @date = query_params[:date] || Date.today.strftime("%Y%m%d")
     @time = query_params[:time] || "8.15"
@@ -21,7 +23,7 @@ class CbmHearingsQuery
 
   def hearings_for_departments
     Array.wrap(QueryManager.instance.run(uris)).map {|response|
-      response.response_body
+      hash_from_response(response)
     }
   end
 
@@ -36,5 +38,13 @@ class CbmHearingsQuery
       Triage::Application.config.cbm_uri,
       "hearings.aspx?cc=#{cc}&date=#{date}&dept=#{dept}"
     )
+  end
+
+  def hash_from_response(response)
+    doc = Nokogiri::XML(response.response_body)
+    doc.search('//text()').each do |t|
+      t.replace(t.content.strip)
+    end
+    Hash.from_xml(doc.to_s)['root']
   end
 end

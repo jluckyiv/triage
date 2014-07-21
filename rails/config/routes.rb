@@ -7,7 +7,7 @@ Rails.application.routes.draw do
 
       namespace :cbm do
         resources :hearings, only: [:index]
-        resources :parties, only: [:show]
+        resources :parties,  only: [:index, :show]
       end
     end
   end

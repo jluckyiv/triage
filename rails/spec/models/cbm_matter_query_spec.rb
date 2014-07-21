@@ -1,3 +1,0 @@
-describe CbmMatterQuery do
-
-end

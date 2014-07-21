@@ -1,4 +1,4 @@
-require_relative '../../app/models/query_manager'
+require_relative '../../lib/query_manager'
 
 describe QueryManager.instance do
   it { should respond_to :run }

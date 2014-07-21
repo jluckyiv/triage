@@ -1,13 +1,21 @@
 class CaseNumberParser
-  def initialize(case_number)
-    @full_case_number = case_number
+
+  def self.parse_all(case_numbers)
+    return CaseNumberParser.new.parse_all(case_numbers)
   end
 
   def self.parse(case_number)
-    return CaseNumberParser.new(case_number).parse
+    return CaseNumberParser.new.parse(case_number)
   end
 
-  def parse
+  def parse_all(case_numbers)
+    Array.wrap(case_numbers).map {|case_number|
+      parse(case_number)
+    }
+  end
+
+  def parse(full_case_number)
+    @full_case_number = full_case_number
     return {} if invalid?
     {
       court_code: URI.escape(court_code.upcase),
