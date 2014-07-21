@@ -5,7 +5,6 @@ class CreateEvents < ActiveRecord::Migration
       t.string :category
       t.string :subject
       t.string :action
-      t.integer :unix_timestamp, :limit => 8
 
       t.timestamps
     end
@@ -13,6 +12,5 @@ class CreateEvents < ActiveRecord::Migration
     add_index :events, :subject
     add_index :events, :action
     add_index :events, [:action, :subject, :category]
-    add_index :events, :unix_timestamp
   end
 end
