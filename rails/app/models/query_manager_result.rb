@@ -14,9 +14,9 @@ class QueryManagerResult
   end
 
   def initialize(hash = {})
-    @headers_hash = hash.fetch(:headers_hash) { nil }
+    @headers_hash  = hash.fetch(:headers_hash) { nil }
     @response_body = hash.fetch(:response_body) { nil }
     @response_code = hash.fetch(:response_code) { nil }
-    @return_code = hash.fetch(:return_code) { nil }
+    @return_code   = hash.fetch(:return_code) { nil }
   end
 end
