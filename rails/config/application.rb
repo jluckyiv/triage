@@ -16,7 +16,6 @@ Bundler.require(*Rails.groups)
 module Triage
   class Application < Rails::Application
     config.assets.enabled = false
-    config.cbm_uri = "http://riv-dev1/confidentialbenchmemo/api/v1/"
 
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
@@ -29,6 +28,9 @@ module Triage
     # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
     # config.i18n.default_locale = :de
+
+    config.cbm_uri = "http://riv-dev1/confidentialbenchmemo/api/v1/"
+    config.autoload_paths << Rails.root.join('lib')
 
   end
 end
