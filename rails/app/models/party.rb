@@ -6,6 +6,9 @@ class Party < ActiveRecord::Base
 
   accepts_nested_attributes_for :address, :attorney, :name
 
+  validates :name, presence: true
+  validates :attorney_id, presence: true
+
   def attorney_attributes=(attributes)
     name_digest = Attorney.digest_for(attributes['name'])
     unless attorney = Attorney.find_by(name_digest: name_digest)

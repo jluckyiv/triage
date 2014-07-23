@@ -1,18 +1,19 @@
 class Attorney < ActiveRecord::Base
+
+  include Hashable
+  extend Hashable
+
   has_one :address, as: :addressable
   has_many :parties
 
-  before_save :set_name_digest
+  validates :name, presence: true
+  validates :name_digest, presence: true, uniqueness: true
+
+  before_validation :set_name_digest
 
   accepts_nested_attributes_for :address
 
-  class << self
-    def digest_for(data)
-      Digest::SHA1.hexdigest(data)
-    end
-  end
-
   def set_name_digest
-    self.name_digest = Attorney.digest_for(name)
+    self.name_digest = digest_for(name)
   end
 end
