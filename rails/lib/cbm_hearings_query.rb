@@ -19,7 +19,7 @@ class CbmHearingsQuery
     @cc = query_params[:cc] || "F"
     @date = query_params[:date] || Date.today.strftime("%Y%m%d")
     @time = query_params[:time] || "8.15"
-    @departments = query_params[:dept] || %w[F201 F301 F401 F402']
+    @departments = query_params[:dept] || %w[F201 F301 F401 F402]
     hearings_for_departments
   end
 
