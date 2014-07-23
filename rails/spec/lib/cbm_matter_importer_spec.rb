@@ -3,6 +3,10 @@ require 'spec_helper'
 describe CbmMatterImporter do
   it { should respond_to :import }
 
+  context "update cached values" do
+    pending "Must implement updates"
+  end
+
   context "with a single case number" do
     it "should create a matter" do
       VCR.use_cassette("cbm_parties_query_RID1203066") do
@@ -61,6 +65,17 @@ describe CbmMatterImporter do
           case_number: "1203067"
         }])}.to change{Matter.count}.by(2)
       end
+    end
+  end
+
+  it "should create two matters, one with hash input, one with string" do
+    VCR.use_cassette("cbm_parties_query_RID1203066_RID1203067") do
+      importer = CbmMatterImporter.new
+      expect{importer.import([{
+        court_code: "F",
+        case_type:  "RID",
+        case_number: "1203066"
+      }, "RID1203067" ])}.to change{Matter.count}.by(2)
     end
   end
 
