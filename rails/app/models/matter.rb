@@ -1,13 +1,14 @@
 class Matter < ActiveRecord::Base
-  has_many :hearings
-  has_many :parties
-  has_many :events
+  has_many :parties, dependent: :destroy
+  has_many :events, dependent: :destroy
+  has_many :proceedings, dependent: :destroy
+  has_many :hearings, through: :proceedings
 
   accepts_nested_attributes_for :hearings, :parties
 
   validates :court_code, presence: true
   validates :case_type, presence: true
-  validates :case_number, presence: true
+  validates :case_number, presence: true, uniqueness: { scope: [:case_type] }
 
   class << self
     def find_by_full_case_number(full_case_number)

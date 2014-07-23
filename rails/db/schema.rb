@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140714064541) do
+ActiveRecord::Schema.define(version: 20140723103311) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -99,20 +99,17 @@ ActiveRecord::Schema.define(version: 20140714064541) do
   add_index "friendly_id_slugs", ["sluggable_type"], name: "index_friendly_id_slugs_on_sluggable_type", using: :btree
 
   create_table "hearings", force: true do |t|
-    t.integer  "matter_id"
     t.integer  "department_id"
+    t.integer  "proceeding_id"
     t.datetime "date_time"
     t.string   "interpreter"
-    t.text     "description"
-    t.string   "description_digest"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   add_index "hearings", ["date_time"], name: "index_hearings_on_date_time", using: :btree
   add_index "hearings", ["department_id"], name: "index_hearings_on_department_id", using: :btree
-  add_index "hearings", ["description_digest"], name: "index_hearings_on_description_digest", using: :btree
-  add_index "hearings", ["matter_id"], name: "index_hearings_on_matter_id", using: :btree
+  add_index "hearings", ["proceeding_id"], name: "index_hearings_on_proceeding_id", using: :btree
 
   create_table "matters", force: true do |t|
     t.string   "court_code"
@@ -162,5 +159,16 @@ ActiveRecord::Schema.define(version: 20140714064541) do
   add_index "parties", ["matter_id"], name: "index_parties_on_matter_id", using: :btree
   add_index "parties", ["number"], name: "index_parties_on_number", using: :btree
   add_index "parties", ["role"], name: "index_parties_on_role", using: :btree
+
+  create_table "proceedings", force: true do |t|
+    t.integer  "matter_id"
+    t.string   "description_digest"
+    t.text     "description"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "proceedings", ["description_digest"], name: "index_proceedings_on_description_digest", using: :btree
+  add_index "proceedings", ["matter_id"], name: "index_proceedings_on_matter_id", using: :btree
 
 end
