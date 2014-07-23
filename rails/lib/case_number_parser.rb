@@ -30,7 +30,7 @@ class CaseNumberParser
 
   def court_code
     if full_case_number.is_a? Hash
-      full_case_number.fetch(:court_code) { default_court_code }
+      HashWithIndifferentAccess.new(full_case_number).fetch(:court_code) { default_court_code }
     else
       default_court_code
     end
@@ -38,7 +38,7 @@ class CaseNumberParser
 
   def case_number
     if full_case_number.is_a? Hash
-      full_case_number.fetch(:case_number) { "" }
+      HashWithIndifferentAccess.new(full_case_number).fetch(:case_number) { "" }
     else
       full_case_number.sub(case_type, '')
     end
@@ -46,7 +46,7 @@ class CaseNumberParser
 
   def case_type
     if full_case_number.is_a? Hash
-      full_case_number.fetch(:case_type) { "" }
+      HashWithIndifferentAccess.new(full_case_number).fetch(:case_type) { "" }
     else
       default_case_type
     end

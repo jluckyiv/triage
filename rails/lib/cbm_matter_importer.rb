@@ -1,10 +1,16 @@
 class CbmMatterImporter
 
+  class << self
+    def import(case_numbers)
+      CbmMatterImporter.new.import(case_numbers)
+    end
+  end
+
   def import(case_numbers)
     query = CbmPartiesQuery.where(case_numbers: case_numbers)
-    Array.wrap(query).each do |matter|
+    Array.wrap(query).map { |matter|
       create_matter(matter)
-    end
+    }
   end
 
   def create_matter(matter)

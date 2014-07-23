@@ -7,6 +7,10 @@ class CbmHearingsQuery
     def where(query_params = {})
       CbmHearingsQuery.new.where(query_params)
     end
+
+    def find(date)
+      CbmHearingsQuery.new.where(date: date)
+    end
   end
 
   attr_accessor :cc, :date, :time, :departments
