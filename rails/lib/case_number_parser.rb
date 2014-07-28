@@ -14,8 +14,8 @@ class CaseNumberParser
     }
   end
 
-  def parse(full_case_number)
-    @full_case_number = full_case_number
+  def parse(input)
+    @input = input
     return {} if invalid?
     {
       court_code: URI.escape(court_code.upcase),
@@ -26,30 +26,22 @@ class CaseNumberParser
 
   private
 
-  attr_reader :full_case_number
+  attr_reader :input
 
   def court_code
-    if full_case_number.is_a? Hash
-      HashWithIndifferentAccess.new(full_case_number).fetch(:court_code) { default_court_code }
-    else
-      default_court_code
-    end
+    return input.court_code if input.respond_to?(:court_code)
+    HashWithIndifferentAccess.new(input).fetch(:court_code) { default_court_code }
   end
 
   def case_number
-    if full_case_number.is_a? Hash
-      HashWithIndifferentAccess.new(full_case_number).fetch(:case_number) { "" }
-    else
-      full_case_number.sub(case_type, '')
-    end
+    return input.case_number if input.respond_to?(:case_number)
+    return input.sub(case_type, '') if input.respond_to?(:sub)
+    HashWithIndifferentAccess.new(input).fetch(:case_number) { "" }
   end
 
   def case_type
-    if full_case_number.is_a? Hash
-      HashWithIndifferentAccess.new(full_case_number).fetch(:case_type) { "" }
-    else
-      default_case_type
-    end
+    return input.case_type if input.respond_to?(:case_type)
+    HashWithIndifferentAccess.new(input).fetch(:case_type) { default_case_type }
   end
 
   def default_court_code
@@ -66,7 +58,7 @@ class CaseNumberParser
 
   def default_case_type
     case_types.find { |case_type|
-      /\A#{case_type}/.match full_case_number
+      /\A#{case_type}/.match input
     }.to_s
   end
 

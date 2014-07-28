@@ -3,8 +3,8 @@ class MatterSerializer < ActiveModel::Serializer
   embed :ids, include: true
 
   has_many :events
-  has_many :parties
-  has_many :hearings
+  # has_many :parties
+  # has_many :hearings
 
   attributes :id, :department, :case_number, :petitioner, :respondent,
     :petitioner, :respondent, :petitioner_present, :respondent_present,
@@ -15,7 +15,7 @@ class MatterSerializer < ActiveModel::Serializer
   end
 
   def department
-    "Department"
+    object.hearings[0].department.name
   end
 
   def current_station
@@ -64,7 +64,7 @@ class MatterSerializer < ActiveModel::Serializer
   end
 
   def placeholder
-    OpenStruct.new(first: "Loading", last: "")
+    OpenStruct.new(name: OpenStruct.new(first: "Loading", last: ""))
   end
 
   def find_petitioner

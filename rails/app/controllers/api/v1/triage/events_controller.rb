@@ -1,4 +1,4 @@
-class Api::V1::EventsController < ApplicationController
+class Api::V1::Triage::EventsController < ApplicationController
 
   def create
     render json: Event.create(event_params)

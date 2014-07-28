@@ -1,27 +1,29 @@
-class CbmMatterImporter
+class CbmPartiesImporter
 
   class << self
     def import(case_numbers)
-      CbmMatterImporter.new.import(case_numbers)
+      CbmPartiesImporter.new.import(case_numbers)
     end
   end
 
   def import(case_numbers)
     query = CbmPartiesQuery.where(case_numbers: case_numbers)
-    Array.wrap(query).map { |matter|
+    Array.wrap(query).compact.map { |matter|
       create_matter(matter)
     }
   end
 
   def create_matter(matter)
     matter_hash = matter.slice('court_code', 'case_type', 'case_number')
-    Matter.find_or_create_by(matter_hash) do |m|
-      m.parties_attributes = parties_attributes(matter)
+    m = Matter.find_or_create_by(matter_hash)
+    if m.parties_attributes = parties_attributes(matter).drop(m.parties.count)
+      m.save
     end
   end
 
   def parties_attributes(matter)
     attributes = Array.wrap(matter['party']).each.map {|party|
+      return {} if party.nil?
       hash = {
         "number" => party['number'],
         "role" => party['type'],

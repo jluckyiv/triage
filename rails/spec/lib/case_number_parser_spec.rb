@@ -6,7 +6,7 @@ describe CaseNumberParser do
   subject { should respond_to :run }
 
   describe ".parse" do
-    it "should parse a case number" do
+    it "should parse a case number string" do
       expect(CaseNumberParser.parse("IND094333")).to eq({
         :case_number => "094333",
         :case_type   => "IND",
@@ -17,7 +17,7 @@ describe CaseNumberParser do
 
   describe ".parse_all" do
     parser = CaseNumberParser.new
-    it "should return valid hashes" do
+    it "should parse an array of case number strings" do
       expect(parser.parse_all(["RIV1234567", "RID2345678"])).to eq([
         {
           :case_number => "1234567",
@@ -51,7 +51,7 @@ describe CaseNumberParser do
       end
     end
 
-    context "with valid case numbers" do
+    context "with case number string" do
       context "with RIV case" do
         parser = CaseNumberParser.new
         it "should return a valid hash" do
@@ -63,6 +63,21 @@ describe CaseNumberParser do
         end
       end
 
+      context "with object" do
+        parser = CaseNumberParser.new
+        it "should return a valid hash" do
+          case_number = OpenStruct.new(
+            case_number: "1234567",
+            case_type:   "RID",
+            court_code:  "F"
+          )
+          expect(parser.parse(case_number)).to eq({
+            case_number: "1234567",
+            case_type:   "RID",
+            court_code:  "F"
+          })
+        end
+      end
       context "with RIDIND case" do
         parser = CaseNumberParser.new
         it "should return a valid hash" do

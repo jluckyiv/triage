@@ -11,6 +11,7 @@ describe Matter do
   context "with invalid data" do
     it "should not create a record" do
       expect{Matter.create(court_code: "", case_type: "", case_number: "")}.to_not change{Matter.count}.by(1)
+      :A
     end
   end
   context "duplicate case numbers" do
@@ -44,4 +45,16 @@ describe Matter do
     end
   end
 
+  context "associations" do
+    it "should not allow a proceeding without a matter" do
+      pending
+      p = Proceeding.new(description: "proceeding")
+      expect(p.save).to be_false
+    end
+
+    it "should not allow a party without a matter" do
+      p = Party.new
+      expect(p.save).to be_false
+    end
+  end
 end

@@ -5,7 +5,13 @@ Rails.application.routes.draw do
       resources :matters, only: [:index, :show]
       resources :events, only: [:create, :index]
 
+      namespace :triage do
+        resources :matters, only: [:index, :show]
+        resources :events, only: [:create]
+      end
+
       namespace :cbm do
+        resources :triage_hearings, only: [:index, :show]
         resources :hearings, only: [:index]
         resources :parties,  only: [:index, :show]
       end

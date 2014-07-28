@@ -14,19 +14,23 @@ class CbmHearingsQuery
   end
 
   attr_accessor :cc, :date, :time, :departments
+  attr_reader   :query_manager
+
+  def initialize(query_manager: QueryManager.instance)
+    @query_manager = query_manager
+  end
 
   def where(query_params = {})
     @cc = query_params[:cc] || "F"
     @date = query_params[:date] || Date.today.strftime("%Y%m%d")
-    @time = query_params[:time] || "8.15"
-    @departments = query_params[:dept] || %w[F201 F301 F401 F402]
+    @departments = query_params[:dept] || %w[F201 F301 F401 F402 F501 F502]
     hearings_for_departments
   end
 
   private
 
   def hearings_for_departments
-    Array.wrap(QueryManager.instance.run(uris)).map {|response|
+    Array.wrap(query_manager.run(uris)).map {|response|
       hash_from_response(response)
     }
   end
@@ -50,5 +54,13 @@ class CbmHearingsQuery
       t.replace(t.content.strip)
     end
     Hash.from_xml(doc.to_s)['root']
+  rescue REXML::ParseException
+    {
+      response_code: response.response_code,
+      return_code: response.return_code,
+      success: false,
+      error: true,
+      description: response.return_code.to_s.humanize
+    }
   end
 end
