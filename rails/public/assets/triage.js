@@ -1,6 +1,6 @@
 eval("//# sourceURL=assets/ember-cli/loader.js");
 
-;eval("define(\"triage/adapters/application\", \n  [\"ember-data\",\"exports\"],\n  function(__dependency1__, __exports__) {\n    \"use strict\";\n    var DS = __dependency1__[\"default\"];\n\n    __exports__[\"default\"] = DS.ActiveModelAdapter.extend({\n      namespace: \'api/v1/cbm/triage\'\n    });\n  });//# sourceURL=triage/adapters/application.js");
+;eval("define(\"triage/adapters/application\", \n  [\"ember-data\",\"exports\"],\n  function(__dependency1__, __exports__) {\n    \"use strict\";\n    var DS = __dependency1__[\"default\"];\n\n    __exports__[\"default\"] = DS.ActiveModelAdapter.extend({\n      namespace: \'api/v1/triage\'\n    });\n  });//# sourceURL=triage/adapters/application.js");
 
 ;eval("define(\"triage/app\", \n  [\"ember\",\"ember/resolver\",\"ember/load-initializers\",\"exports\"],\n  function(__dependency1__, __dependency2__, __dependency3__, __exports__) {\n    \"use strict\";\n    var Ember = __dependency1__[\"default\"];\n    var Resolver = __dependency2__[\"default\"];\n    var loadInitializers = __dependency3__[\"default\"];\n\n    Ember.MODEL_FACTORY_INJECTIONS = true;\n\n    var App = Ember.Application.extend({\n      modulePrefix: \'triage\', // TODO: loaded via config\n      Resolver: Resolver\n    });\n\n    loadInitializers(App, \'triage\');\n\n    __exports__[\"default\"] = App;\n  });//# sourceURL=triage/app.js");
 
