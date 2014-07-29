@@ -35,7 +35,7 @@ describe CbmHearingsQuery do
 
       context "with cases for every department" do
         it "should have the correct number of cases for each department" do
-          results = {"F201"=>29,"F301"=>24,"F401"=>2,"F402"=>27,"F501"=>21,"F502"=>8}
+          results = {"F201"=>29,"F301"=>23,"F401"=>2,"F402"=>27,"F501"=>22,"F502"=>8}
           VCR.use_cassette("cbm_hearings_query_20140729") do
             query = CbmHearingsQuery.new.where(date: "20140729")
             results.each do |k,v|

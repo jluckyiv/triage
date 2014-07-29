@@ -10,7 +10,8 @@ class Proceeding < ActiveRecord::Base
 
   before_validation :set_description_digest
 
-  validates :description_digest, presence: true, uniqueness: true
+  validates_uniqueness_of :description_digest, scope: :matter_id
+  validates :description_digest, presence: true
   # validates :matter_id, presence: true
 
   def set_description_digest

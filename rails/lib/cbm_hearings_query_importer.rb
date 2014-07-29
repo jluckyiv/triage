@@ -11,7 +11,7 @@ class CbmHearingsQueryImporter
   def import(query)
     matters = Array.wrap(query).each_with_object([]) { |calendar, list|
       list.concat(create_calendar(calendar))
-    }
+    }.compact
     CbmPartiesImporter.import(matters)
     matters
   end
@@ -22,10 +22,11 @@ class CbmHearingsQueryImporter
     @department = Department.find_by(name: calendar['department'])
     Array.wrap(calendar['case']).map { |matter|
       create_matter(matter)
-    }
+    }.compact
   end
 
   def create_matter(matter)
+    return if matter.include?('NOTHING')
     matter_hash = {
       'court_code' =>  court_code,
       'case_type' =>   matter['type'],
@@ -37,12 +38,21 @@ class CbmHearingsQueryImporter
   end
 
   def proceedings_attributes(matter)
-    Array.wrap(matter['hearing']).map {|proceeding|
+    list = Array.wrap(matter['hearing']).map {|proceeding|
       {
         'description' => proceeding['description'],
         'hearings_attributes' => hearings_attributes(proceeding)
       }
     }
+    list.group_by {|p|
+      p['description']}.map {|k,v|
+        {
+          'description' => k,
+          'hearings_attributes' => v.map {|h|
+            h['hearings_attributes']
+          }
+        }
+      }
   end
 
   def hearings_attributes(proceeding)
@@ -54,7 +64,7 @@ class CbmHearingsQueryImporter
   end
 
   def date_time(date, time)
-    formatted_time = "%04d" % (time.to_i * 100)
+    formatted_time = "%04d" % (time.to_d * 100)
     date_time = "#{date} T #{formatted_time}"
   end
 end

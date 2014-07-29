@@ -9,7 +9,7 @@ describe TriageMatter do
       it "should have matters for four departments" do
         VCR.use_cassette("triage_matter_20140728") do
           result = TriageMatter.find("20140728")
-          expect(result).to have(4).items
+          expect(result).to have(17).items
       end
     end
   end
@@ -19,7 +19,7 @@ describe TriageMatter do
       it "should have matters for four departments" do
         VCR.use_cassette("triage_matter_20140728") do
           result = TriageMatter.where(date: "20140728")
-          expect(result).to have(4).items
+          expect(result).to have(17).items
         end
       end
     end

@@ -1,7 +1,7 @@
 class MatterFactory
   class << self
     def format_time(date, time)
-      time = "%04d" % (time.to_i * 100)
+      time = "%04d" % (time.to_d * 100)
       Time.zone.parse("#{date} T #{time}")
     end
 
