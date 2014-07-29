@@ -7,7 +7,7 @@ Rails.application.routes.draw do
 
       namespace :triage do
         resources :matters, only: [:index, :show]
-        resources :events, only: [:create]
+        resources :events, only: [:create, :show]
       end
 
       namespace :cbm do
