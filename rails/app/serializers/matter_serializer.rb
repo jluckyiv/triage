@@ -15,7 +15,7 @@ class MatterSerializer < ActiveModel::Serializer
   end
 
   def department
-    object.hearings[0].department.name
+    object.hearings.last.department.name
   end
 
   def current_station
