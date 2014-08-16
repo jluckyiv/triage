@@ -4,7 +4,6 @@ export default DS.Model.extend({
   matter:     DS.belongsTo('matter'),
   category:   DS.attr('string'),
   subject:    DS.attr('string'),
-  action:     DS.attr('string'),
-  unix_timestamp:  DS.attr('number')
+  action:     DS.attr('string')
 });
 

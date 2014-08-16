@@ -3,10 +3,10 @@ import DateHelper from 'triage/helpers/date-helper';
 
 export default Ember.ArrayController.extend({
 
+  // TODO: Ineligible: 2rep/DV, Continue: NOPS, Off-calendar: FTA, SH: foah:
   init: function() {
+    this.setStationFilter('All');
     this.setProperties({
-      filterProperty: 'station',
-      filterValue: 'All',
       pausedPollingAt: 0
     });
   },
@@ -20,22 +20,17 @@ export default Ember.ArrayController.extend({
     var value = this.get('filterValue');
     var hidden  = ['Hearing', 'Continue', 'Off calendar'];
     var content = this.get('content').sortBy('department', 'caseNumber');
-    if (value !== "All") {
-      // return content.filterBy(property, value);
-      return content.filter(function(item /*, index, self*/ ) {
-        // console.log('property = ' + property);
-        // console.log('value = ' + value);
-        // console.log('item.get(property) = ' + item.get(property));
-        if (item.get(property).indexOf(value) > -1) { return true; }
-      });
-    } else {
-      // return content;
-      return content.filter(function(item /*, index, self*/ ) {
-        // console.log('property = ' + property);
-        // console.log('value = ' + value);
-        // console.log('item.get(property) = ' + item.get(property));
+    switch (value) {
+      case "All":
+        return content;
+      case "Pending":
+        return content.filter(function(item /*, index, self*/ ) {
         if (hidden.indexOf(item.get(property)) === -1) { return true; }
       });
+      default:
+        return content.filter(function(item /*, index, self*/ ) {
+          if (item.get(property).indexOf(value) > -1) { return true; }
+        });
     }
   }.property('filterProperty', 'filterValue', '@each.currentStation'),
 

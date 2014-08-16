@@ -79,22 +79,22 @@ export default Ember.ObjectController.extend({
   actions: {
     checkin: function(station) {
       this.set('isInStation', true);
-      return this.saveStationEvent(station, 'arrive');
+      return this.saveStationEvent(station, 'arrived');
     },
 
     dispatch: function(station) {
       this.setProperties({'isInStation': false, 'station': station});
-      return this.saveStationEvent(station, 'dispatch');
+      return this.saveStationEvent(station, 'dispatched');
     },
 
     fullStip: function(station) {
-      return this.sendToTriage(station, "fullstip");
+      return this.sendToTriage(station, "full stipulation");
     },
     partialStip: function(station) {
-      return this.sendToTriage(station, "partialstip");
+      return this.sendToTriage(station, "partial stipulation");
     },
     noStip: function(station) {
-      return this.sendToTriage(station, "nostip");
+      return this.sendToTriage(station, "no stipulation");
     },
 
     petitionerCheckin: function() {

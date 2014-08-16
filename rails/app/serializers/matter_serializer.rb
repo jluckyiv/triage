@@ -1,5 +1,7 @@
 class MatterSerializer < ActiveModel::Serializer
 
+include ActionView::Helpers::DateHelper
+
   embed :ids, include: true
 
   has_many :events
@@ -8,7 +10,7 @@ class MatterSerializer < ActiveModel::Serializer
 
   attributes :id, :department, :case_number, :petitioner, :respondent,
     :petitioner, :respondent, :petitioner_present, :respondent_present,
-    :current_station, :checked_in
+    :current_station, :checked_in, :last_disposition, :current_delay
 
   def case_number
     "#{object.case_type}#{object.case_number}"
@@ -23,11 +25,23 @@ class MatterSerializer < ActiveModel::Serializer
     station.attributes.fetch('subject') { "Triage" }
   end
 
+  def current_delay
+    if station
+      "#{station.action} #{time_ago_in_words(station.created_at)} ago"
+    end
+  end
+
   def checked_in
     return true if station.nil? && petitioner_present && respondent_present
     return false if station.nil?
-    return true if station.action == "arrive"
+    return true if station.action.include? "arrive"
     return false
+  end
+
+  def last_disposition
+    if last_dispo = object.events.where(category: "disposition").last
+      "#{last_dispo.subject}, #{last_dispo.action}, #{time_ago_in_words(last_dispo.created_at)} ago"
+    end
   end
 
   def petitioner
@@ -51,7 +65,10 @@ class MatterSerializer < ActiveModel::Serializer
   private
 
   def station
-    @station ||= object.events.where({ category: "station" }).last
+    @station ||= object.events.where({
+      category: "station",
+      created_at: Time.now.beginning_of_day..Time.now.end_of_day
+    }).last
   end
 
   def is_present?(party)
