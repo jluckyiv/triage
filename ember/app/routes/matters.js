@@ -56,7 +56,7 @@ export default Ember.Route.extend({
       controller.set('pausedPollingAt', 0);
       this.findMatters();
     }
-  }).observes('quarterMinute'),
+  }).observes('minute'),
 
   untick: function() {
     if (this.get('timer')) {
