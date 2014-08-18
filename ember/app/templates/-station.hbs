@@ -3,8 +3,12 @@
     <button {{action pausePolling}} {{bind-attr class="isInStation:btn-success:btn-warning :station :btn :dropdown-toggle"}} data-toggle="dropdown">
       {{station}} <span class="caret"></span>
     </button>
-    {{#if isInStation}}
     <ul class="dropdown-menu" role="menu">
+      {{#if currentDelay}}
+      <li><a {{action 'undo' station}}><span class="text-danger">Undo last</span></a></li>
+      <li role="presentation" class="divider"></li>
+      {{/if}}
+      {{#if isInStation}}
       {{#if isInTriage}}
       <li role="presentation" class="dropdown-header">Send to</li>
       <li><a {{action 'dispatch' "CCRC-stip"}}>CCRC (stip)</a></li>
@@ -18,8 +22,8 @@
       <li><a {{action 'dispo' "partial stipulation/continuance" }}>Partial stipulation/continuance</a></li>
       <li><a {{action 'dispo' "hearing"}}>Contested hearing</a></li>
       <li><a {{action 'dispo' "continue"}}>Continue</a></li>
-      <li><a {{action 'dispo' "off calendar" "withdrawn"}}>Off calendar</a></li>
-      <li><a {{action 'dispo' "off calendar" "FTA"}}>Off calendar</a></li>
+      <li><a {{action 'dispo' "off calendar" "FTA"}}>Off calendar/FTA</a></li>
+      <li><a {{action 'dispo' "off calendar" "withdrawn"}}>Off calendar/withdrawn</a></li>
       <li><a {{action 'dispo' "ineligible" "represented"}}>Ineligible/represented</a></li>
       <li><a {{action 'dispo' "ineligible" "DV"}}>Ineligible/DV</a></li>
       {{else}}
@@ -27,12 +31,10 @@
       <li><a {{action 'partialStip' station }}>Partial stipulation ({{station}})</a></li>
       <li><a {{action 'noStip' station }}>No stipulation ({{station}})</a></li>
       {{/if}}
-    </ul>
-    {{else}}
-    <ul class="dropdown-menu" role="menu">
+      {{else}}
       <li><a {{action 'checkin' station }}>Check in {{station}}</a></li>
+      {{/if}}
     </ul>
-    {{/if}}
   </div>
   {{partial "current-delay"}}
 </div>

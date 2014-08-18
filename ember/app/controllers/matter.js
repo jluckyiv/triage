@@ -72,11 +72,27 @@ export default Ember.ObjectController.extend({
     var self = this;
     self.setProperties({'isInStation': false, 'station': 'Triage'});
     return self.saveDispoEvent(station, action).then(function() {
-      return self.saveStationEvent('Triage', 'dispatch');
+      return self.saveStationEvent('Triage', 'dispatched');
     });
   },
 
   actions: {
+    undo: function() {
+      var matter = this.get('model');
+      this.store.find('event', {matter_id: matter.id}).then(function(events) {
+        var lastTwo = events.slice(-2);
+        var first = lastTwo.get('firstObject');
+        var last = lastTwo.get('lastObject');
+        console.log('lastTwo = ' + lastTwo);
+        console.log('first.id = ' + first.get('id'));
+        console.log('last.id = ' + last.get('id'));
+        if(last.get('subject').indexOf('Triage') > -1 && last.get('action').indexOf('dispatch') > -1) {
+          first.destroyRecord();
+        }
+        last.destroyRecord();
+      });
+    },
+
     checkin: function(station) {
       this.set('isInStation', true);
       return this.saveStationEvent(station, 'arrived');
