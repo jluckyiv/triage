@@ -83,12 +83,12 @@ export default Ember.ObjectController.extend({
         var lastTwo = events.slice(-2);
         var first = lastTwo.get('firstObject');
         var last = lastTwo.get('lastObject');
+        last.destroyRecord();
+        console.log('destroyed dispatch ' + last.get('id'));
         if(first.get('category').indexOf('disposition') > -1 ) {
           first.destroyRecord();
           console.log('destroyed disposition ' + first.get('id'));
         }
-        last.destroyRecord();
-        console.log('destroyed dispatch ' + last.get('id'));
       });
     },
 
