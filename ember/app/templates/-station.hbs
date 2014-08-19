@@ -17,15 +17,11 @@
       <li><a {{action 'dispatch' "Self-help"}}>Self-help</a></li>
       <li role="presentation" class="divider"></li>
       <li role="presentation" class="dropdown-header">Disposition</li>
-      <li><a {{action 'dispo' "full stipulation" }}>Full stipulation</a></li>
-      <li><a {{action 'dispo' "partial stipulation/hearing" }}>Partial stipulation/hearing</a></li>
-      <li><a {{action 'dispo' "partial stipulation/continuance" }}>Partial stipulation/continuance</a></li>
-      <li><a {{action 'dispo' "hearing"}}>Contested hearing</a></li>
-      <li><a {{action 'dispo' "continue"}}>Continue</a></li>
-      <li><a {{action 'dispo' "off calendar" "FTA"}}>Off calendar/FTA</a></li>
-      <li><a {{action 'dispo' "off calendar" "withdrawn"}}>Off calendar/withdrawn</a></li>
-      <li><a {{action 'dispo' "ineligible" "represented"}}>Ineligible/represented</a></li>
-      <li><a {{action 'dispo' "ineligible" "DV"}}>Ineligible/DV</a></li>
+      <li><a {{action 'dispo' "Full stipulation" }}>Full stipulation</a></li>
+      <li><a {{action 'dispo' "Partial stipulation/hearing" }}>Partial stipulation/hearing</a></li>
+      <li><a {{action 'dispo' "Partial stipulation/continuance" }}>Partial stipulation/continuance</a></li>
+      <li><a {{action 'dispo' "Hearing"}}>Contested hearing</a></li>
+      <li><a {{action 'dispo' "Continue"}}>Continue</a></li>
       {{else}}
       <li><a {{action 'fullStip' station }}>Full stipulation ({{station}})</a></li>
       <li><a {{action 'partialStip' station }}>Partial stipulation ({{station}})</a></li>
@@ -33,6 +29,13 @@
       {{/if}}
       {{else}}
       <li><a {{action 'checkin' station }}>Check in {{station}}</a></li>
+      {{#if isInTriage}}
+      <li role="presentation" class="divider"></li>
+      <li><a {{action 'dispo' "Off calendar/FTA"}}>Off calendar/FTA</a></li>
+      <li><a {{action 'dispo' "Off calendar/withdrawn"}}>Off calendar/withdrawn</a></li>
+      <li><a {{action 'dispo' "Ineligible/represented"}}>Ineligible/represented</a></li>
+      <li><a {{action 'dispo' "Ineligible/DV"}}>Ineligible/DV</a></li>
+      {{/if}}
       {{/if}}
     </ul>
   </div>

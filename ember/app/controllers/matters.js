@@ -3,7 +3,7 @@ import DateHelper from 'triage/helpers/date-helper';
 
 export default Ember.ArrayController.extend({
 
-  // TODO: Ineligible: 2rep/DV, Continue: NOPS, Off-calendar: FTA, SH: foah:
+  // TODO: Ineligible: 2rep/DV, Continue: NOPS, Off calendar: FTA, SH: foah:
   init: function() {
     this.setStationFilter('All');
     this.setProperties({
@@ -18,7 +18,7 @@ export default Ember.ArrayController.extend({
   filtered: function() {
     var property = this.get('filterProperty');
     var value = this.get('filterValue');
-    var hidden  = ['Hearing', 'Continue', 'Off calendar'];
+    var hidden  = ['Hearing', 'Continue', 'Full stipulation', 'Partial stipulation/hearing', 'Partial stipulation/continuance', 'Off calendar/FTA', 'Off calendar/withdrawn', 'Ineligible/represented', 'Ineligible/DV'];
     var content = this.get('content').sortBy('department', 'caseNumber');
     switch (value) {
       case "All":

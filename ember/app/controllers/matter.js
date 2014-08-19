@@ -103,6 +103,14 @@ export default Ember.ObjectController.extend({
       return this.saveStationEvent(station, 'dispatched');
     },
 
+    dispo: function(station) {
+      var self = this;
+      this.setProperties({'isInStation': false, 'station': station});
+      return self.saveDispoEvent('Triage', station).then(function() {
+        return self.saveStationEvent(station, 'dispatched');
+      });
+    },
+
     fullStip: function(station) {
       return this.sendToTriage(station, "full stipulation");
     },
