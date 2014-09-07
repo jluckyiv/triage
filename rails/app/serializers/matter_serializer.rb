@@ -12,6 +12,10 @@ include ActionView::Helpers::DateHelper
     :petitioner, :respondent, :petitioner_present, :respondent_present,
     :current_station, :checked_in, :last_disposition, :current_delay
 
+  def events
+    object.events.where(created_at: Time.now.beginning_of_day..Time.now.end_of_day)
+  end
+
   def case_number
     "#{object.case_type}#{object.case_number}"
   end
@@ -43,7 +47,7 @@ include ActionView::Helpers::DateHelper
   end
 
   def last_disposition
-    if last_dispo = object.events.where(category: "disposition").last
+    if last_dispo = events.where(category: "disposition").last
       "#{last_dispo.subject}, #{last_dispo.action}, #{time_ago_in_words(last_dispo.created_at)} ago"
     end
   end
@@ -69,14 +73,14 @@ include ActionView::Helpers::DateHelper
   private
 
   def station
-    @station ||= object.events.where({
+    @station ||= events.where({
       category: "station",
       created_at: Time.now.beginning_of_day..Time.now.end_of_day
     }).last
   end
 
   def is_present?(party)
-    last_appearance = object.events.where({
+    last_appearance = events.where({
       category: "appearance", subject: party
     }).last
     return false if last_appearance.nil?
