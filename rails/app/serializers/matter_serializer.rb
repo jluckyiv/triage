@@ -8,7 +8,7 @@ include ActionView::Helpers::DateHelper
   # has_many :parties
   # has_many :hearings
 
-  attributes :id, :department, :case_number, :petitioner, :respondent,
+  attributes :id, :department, :case_number, :petitioner, :respondent, :interpreter,
     :petitioner, :respondent, :petitioner_present, :respondent_present,
     :current_station, :checked_in, :last_disposition, :current_delay
 
@@ -18,6 +18,10 @@ include ActionView::Helpers::DateHelper
 
   def department
     object.hearings.last.department.name
+  end
+
+  def interpreter
+    object.hearings.last.interpreter || "English"
   end
 
   def current_station

@@ -34,6 +34,10 @@ export default Ember.ObjectController.extend({
     return this.get('station').indexOf('Triage') > -1;
   }.property(),
 
+  needsInterpreter: function() {
+    return this.get('interpreter').indexOf('English') === -1;
+  }.property('interpreter'),
+
   startPolling: function() {
     return this.get('controllers.matters').set('pausedPollingAt', 0);
   },

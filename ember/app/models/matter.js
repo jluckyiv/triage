@@ -3,6 +3,7 @@ import DS from 'ember-data';
 export default DS.Model.extend({
   events              : DS.hasMany('event', {async: true}),
   caseNumber          : DS.attr('string'),
+  interpreter         : DS.attr('string'),
   checkedIn           : DS.attr('boolean'),
   currentStation      : DS.attr('string'),
   currentDelay        : DS.attr('string'),
