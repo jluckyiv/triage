@@ -18,14 +18,14 @@ export default Ember.ArrayController.extend({
   filtered: function() {
     var property = this.get('filterProperty');
     var value = this.get('filterValue');
-    var hidden  = ['Hearing', 'Continue', 'Full stipulation', 'Partial stipulation/hearing', 'Partial stipulation/continuance', 'Off calendar/FTA', 'Off calendar/withdrawn', 'Ineligible/represented', 'Ineligible/DV'];
     var content = this.get('content').sortBy('department', 'caseNumber');
     switch (value) {
       case "All":
         return content;
       case "Pending":
         return content.filter(function(item /*, index, self*/ ) {
-        if (hidden.indexOf(item.get(property)) === -1) { return true; }
+        var dispo = item.get('lastDisposition');
+        if (!dispo || dispo.indexOf('Triage') !== 0) { return true; }
       });
       default:
         return content.filter(function(item /*, index, self*/ ) {
