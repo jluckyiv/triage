@@ -30,6 +30,10 @@ export default Ember.ObjectController.extend({
     this.set('isInStation', this.get('checkedIn'));
   }.observes('checkedIn'),
 
+  bothHaveAppeared: function() {
+    return this.get('petitionerPresent') && this.get('respondentPresent');
+  }.property('petitionerPresent', 'respondentPresent'),
+
   isInTriage: function() {
     return this.get('station').indexOf('Triage') > -1;
   }.property(),
@@ -152,6 +156,13 @@ export default Ember.ObjectController.extend({
       return self.saveDispoEvent('Triage', station).then(function() {
         return self.saveStationEvent(station, 'dispatched');
       });
+    },
+
+    ftaPetitioner: function(station) {
+      return this.sendToTriage(station, "FTA/petitioner");
+    },
+    ftaRespondent: function(station) {
+      return this.sendToTriage(station, "FTA/respondent");
     },
 
     fullStip: function(station) {

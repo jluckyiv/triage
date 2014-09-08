@@ -5,47 +5,56 @@
     </button>
     <ul class="dropdown-menu" role="menu">
       {{#if currentDelay}}
-      <li><a {{action 'undo' station}}><span class="text-danger">Undo last</span></a></li>
-      <li role="presentation" class="divider"></li>
+        <li><a {{action 'undo' station}}><span class="text-danger">Undo last</span></a></li>
+        <li role="presentation" class="divider"></li>
       {{/if}}
       {{#if isInStation}}
-      {{#if isInTriage}}
-      <li role="presentation" class="dropdown-header">Send to</li>
-      <li><a {{action 'dispatch' "CCRC/stip"}}>CCRC/stip</a></li>
-      <li><a {{action 'dispatch' "CCRC/session"}}>CCRC/session</a></li>
-      <li><a {{action 'dispatch' "DCSS"}}>DCSS</a></li>
-      <li><a {{action 'dispatch' "Self-help"}}>Self-help</a></li>
-      <li role="presentation" class="divider"></li>
-      <li role="presentation" class="dropdown-header">Disposition</li>
-      <li><a {{action 'dispo' "Full judgment/stipulation" }}>Full judgment</a></li>
-      <li><a {{action 'dispo' "Full stipulation" }}>Full stipulation</a></li>
-      <li><a {{action 'dispo' "Partial stipulation/hearing" }}>Partial stipulation/hearing</a></li>
-      <li><a {{action 'dispo' "Partial stipulation/continuance" }}>Partial stipulation/continuance</a></li>
-      <li><a {{action 'dispo' "Hearing/contested"}}>Contested hearing</a></li>
-      <li><a {{action 'dispo' "Hearing/FOAH"}}>FOAH</a></li>
-      <li><a {{action 'dispo' "Continuance/NPS"}}>Continuance (no proof of service)</a></li>
-      <li><a {{action 'dispo' "Continuance/other"}}>Continuance (other)</a></li>
+        {{#if isInTriage}}
+          <li role="presentation" class="dropdown-header">Send to</li>
+          <li><a {{action 'dispatch' "CCRC/stip"}}>CCRC/stip</a></li>
+          <li><a {{action 'dispatch' "CCRC/session"}}>CCRC/session</a></li>
+          <li><a {{action 'dispatch' "DCSS"}}>DCSS</a></li>
+          <li><a {{action 'dispatch' "Self-help"}}>Self-help</a></li>
+          <li role="presentation" class="divider"></li>
+          <li role="presentation" class="dropdown-header">Disposition</li>
+          <li><a {{action 'dispo' "Full judgment/stipulation" }}>Full judgment</a></li>
+          <li><a {{action 'dispo' "Full stipulation" }}>Full stipulation</a></li>
+          <li><a {{action 'dispo' "Partial stipulation/hearing" }}>Partial stipulation/hearing</a></li>
+          <li><a {{action 'dispo' "Partial stipulation/continuance" }}>Partial stipulation/continuance</a></li>
+          <li><a {{action 'dispo' "Hearing/contested"}}>Contested hearing</a></li>
+          <li><a {{action 'dispo' "Hearing/FOAH"}}>FOAH</a></li>
+          <li><a {{action 'dispo' "Continuance/NPS"}}>Continuance (no proof of service)</a></li>
+          <li><a {{action 'dispo' "Continuance/other"}}>Continuance (other)</a></li>
+        {{else}}
+          <li><a {{action 'fullStip' station }}>Full stipulation ({{station}})</a></li>
+          <li><a {{action 'partialStip' station }}>Partial stipulation ({{station}})</a></li>
+          <li><a {{action 'noStip' station }}>No stipulation ({{station}})</a></li>
+        {{/if}}
       {{else}}
-      <li><a {{action 'fullStip' station }}>Full stipulation ({{station}})</a></li>
-      <li><a {{action 'partialStip' station }}>Partial stipulation ({{station}})</a></li>
-      <li><a {{action 'noStip' station }}>No stipulation ({{station}})</a></li>
-      {{/if}}
-      {{else}}
-      <li><a {{action 'checkin' station }}>Check in {{station}}</a></li>
-      {{#if respondentHasAppeared}}
-      <li><a {{action 'checkinPetitioner' station }}>Check in {{petitioner}}</a></li>
-      {{/if}}
-      {{#if petitionerHasAppeared}}
-      <li><a {{action 'checkinRespondent' station }}>Check in {{respondent}}</a></li>
-      {{/if}}
-      {{#if isInTriage}}
-      <li role="presentation" class="divider"></li>
-      <li><a {{action 'dispo' "Off calendar/FTA"}}>Off calendar/FTA</a></li>
-      <li><a {{action 'dispo' "Off calendar/withdrawn"}}>Off calendar/withdrawn</a></li>
-      <li><a {{action 'dispo' "Ineligible/represented"}}>Ineligible/represented</a></li>
-      <li><a {{action 'dispo' "Ineligible/DV"}}>Ineligible/DV</a></li>
-      <li><a {{action 'dispo' "Ineligible/opt out"}}>Ineligible/opt out</a></li>
-      {{/if}}
+        {{#if respondentHasAppeared}}
+          <li><a {{action 'checkinPetitioner' station }}>Check in {{petitioner}}</a></li>
+        {{/if}}
+        {{#if petitionerHasAppeared}}
+          <li><a {{action 'checkinRespondent' station }}>Check in {{respondent}}</a></li>
+        {{/if}}
+        {{#if bothHaveAppeared}}
+          <li><a {{action 'checkin' station }}>Check in {{station}}</a></li>
+        {{else}}
+          {{#if respondentHasAppeared}}
+          <li><a {{action 'ftaPetitioner' station}}><span class="text-danger">FTA</span></a><li>
+          {{/if}}
+          {{#if petitionerHasAppeared}}
+          <li><a {{action 'ftaRespondent' station}}><span class="text-danger">FTA</span></a><li>
+          {{/if}}
+        {{/if}}
+        {{#if isInTriage}}
+          <li role="presentation" class="divider"></li>
+          <li><a {{action 'dispo' "Off calendar/FTA"}}>Off calendar/FTA</a></li>
+          <li><a {{action 'dispo' "Off calendar/withdrawn"}}>Off calendar/withdrawn</a></li>
+          <li><a {{action 'dispo' "Ineligible/represented"}}>Ineligible/represented</a></li>
+          <li><a {{action 'dispo' "Ineligible/DV"}}>Ineligible/DV</a></li>
+          <li><a {{action 'dispo' "Ineligible/opt out"}}>Ineligible/opt out</a></li>
+        {{/if}}
       {{/if}}
     </ul>
   </div>
