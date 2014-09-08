@@ -32,6 +32,12 @@
       {{/if}}
       {{else}}
       <li><a {{action 'checkin' station }}>Check in {{station}}</a></li>
+      {{#if respondentHasAppeared}}
+      <li><a {{action 'checkinPetitioner' station }}>Check in {{petitioner}}</a></li>
+      {{/if}}
+      {{#if petitionerHasAppeared}}
+      <li><a {{action 'checkinRespondent' station }}>Check in {{respondent}}</a></li>
+      {{/if}}
       {{#if isInTriage}}
       <li role="presentation" class="divider"></li>
       <li><a {{action 'dispo' "Off calendar/FTA"}}>Off calendar/FTA</a></li>

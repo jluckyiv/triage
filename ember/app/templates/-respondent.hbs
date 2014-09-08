@@ -1,15 +1,15 @@
 <div class="col-sm-3">
   <div class="btn-group dropdown-parent">
-    <button {{action pausePolling}} {{bind-attr class="respondentAppeared:btn-success:btn-warning :respondent-button :btn :dropdown-toggle"}} data-toggle="dropdown">
+    <button {{action pausePolling}} {{bind-attr class="respondentHasAppeared:btn-success:btn-warning :respondent-button :btn :dropdown-toggle"}} data-toggle="dropdown">
       {{respondent}} <span class="caret"></span>
     </button>
-    {{#if respondentAppeared}}
+    {{#if respondentHasAppeared}}
     <ul class="dropdown-menu" role="menu">
-      <li><a {{action "respondentCheckout" this }}>Check out {{respondent}}</a></li>
+      <li><a {{action "respondentDisappeared" this }}>Check out {{respondent}}</a></li>
     </ul>
     {{else}}
     <ul class="dropdown-menu" role="menu">
-      <li><a {{action "respondentCheckin" this }}>Check in {{respondent}}</a></li>
+      <li><a {{action "respondentAppeared" this }}>Check in {{respondent}}</a></li>
     </ul>
     {{/if}}
   </div>

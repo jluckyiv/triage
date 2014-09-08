@@ -15,11 +15,11 @@ export default Ember.ObjectController.extend({
   },
 
   syncPetitioner: function() {
-    this.set('petitionerAppeared', this.get('petitionerPresent'));
+    this.set('petitionerHasAppeared', this.get('petitionerPresent'));
   }.observes('petitionerPresent'),
 
   syncRespondent: function() {
-    this.set('respondentAppeared', this.get('respondentPresent'));
+    this.set('respondentHasAppeared', this.get('respondentPresent'));
   }.observes('respondentPresent'),
 
   syncStation: function() {
@@ -80,6 +80,26 @@ export default Ember.ObjectController.extend({
     });
   },
 
+  petitionerAppeared: function() {
+    this.set('petitionerHasAppeared', true);
+    return this.saveAppearanceEvent('petitioner', 'checkin');
+  },
+
+  respondentAppeared: function() {
+    this.set('respondentHasAppeared', true);
+    return this.saveAppearanceEvent('respondent', 'checkin');
+  },
+
+  petitionerDisappeared: function() {
+    this.set('petitionerHasAppeared', false);
+    this.saveAppearanceEvent('petitioner', 'checkout');
+  },
+
+  respondentDisappeared: function() {
+    this.set('respondentHasAppeared', false);
+    this.saveAppearanceEvent('respondent', 'checkout');
+  },
+
   actions: {
     undo: function() {
       var matter = this.get('model');
@@ -99,6 +119,26 @@ export default Ember.ObjectController.extend({
     checkin: function(station) {
       this.set('isInStation', true);
       return this.saveStationEvent(station, 'arrived');
+    },
+
+    checkinPetitioner: function(station) {
+      console.log('checkinPetitioner ' + station);
+      if (this.get('petitionerHasAppeared')) {
+        this.respondentDisappeared();
+      } else {
+        this.petitionerAppeared();
+        this.saveStationEvent(station, 'arrived');
+      }
+    },
+
+    checkinRespondent: function(station) {
+      console.log('checkinRespondent ' + station);
+      if (this.get('respondentHasAppeared')) {
+        this.petitionerDisappeared();
+      } else {
+        this.respondentAppeared();
+      return this.saveStationEvent(station, 'arrived');
+      }
     },
 
     dispatch: function(station) {
@@ -124,21 +164,17 @@ export default Ember.ObjectController.extend({
       return this.sendToTriage(station, "no stipulation");
     },
 
-    petitionerCheckin: function() {
-      this.set('petitionerAppeared', true);
-      return this.saveAppearanceEvent('petitioner', 'checkin');
+    petitionerAppeared: function() {
+      return this.petitionerAppeared();
     },
-    respondentCheckin: function() {
-      this.set('respondentAppeared', true);
-      return this.saveAppearanceEvent('respondent', 'checkin');
+    respondentAppeared: function() {
+      return this.respondentAppeared();
     },
-    petitionerCheckout: function() {
-      this.set('petitionerAppeared', false);
-      this.saveAppearanceEvent('petitioner', 'checkout');
+    petitionerDisappeared: function() {
+      return this.petitionerDisappeared();
     },
-    respondentCheckout: function() {
-      this.set('respondentAppeared', false);
-      this.saveAppearanceEvent('respondent', 'checkout');
+    respondentDisappeared: function() {
+      return this.respondentDisappeared();
     },
     pausePolling: function() {
       this.get('controllers.matters').set('pausedPollingAt', new Date().getTime());
