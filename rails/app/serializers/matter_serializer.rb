@@ -93,11 +93,11 @@ include ActionView::Helpers::DateHelper
   end
 
   def find_petitioner
-    parties_by_role("PETITIONER") || parties_by_number(1)
+    party_by_role("PETITIONER") || party_by_number(1)
   end
 
   def find_respondent
-    parties_by_role("RESPONDENT") || parties_by_number(2)
+    party_by_role("RESPONDENT") || party_by_number(2)
   end
 
   def substitute_riverside_county(party)
@@ -105,15 +105,15 @@ include ActionView::Helpers::DateHelper
     unless party.name.last.include? "COUNTY OF RIVERSIDE"
       return party
     else
-      return parties_by_number(3)
+      return party_by_role("OTHER PARENT") || party_by_number(3)
     end
   end
 
-  def parties_by_number(number)
+  def party_by_number(number)
     object.parties.find { |party| party.number == number }
   end
 
-  def parties_by_role(role)
+  def party_by_role(role)
     object.parties.find { |party| party.role.upcase.include?(role.upcase) }
   end
 
