@@ -25,11 +25,11 @@ export default Ember.ArrayController.extend({
       case "Pending":
         return content.filter(function(item /*, index, self*/ ) {
         var dispo = item.get('lastDisposition');
-        if (!dispo || dispo.indexOf('Triage') !== 0) { return true; }
+        if (!dispo || dispo.toLowerCase().indexOf('triage') !== 0) { return true; }
       });
       default:
         return content.filter(function(item /*, index, self*/ ) {
-          if (item.get(property).indexOf(value) > -1) { return true; }
+          if (item.get(property).toLowerCase().indexOf(value.toLowerCase()) > -1) { return true; }
         });
     }
   }.property('filterProperty', 'filterValue', '@each.currentStation'),

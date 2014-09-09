@@ -36,7 +36,11 @@ export default Ember.ObjectController.extend({
 
   isInTriage: function() {
     return this.get('station').indexOf('Triage') > -1;
-  }.property(),
+  }.property('station'),
+
+  isInSelfHelp: function() {
+    return this.get('station').indexOf('Self-help') > -1;
+  }.property('station'),
 
   needsInterpreter: function() {
     return this.get('interpreter').indexOf('English') === -1;
@@ -173,6 +177,9 @@ export default Ember.ObjectController.extend({
     },
     noStip: function(station) {
       return this.sendToTriage(station, "no stipulation");
+    },
+    foah: function(station) {
+      return this.sendToTriage(station, "FOAH");
     },
 
     petitionerAppeared: function() {

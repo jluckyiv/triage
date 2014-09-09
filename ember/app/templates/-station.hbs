@@ -21,34 +21,39 @@
           <li><a {{action 'dispo' "Full stipulation" }}>Full stipulation</a></li>
           <li><a {{action 'dispo' "Partial stipulation/hearing" }}>Partial stipulation/hearing</a></li>
           <li><a {{action 'dispo' "Partial stipulation/continuance" }}>Partial stipulation/continuance</a></li>
+          <li><a {{action 'dispo' "Continuance/other"}}>Continuance/other</a></li>
           <li><a {{action 'dispo' "Hearing/contested"}}>Contested hearing</a></li>
-          <li><a {{action 'dispo' "Hearing/FOAH"}}>FOAH</a></li>
-          <li><a {{action 'dispo' "Continuance/NPS"}}>Continuance (no proof of service)</a></li>
-          <li><a {{action 'dispo' "Continuance/other"}}>Continuance (other)</a></li>
         {{else}}
           <li><a {{action 'fullStip' station }}>Full stipulation ({{station}})</a></li>
           <li><a {{action 'partialStip' station }}>Partial stipulation ({{station}})</a></li>
           <li><a {{action 'noStip' station }}>No stipulation ({{station}})</a></li>
         {{/if}}
       {{else}}
+        <li role="presentation" class="dropdown-header">Check in</li>
+        {{#if bothHaveAppeared}}
+          <li><a {{action 'checkin' station }}>Check in BOTH to {{station}}</a></li>
+        {{else}}
+          {{#if respondentHasAppeared}}
+            <li><a {{action 'ftaPetitioner' station}}><span class="text-danger">FTA {{petitioner}}</span></a><li>
+          {{/if}}
+          {{#if petitionerHasAppeared}}
+            <li><a {{action 'ftaRespondent' station}}><span class="text-danger">FTA {{respondent}}</span></a><li>
+          {{/if}}
+        {{/if}}
         {{#if respondentHasAppeared}}
           <li><a {{action 'checkinPetitioner' station }}>Check in {{petitioner}}</a></li>
         {{/if}}
         {{#if petitionerHasAppeared}}
           <li><a {{action 'checkinRespondent' station }}>Check in {{respondent}}</a></li>
         {{/if}}
-        {{#if bothHaveAppeared}}
-          <li><a {{action 'checkin' station }}>Check in {{station}}</a></li>
-        {{else}}
-          {{#if respondentHasAppeared}}
-          <li><a {{action 'ftaPetitioner' station}}><span class="text-danger">FTA</span></a><li>
-          {{/if}}
-          {{#if petitionerHasAppeared}}
-          <li><a {{action 'ftaRespondent' station}}><span class="text-danger">FTA</span></a><li>
-          {{/if}}
-        {{/if}}
+        <li role="presentation" class="divider"></li>
         {{#if isInTriage}}
+          <li role="presentation" class="dropdown-header">Send to</li>
+          <li><a {{action 'dispatch' "Self-help/FOAH"}}>Self-help/FOAH</a></li>
           <li role="presentation" class="divider"></li>
+          <li role="presentation" class="dropdown-header">Disposition</li>
+          <li><a {{action 'dispo' "Hearing/FOAH"}}>Hearing/FOAH</a></li>
+          <li><a {{action 'dispo' "Continuance/NPS"}}>Continuance/NPS</a></li>
           <li><a {{action 'dispo' "Off calendar/FTA"}}>Off calendar/FTA</a></li>
           <li><a {{action 'dispo' "Off calendar/withdrawn"}}>Off calendar/withdrawn</a></li>
           <li><a {{action 'dispo' "Ineligible/represented"}}>Ineligible/represented</a></li>
