@@ -8,16 +8,16 @@ development:
   <<: *default
   username: <%= ENV['PG_USER'] %>
   password: "<%= ENV['PG_PASSWORD'] %>"
-  database: triage_development
+  database: '<%= "#{File.basename(File.expand_path('../..', __FILE__))}_development" %>'
 
 test:
   <<: *default
   username: <%= ENV['PG_USER'] %>
   password: "<%= ENV['PG_PASSWORD'] %>"
-  database: triage_test
+  database: '<%= "#{File.basename(File.expand_path('../..', __FILE__))}_test" %>'
 
 production:
   <<: *default
   username: "<%= ENV['PG_USER'] %>"
   password: "<%= ENV['PG_PASSWORD'] %>"
-  database: triage_production
+  database: '<%= "#{File.basename(File.expand_path('../..', __FILE__))}_production" %>'
