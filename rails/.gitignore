@@ -18,5 +18,4 @@
 /config/environment_variables.yml
 /config/database.yml
 /config/database.yml*
-/config/unicorn.rb
 .rbenv-vars
