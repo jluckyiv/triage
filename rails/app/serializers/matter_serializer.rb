@@ -13,7 +13,8 @@ include ActionView::Helpers::DateHelper
     :current_station, :checked_in, :last_disposition, :current_delay
 
   def events
-    object.events.where(created_at: Time.now.beginning_of_day..Time.now.end_of_day)
+    date = object.hearings.last.date_time
+    object.events.where(created_at: date.beginning_of_day..date.end_of_day)
   end
 
   def case_number
